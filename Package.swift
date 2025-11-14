@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "DesignKit",
     platforms: [
-        .iOS(.v15),
+        .iOS(.v18),
         .macOS(.v12),
         .macCatalyst(.v15)
     ],

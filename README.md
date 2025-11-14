@@ -2,6 +2,8 @@
 
 A shared design system framework for SwiftUI applications, providing consistent colors, typography, spacing, animations, and UI components across multiple apps.
 
+> **Heads up:** DesignKit now targets iOS 18 and newer. Make sure your app's deployment target matches before integrating the package.
+
 ## Features
 
 - **Color System**: Comprehensive color palette with semantic colors, alarm states, and automatic dark mode support
@@ -160,14 +162,14 @@ ZStack {
 
 ## Platform Support
 
-- iOS 15.0+
+- iOS 18.0+ (minimum deployment target)
 - macOS 12.0+
 - Mac Catalyst 15.0+
 
 ## Requirements
 
 - Swift 5.9+
-- Xcode 15.0+
+- Xcode 16.0+ (for iOS 18 SDK support)
 
 ## License
 
