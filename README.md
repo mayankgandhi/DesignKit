@@ -1,18 +1,22 @@
 # DesignKit
 
-A shared design system framework for SwiftUI applications, providing consistent colors, typography, spacing, animations, and UI components across multiple apps.
+A comprehensive SwiftUI design system framework providing consistent colors, typography, spacing, animations, shadows, and reusable components for building beautiful iOS applications.
 
-> **Heads up:** DesignKit now targets iOS 18 and newer. Make sure your app's deployment target matches before integrating the package.
+> **Platform Requirements:** DesignKit targets iOS 18.0+, macOS 12.0+, and Mac Catalyst 15.0+. Ensure your deployment target matches before integration.
 
 ## Features
 
-- **Color System**: Comprehensive color palette with semantic colors, alarm states, and automatic dark mode support
-- **Typography**: Flexible typography system with configurable font families and styles
-- **Spacing & Layout**: Consistent spacing tokens for unified layouts
-- **Animations**: Pre-configured animation curves and durations
-- **Shadows & Radius**: Standardized shadow depths and corner radius values
-- **Components**: Reusable SwiftUI components including button styles, view modifiers, haptics, and icons
-- **Liquid Glass Backgrounds**: Beautiful gradient backgrounds that adapt to light and dark modes
+- **Color System**: Comprehensive color palette with base colors, brand colors, semantic actions, alarm states, and automatic dark mode support
+- **Typography System**: Flexible typography with configurable font designs and 16 pre-defined text styles
+- **Spacing Tokens**: Consistent 8-point spacing system from 4pt to 64pt, plus component-specific spacing
+- **Animation Presets**: Pre-configured animation curves for instant, quick, standard, pulse, and spring animations
+- **Shadow Depths**: Three elevation levels (subtle, elevated, critical) for visual hierarchy
+- **Corner Radius**: Seven radius options from sharp to full circle for consistent component styling
+- **Button Styles**: Primary, secondary, and tertiary button styles with automatic state management
+- **Haptic Feedback**: Contextual haptic patterns for user interactions
+- **Icon System**: Curated SF Symbols collection for common UI patterns
+- **View Modifiers**: Reusable modifiers for cards and status badges
+- **Liquid Glass Backgrounds**: Beautiful multi-layered gradient backgrounds that adapt to light/dark modes
 - **Zero Dependencies**: Pure SwiftUI with no external dependencies
 
 ## Installation
@@ -46,7 +50,7 @@ Then add DesignKit as a dependency to your target:
 )
 ```
 
-## Usage
+## Quick Start
 
 ### 1. Configure DesignKit
 
@@ -63,10 +67,6 @@ struct YourApp: App {
         DesignKit.configure(
             DesignKitConfiguration(
                 colors: ColorConfiguration(
-                    absoluteBlack: Color(red: 0.0, green: 0.0, blue: 0.0),
-                    absoluteWhite: Color(red: 1.0, green: 1.0, blue: 1.0),
-                    surfaceDark: Color(red: 0.1, green: 0.1, blue: 0.1),
-                    surfaceLight: Color(red: 0.95, green: 0.95, blue: 0.97),
                     primary: Color(red: 0.0, green: 0.48, blue: 1.0),
                     primaryDark: Color(red: 0.0, green: 0.38, blue: 0.8),
                     accent: Color(red: 1.0, green: 0.58, blue: 0.0),
@@ -76,13 +76,10 @@ struct YourApp: App {
                     scheduled: Color(red: 0.0, green: 0.48, blue: 1.0),
                     running: Color(red: 0.2, green: 0.78, blue: 0.35),
                     paused: Color(red: 1.0, green: 0.8, blue: 0.0),
-                    alerting: Color(red: 1.0, green: 0.23, blue: 0.19),
-                    disabled: Color.gray.opacity(0.5)
+                    alerting: Color(red: 1.0, green: 0.23, blue: 0.19)
                 ),
                 typography: TypographyConfiguration(
-                    fontFamily: "SF Pro",
-                    displayFont: "SF Pro Display",
-                    monoFont: "SF Mono"
+                    fontDesign: .rounded  // Options: .rounded, .serif, .monospaced, .default
                 )
             )
         )
@@ -96,9 +93,7 @@ struct YourApp: App {
 }
 ```
 
-### 2. Use DesignKit Components
-
-#### Colors
+### 2. Use DesignKit in Your Views
 
 ```swift
 import SwiftUI
@@ -108,49 +103,129 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack(spacing: DesignKit.spacing.medium) {
-            Text("Hello, World!")
+        VStack(spacing: DesignKit.lg) {
+            Text("Welcome to DesignKit")
+                .largeTitle()
                 .foregroundColor(DesignKit.textPrimary(for: colorScheme))
 
-            Button("Primary Action") {
-                // Action
+            Button("Get Started") {
+                DesignKitHaptics.success()
             }
-            .foregroundColor(DesignKit.primary)
+            .primaryButton()
         }
-        .padding(DesignKit.spacing.large)
-        .background(DesignKit.background(for: colorScheme))
+        .padding(DesignKit.xl)
+        .background(DesignKit.liquidGlassGradient(for: colorScheme))
     }
 }
 ```
 
-#### Typography
+## API Reference
+
+### Configuration
+
+#### DesignKitConfiguration
+
+Complete design system configuration combining colors and typography.
 
 ```swift
-Text("Large Title")
-    .font(DesignKit.typography.largeTitle)
-
-Text("Body Text")
-    .font(DesignKit.typography.body)
+DesignKitConfiguration(
+    colors: ColorConfiguration,
+    typography: TypographyConfiguration
+)
 ```
 
-#### Spacing
+#### ColorConfiguration
+
+Configure your brand colors, semantic actions, and alarm states.
+
+**Base Colors:**
+- `absoluteBlack` - Pure black (default: `#000000`)
+- `absoluteWhite` - Pure white (default: `#FFFFFF`)
+- `surfaceDark` - Dark mode surface (default: `#1C1C1E`)
+- `surfaceLight` - Light mode surface (default: `#F5F5F7`)
+
+**Brand Colors:**
+- `primary` - Primary brand color (required)
+- `primaryDark` - Darker primary variant (required)
+- `accent` - Accent/secondary brand color (required)
+
+**Semantic Actions:**
+- `success` - Success state color (required)
+- `warning` - Warning state color (required)
+- `danger` - Danger/destructive action color (required)
+
+**Alarm States:**
+- `scheduled` - Scheduled alarm state (required)
+- `running` - Active/running state (required)
+- `paused` - Paused state (required)
+- `alerting` - Alerting/urgent state (required)
+- `disabled` - Disabled state (default: `#959598`)
+
+#### TypographyConfiguration
+
+Configure font design and optional custom font family.
 
 ```swift
-VStack(spacing: DesignKit.spacing.medium) {
-    // Content
-}
-.padding(DesignKit.spacing.large)
+TypographyConfiguration(
+    fontDesign: Font.Design = .rounded,  // .default, .rounded, .serif, .monospaced
+    fontFamily: String? = nil            // Optional custom font name
+)
 ```
 
-#### Animations
+### Colors API
 
+Access configured colors through the `DesignKit` namespace:
+
+**Base Colors:**
 ```swift
-Text("Animated")
-    .animation(DesignKit.animation.spring, value: someValue)
+DesignKit.absoluteBlack
+DesignKit.absoluteWhite
+DesignKit.surfaceDark
+DesignKit.surfaceLight
 ```
 
-#### Liquid Glass Background
+**Brand Colors:**
+```swift
+DesignKit.primary
+DesignKit.primaryDark
+DesignKit.accent
+```
 
+**Semantic Actions:**
+```swift
+DesignKit.success
+DesignKit.warning
+DesignKit.danger
+```
+
+**Alarm States:**
+```swift
+DesignKit.scheduled
+DesignKit.running
+DesignKit.paused
+DesignKit.alerting
+DesignKit.disabled
+```
+
+**Text Hierarchy:**
+```swift
+DesignKit.textPrimary(for: colorScheme)    // Maximum contrast
+DesignKit.textSecondary(for: colorScheme)  // 70% opacity
+DesignKit.textTertiary(for: colorScheme)   // 50% opacity
+```
+
+**Backgrounds:**
+```swift
+DesignKit.background(for: colorScheme)  // Pure black/white
+DesignKit.surface(for: colorScheme)     // Elevated surface
+```
+
+**Liquid Glass Gradient:**
+```swift
+DesignKit.liquidGlassGradient(for: colorScheme)
+```
+
+Example:
 ```swift
 ZStack {
     DesignKit.liquidGlassGradient(for: colorScheme)
@@ -160,9 +235,344 @@ ZStack {
 }
 ```
 
+### Typography API
+
+DesignKit provides 16 text styles accessible through static functions or View extensions:
+
+**Standard Styles:**
+```swift
+// Static function usage
+Text("Title").font(DesignKit.largeTitle())
+Text("Body").font(DesignKit.body())
+
+// View extension usage
+Text("Title").largeTitle()
+Text("Body").body()
+```
+
+**Available Styles:**
+- `largeTitle()` - Large title (bold)
+- `title()` - Title 1 (bold)
+- `title2()` - Title 2 (bold)
+- `title3()` - Title 3 (semibold)
+- `headline()` - Headline (semibold)
+- `body()` - Body text (regular)
+- `callout()` - Callout (regular)
+- `subheadline()` - Subheadline (semibold)
+- `footnote()` - Footnote (medium)
+- `caption()` - Caption 1 (medium)
+- `caption2()` - Caption 2 (regular)
+
+**Custom App Styles:**
+- `timeDisplay()` - 28pt bold - for card time displays
+- `tickerTitle()` - 18pt semibold - for ticker names
+- `detailText()` - 15pt medium - for schedule details
+- `buttonText()` - 14pt semibold - for buttons and labels
+- `smallText()` - 12pt medium - for secondary info
+
+Example:
+```swift
+VStack(alignment: .leading, spacing: DesignKit.sm) {
+    Text("12:30 PM").timeDisplay()
+    Text("Daily Standup").tickerTitle()
+    Text("Recurring: Mon-Fri").detailText()
+}
+```
+
+### Spacing API
+
+8-point spacing system for consistent layouts:
+
+**Core Spacing:**
+```swift
+DesignKit.xxs   // 4pt - Micro spacing
+DesignKit.xs    // 8pt - Tiny spacing
+DesignKit.sm    // 12pt - Small spacing
+DesignKit.md    // 16pt - Base unit
+DesignKit.lg    // 24pt - Medium-large spacing
+DesignKit.xl    // 32pt - Large spacing
+DesignKit.xxl   // 48pt - Extra large spacing
+DesignKit.xxxl  // 64pt - Section breaks
+```
+
+**Component Spacing:**
+```swift
+DesignKit.tapTargetMin           // 44pt - Minimum tap target
+DesignKit.tapTargetPreferred     // 56pt - Preferred tap target
+DesignKit.buttonHeightLarge      // 64pt - Large button height
+DesignKit.buttonHeightStandard   // 48pt - Standard button height
+```
+
+Example:
+```swift
+VStack(spacing: DesignKit.md) {
+    Text("Title")
+    Text("Body")
+}
+.padding(DesignKit.lg)
+```
+
+### Animation API
+
+Pre-configured animation curves:
+
+```swift
+DesignKit.animationInstant   // 0.1s easeOut - Critical actions
+DesignKit.animationQuick     // 0.2s easeInOut - UI feedback
+DesignKit.animationStandard  // 0.3s easeInOut - Transitions
+DesignKit.animationPulse     // 1.0s repeating - Active alarms
+DesignKit.animationSpring    // Spring physics - Tactile feedback
+```
+
+Example:
+```swift
+Text("Animated")
+    .opacity(isVisible ? 1 : 0)
+    .animation(DesignKit.animationStandard, value: isVisible)
+```
+
+### Shadow API
+
+Three elevation levels for visual hierarchy:
+
+```swift
+DesignKit.shadowCritical  // High contrast (0.3 opacity, 8pt blur, 4pt offset)
+DesignKit.shadowElevated  // Medium depth (0.15 opacity, 12pt blur, 6pt offset)
+DesignKit.shadowSubtle    // Gentle depth (0.08 opacity, 4pt blur, 2pt offset)
+```
+
+Example:
+```swift
+RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+    .fill(Color.white)
+    .shadow(
+        color: DesignKit.shadowElevated.color,
+        radius: DesignKit.shadowElevated.radius,
+        x: DesignKit.shadowElevated.x,
+        y: DesignKit.shadowElevated.y
+    )
+```
+
+### Corner Radius API
+
+Consistent corner radius values:
+
+```swift
+DesignKit.radiusNone     // 0pt - Sharp corners
+DesignKit.radiusTight    // 4pt - Tight radius
+DesignKit.radiusSmall    // 8pt - Small radius
+DesignKit.radiusMedium   // 12pt - Medium radius
+DesignKit.large          // 16pt - Large radius
+DesignKit.radiusXLarge   // 24pt - Extra large radius
+DesignKit.radiusFull     // 999pt - Full circle
+```
+
+Example:
+```swift
+RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+```
+
+## Components
+
+### Button Styles
+
+DesignKit provides three button styles with automatic state management:
+
+**Primary Button:**
+```swift
+Button("Save") { }
+    .primaryButton()
+
+Button("Delete") { }
+    .primaryButton(isDestructive: true)
+```
+- Full-width with max height of 64pt
+- White text on primary (or danger if destructive) background
+- Shadow and scale effects on press
+- Automatic disabled state styling
+
+**Secondary Button:**
+```swift
+Button("Cancel") { }
+    .secondaryButton()
+```
+- Full-width with height of 48pt
+- Outlined style with surface background
+- Adapts to color scheme automatically
+- Automatic disabled state styling
+
+**Tertiary Button:**
+```swift
+Button("Learn More") { }
+    .tertiaryButton()
+```
+- Text-only button with minimal padding
+- Scale effect on press
+- Automatic disabled state styling
+
+### Haptic Feedback
+
+Contextual haptic patterns using `DesignKitHaptics`:
+
+**Basic Haptics:**
+```swift
+DesignKitHaptics.impact(.light)      // Light impact
+DesignKitHaptics.impact(.medium)     // Medium impact
+DesignKitHaptics.impact(.heavy)      // Heavy impact
+DesignKitHaptics.selection()         // Selection changed
+DesignKitHaptics.notification(.success)  // Success
+DesignKitHaptics.notification(.warning)  // Warning
+DesignKitHaptics.notification(.error)    // Error
+```
+
+**Contextual Haptics:**
+```swift
+DesignKitHaptics.criticalAction()   // Heavy impact for important actions
+DesignKitHaptics.standardAction()   // Medium impact for standard interactions
+DesignKitHaptics.success()          // Success notification
+DesignKitHaptics.warning()          // Warning notification
+DesignKitHaptics.error()            // Error notification
+```
+
+Example:
+```swift
+Button("Delete") {
+    DesignKitHaptics.criticalAction()
+    performDelete()
+}
+.primaryButton(isDestructive: true)
+```
+
+### Icon System
+
+Curated SF Symbols collection via `DesignKitIcons`:
+
+**Alarm States:**
+```swift
+DesignKitIcons.alarmScheduled    // "alarm"
+DesignKitIcons.alarmRunning      // "alarm.fill"
+DesignKitIcons.alarmPaused       // "pause.circle.fill"
+DesignKitIcons.alarmAlerting     // "bell.badge.fill"
+```
+
+**Actions:**
+```swift
+DesignKitIcons.add        // "plus.circle.fill"
+DesignKitIcons.delete     // "trash.fill"
+DesignKitIcons.edit       // "pencil"
+DesignKitIcons.settings   // "gearshape.fill"
+DesignKitIcons.close      // "xmark"
+DesignKitIcons.checkmark  // "checkmark"
+```
+
+**Time/Schedule:**
+```swift
+DesignKitIcons.calendar   // "calendar"
+DesignKitIcons.clock      // "clock.fill"
+DesignKitIcons.timer      // "timer"
+DesignKitIcons.repeat     // "repeat"
+```
+
+**Status Indicators:**
+```swift
+DesignKitIcons.warning    // "exclamationmark.triangle.fill"
+DesignKitIcons.error      // "xmark.circle.fill"
+DesignKitIcons.success    // "checkmark.circle.fill"
+DesignKitIcons.info       // "info.circle.fill"
+```
+
+Example:
+```swift
+Image(systemName: DesignKitIcons.alarmRunning)
+    .foregroundColor(DesignKit.running)
+```
+
+### View Modifiers
+
+**Card Modifier:**
+```swift
+VStack {
+    Text("Card Content")
+}
+.padding(DesignKit.lg)
+.card()
+```
+- Applies surface background color
+- Adds corner radius (16pt)
+- Adds subtle shadow
+- Automatically adapts to color scheme
+
+**Status Badge Modifier:**
+```swift
+Text("Active")
+    .statusBadge(color: DesignKit.success)
+
+Text("Paused")
+    .statusBadge(color: DesignKit.paused)
+```
+- Uppercase text
+- 14pt semibold font
+- White text on colored background
+- Tight padding with 4pt corner radius
+
+## Complete Example
+
+```swift
+import SwiftUI
+import DesignKit
+
+struct AlarmCard: View {
+    @Environment(\.colorScheme) var colorScheme
+    @State private var isActive = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: DesignKit.md) {
+            HStack {
+                Image(systemName: DesignKitIcons.alarmRunning)
+                    .foregroundColor(isActive ? DesignKit.running : DesignKit.disabled)
+
+                Spacer()
+
+                Text(isActive ? "Active" : "Inactive")
+                    .statusBadge(color: isActive ? DesignKit.running : DesignKit.disabled)
+            }
+
+            Text("07:00 AM")
+                .timeDisplay()
+                .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+
+            Text("Wake up alarm")
+                .tickerTitle()
+                .foregroundColor(DesignKit.textSecondary(for: colorScheme))
+
+            Text("Repeats: Mon-Fri")
+                .detailText()
+                .foregroundColor(DesignKit.textTertiary(for: colorScheme))
+
+            HStack(spacing: DesignKit.sm) {
+                Button("Edit") {
+                    DesignKitHaptics.selection()
+                }
+                .secondaryButton()
+
+                Button(isActive ? "Disable" : "Enable") {
+                    DesignKitHaptics.standardAction()
+                    withAnimation(DesignKit.animationSpring) {
+                        isActive.toggle()
+                    }
+                }
+                .primaryButton()
+            }
+        }
+        .padding(DesignKit.lg)
+        .card()
+    }
+}
+```
+
 ## Platform Support
 
-- iOS 18.0+ (minimum deployment target)
+- iOS 18.0+
 - macOS 12.0+
 - Mac Catalyst 15.0+
 
@@ -170,6 +580,41 @@ ZStack {
 
 - Swift 5.9+
 - Xcode 16.0+ (for iOS 18 SDK support)
+
+## Architecture
+
+DesignKit is organized into the following modules:
+
+```
+DesignKit/
+├── Configuration/          # Configuration structs
+│   ├── DesignKitConfiguration.swift
+│   ├── ColorConfiguration.swift
+│   └── TypographyConfiguration.swift
+├── API/                   # Core design tokens
+│   ├── Colors.swift
+│   ├── Typography.swift
+│   ├── Spacing.swift
+│   ├── Animations.swift
+│   ├── Shadows.swift
+│   └── Radius.swift
+├── Components/            # Reusable components
+│   ├── ButtonStyles.swift
+│   ├── Haptics.swift
+│   ├── Icons.swift
+│   └── ViewModifiers.swift
+└── DesignKit.swift       # Main framework entry point
+```
+
+## Best Practices
+
+1. **Always configure DesignKit** at app launch before any views are rendered
+2. **Use semantic colors** (success, warning, danger) instead of direct color values for better consistency
+3. **Leverage spacing tokens** instead of hardcoded values for maintainable layouts
+4. **Apply animations** to state changes for polished user experiences
+5. **Use haptic feedback** to reinforce user actions and provide tactile feedback
+6. **Prefer View extensions** (`.largeTitle()`) over direct font calls for cleaner code
+7. **Use the liquidGlassGradient** for beautiful background that automatically adapts to dark mode
 
 ## License
 
