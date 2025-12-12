@@ -24,6 +24,11 @@ public extension DesignKit {
     static let radiusMedium: CGFloat = 12
     
     /// 16pt - Large radius
+    static let radiusLarge: CGFloat = 16
+
+    /// 16pt - Large radius
+    /// - Warning: Deprecated. Use `radiusLarge` instead for consistency with other radius constants.
+    @available(*, deprecated, renamed: "radiusLarge")
     static let large: CGFloat = 16
     
     /// 24pt - Extra large radius

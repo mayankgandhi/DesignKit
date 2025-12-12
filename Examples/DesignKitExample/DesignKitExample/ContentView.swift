@@ -46,6 +46,15 @@ struct ContentView: View {
                             icon: DesignKitIcons.settings
                         )
                     }
+
+                    // Molecules Section
+                    NavigationLink(destination: MoleculesExampleView()) {
+                        exampleCard(
+                            title: "Molecules",
+                            description: "Complex UI components like buttons, cards, and forms",
+                            icon: "square.grid.2x2"
+                        )
+                    }
                 }
                 .padding(DesignKit.lg)
             }

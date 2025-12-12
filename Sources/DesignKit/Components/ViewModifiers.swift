@@ -34,7 +34,7 @@ public struct Card: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .background(DesignKit.surface(for: colorScheme))
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.large))
+            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusLarge))
             .shadow(
                 color: DesignKit.shadowSubtle.color,
                 radius: DesignKit.shadowSubtle.radius,
