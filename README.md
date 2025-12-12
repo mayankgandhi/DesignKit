@@ -17,6 +17,7 @@ A comprehensive SwiftUI design system framework providing consistent colors, typ
 - **Icon System**: Curated SF Symbols collection for common UI patterns
 - **View Modifiers**: Reusable modifiers for cards and status badges
 - **Liquid Glass Backgrounds**: Beautiful multi-layered gradient backgrounds that adapt to light/dark modes
+- **Molecule Components**: Production-ready UI components including buttons, cards, form inputs, navigation headers, and notifications
 - **Zero Dependencies**: Pure SwiftUI with no external dependencies
 
 ## Installation
@@ -410,6 +411,219 @@ Button("Learn More") { }
 - Scale effect on press
 - Automatic disabled state styling
 
+### Molecules
+
+DesignKit provides production-ready molecule components for building complete user interfaces. Molecules are pre-built, reusable UI components that combine design tokens with best practices.
+
+#### Buttons
+
+**DSButton**
+
+Modern button component with three style variants:
+
+```swift
+DSButton("Save Changes", style: .primary) {
+    // Handle action
+}
+
+DSButton("Cancel", style: .secondary) {
+    // Handle action
+}
+
+DSButton("Delete", style: .destructive, icon: "trash") {
+    // Handle action
+}
+```
+
+**HealthIconButton**
+
+Icon-only button for compact interfaces:
+
+```swift
+HStack(spacing: DesignKit.md) {
+    HealthIconButton(icon: "heart.fill", style: .primary) {
+        // Handle action
+    }
+    HealthIconButton(icon: "plus", style: .secondary) {
+        // Handle action
+    }
+}
+```
+
+#### Cards
+
+**DSCard**
+
+Informational card with icon, title, and subtitle:
+
+```swift
+DSCard(
+    title: "Getting Started",
+    subtitle: "Learn the basics",
+    imageName: "book.fill",
+    backgroundColor: DesignKit.primary
+)
+```
+
+#### Navigation
+
+**NavBarHeader**
+
+Navigation header with gradient icon and title/subtitle:
+
+```swift
+NavBarHeader(
+    icon: "pills.fill",
+    iconColor: DesignKit.primary,
+    title: "Medications",
+    subtitle: "Manage your prescriptions"
+)
+```
+
+**SearchBar**
+
+Search bar with clear button and callbacks:
+
+```swift
+@State private var searchText = ""
+
+SearchBar(
+    searchText: $searchText,
+    placeholder: "Search items...",
+    onTextChange: { text in
+        // Handle search
+    },
+    onClear: {
+        // Handle clear
+    }
+)
+```
+
+#### List Items
+
+**MenuListItem**
+
+Rich menu item with icon, title, subtitle, badge, and chevron:
+
+```swift
+MenuListItem(
+    icon: "book.fill",
+    title: "Diary",
+    subtitle: "Track your daily entries",
+    iconColor: DesignKit.primary,
+    badge: 3
+) {
+    // Handle tap
+}
+```
+
+#### Form Inputs
+
+**TextFieldItem**
+
+Text field with validation states, helper text, and error messages:
+
+```swift
+@State private var email = ""
+
+TextFieldItem(
+    icon: "envelope.fill",
+    title: "Email Address",
+    text: $email,
+    placeholder: "Enter your email",
+    helperText: "We'll never share your email",
+    iconColor: .blue,
+    isRequired: true,
+    keyboardType: .emailAddress,
+    contentType: .emailAddress
+)
+```
+
+**MenuPickerItem**
+
+Menu picker with validation states:
+
+```swift
+@State private var selectedBloodType: String? = nil
+
+MenuPickerItem(
+    icon: "drop.fill",
+    title: "Blood Type",
+    selectedOption: $selectedBloodType,
+    options: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
+    placeholder: "Select your blood type",
+    helperText: "Select your blood type from the list",
+    iconColor: .red,
+    isRequired: true
+)
+```
+
+**DatePickerItem**
+
+Date picker with validation states:
+
+```swift
+@State private var selectedDate: Date? = nil
+
+DatePickerItem(
+    icon: "calendar",
+    title: "Date of Birth",
+    selectedDate: $selectedDate,
+    helperText: "Used for age calculations",
+    iconColor: .blue,
+    isRequired: true,
+    displayedComponents: [.date]
+)
+```
+
+**ColorPickerItem**
+
+Color picker with predefined palette:
+
+```swift
+@State private var selectedColor = "#FF6B6B"
+
+ColorPickerItem(
+    icon: "paintpalette.fill",
+    title: "Theme Color",
+    selectedColorHex: $selectedColor,
+    helperText: "Choose your profile theme color"
+)
+```
+
+**ToggleItem**
+
+Toggle switch with icon, title, and subtitle:
+
+```swift
+@State private var notificationsEnabled = true
+
+ToggleItem(
+    icon: "bell.fill",
+    title: "Notifications",
+    subtitle: "Get notified about important updates",
+    isOn: $notificationsEnabled,
+    helperText: "Push notifications will be sent to your device",
+    iconColor: .orange
+)
+```
+
+#### Notifications
+
+**SuccessNotification**
+
+Success notification with animated droplet:
+
+```swift
+SuccessNotification(
+    message: "Success!",
+    timestamp: "Just now",
+    value: "120",
+    unit: "mg/dL",
+    status: "Normal range"
+)
+```
+
 ### Haptic Feedback
 
 Contextual haptic patterns using `DesignKitHaptics`:
@@ -603,6 +817,17 @@ DesignKit/
 │   ├── Haptics.swift
 │   ├── Icons.swift
 │   └── ViewModifiers.swift
+├── Molecules/             # Production-ready UI components
+│   ├── DSButton.swift
+│   ├── DSCard.swift
+│   ├── NavBarHeader.swift
+│   ├── SearchBar.swift
+│   ├── MenuListItem.swift
+│   ├── TextFieldItem.swift
+│   ├── InputFieldItems.swift
+│   ├── DatePickerItem.swift
+│   ├── ColorPickerItem.swift
+│   └── SuccessNotification.swift
 └── DesignKit.swift       # Main framework entry point
 ```
 
@@ -615,6 +840,7 @@ DesignKit/
 5. **Use haptic feedback** to reinforce user actions and provide tactile feedback
 6. **Prefer View extensions** (`.largeTitle()`) over direct font calls for cleaner code
 7. **Use the liquidGlassGradient** for beautiful background that automatically adapts to dark mode
+8. **Leverage molecule components** for consistent, production-ready UI elements with built-in validation and state management
 
 ## License
 
@@ -622,4 +848,15 @@ MIT License - See LICENSE file for details
 
 ## Version
 
-Current version: 1.0.2
+Current version: 1.1.0
+
+### What's New in 1.1.0
+
+- **Molecule Components**: Added production-ready UI components including:
+  - DSButton & HealthIconButton for modern button interfaces
+  - DSCard for informational cards
+  - NavBarHeader for navigation headers
+  - SearchBar for search functionality
+  - MenuListItem for rich list items
+  - TextFieldItem, MenuPickerItem, DatePickerItem, ColorPickerItem, and ToggleItem for form inputs
+  - SuccessNotification for animated success states
