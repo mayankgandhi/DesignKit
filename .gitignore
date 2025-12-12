@@ -94,6 +94,8 @@ iOSInjectionProject/
 # Tuist
 # Generated Xcode projects and workspaces
 **/*.xcodeproj
+!Examples/**/*.xcodeproj
+!Examples/**/*.xcodeproj/**
 **/*.xcworkspace/*
 !**/*.xcworkspace/xcshareddata
 !**/*.xcworkspace/xcshareddata/*
