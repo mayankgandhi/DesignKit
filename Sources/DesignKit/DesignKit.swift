@@ -10,7 +10,7 @@ import SwiftUI
 
 /// DesignKit - A shared design system framework for cross-app use
 public struct DesignKit {
-    public static let version = "1.0.0"
+    public static let version = "1.0.2"
     
     // MARK: - Internal State Management
     

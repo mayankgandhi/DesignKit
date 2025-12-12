@@ -7,7 +7,7 @@ let package = Package(
     name: "DesignKit",
     platforms: [
         .iOS(.v17),
-        .macOS(.v12),
+        .macOS(.v13),
         .macCatalyst(.v15)
     ],
     products: [

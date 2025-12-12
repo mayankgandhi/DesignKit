@@ -2,7 +2,7 @@
 
 A comprehensive SwiftUI design system framework providing consistent colors, typography, spacing, animations, shadows, and reusable components for building beautiful iOS applications.
 
-> **Platform Requirements:** DesignKit targets iOS 18.0+, macOS 12.0+, and Mac Catalyst 15.0+. Ensure your deployment target matches before integration.
+> **Platform Requirements:** DesignKit targets iOS 17.0+, macOS 13.0+, and Mac Catalyst 15.0+. Ensure your deployment target matches before integration.
 
 ## Features
 
@@ -362,7 +362,7 @@ DesignKit.radiusNone     // 0pt - Sharp corners
 DesignKit.radiusTight    // 4pt - Tight radius
 DesignKit.radiusSmall    // 8pt - Small radius
 DesignKit.radiusMedium   // 12pt - Medium radius
-DesignKit.large          // 16pt - Large radius
+DesignKit.large          // 16pt - Large radius (note: inconsistent naming)
 DesignKit.radiusXLarge   // 24pt - Extra large radius
 DesignKit.radiusFull     // 999pt - Full circle
 ```
@@ -572,14 +572,14 @@ struct AlarmCard: View {
 
 ## Platform Support
 
-- iOS 18.0+
-- macOS 12.0+
+- iOS 17.0+
+- macOS 13.0+
 - Mac Catalyst 15.0+
 
 ## Requirements
 
 - Swift 5.9+
-- Xcode 16.0+ (for iOS 18 SDK support)
+- Xcode 15.0+
 
 ## Architecture
 
@@ -622,4 +622,4 @@ MIT License - See LICENSE file for details
 
 ## Version
 
-Current version: 1.0.0
+Current version: 1.0.2

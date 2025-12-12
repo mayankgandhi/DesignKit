@@ -10,16 +10,18 @@ import XCTest
 
 final class DesignKitTests: XCTestCase {
     func testDesignKitVersion() {
-        XCTAssertEqual(DesignKit.version, "1.0.0")
+        XCTAssertEqual(DesignKit.version, "1.0.2")
     }
-    
+
     func testSpacingValues() {
-        XCTAssertEqual(Spacing.xs, 4)
-        XCTAssertEqual(Spacing.sm, 8)
-        XCTAssertEqual(Spacing.md, 16)
-        XCTAssertEqual(Spacing.lg, 24)
-        XCTAssertEqual(Spacing.xl, 32)
-        XCTAssertEqual(Spacing.xxl, 48)
+        XCTAssertEqual(DesignKit.xxs, 4)
+        XCTAssertEqual(DesignKit.xs, 8)
+        XCTAssertEqual(DesignKit.sm, 12)
+        XCTAssertEqual(DesignKit.md, 16)
+        XCTAssertEqual(DesignKit.lg, 24)
+        XCTAssertEqual(DesignKit.xl, 32)
+        XCTAssertEqual(DesignKit.xxl, 48)
+        XCTAssertEqual(DesignKit.xxxl, 64)
     }
 }
 
