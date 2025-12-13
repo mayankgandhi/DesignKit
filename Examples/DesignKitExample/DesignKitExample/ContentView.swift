@@ -55,6 +55,15 @@ struct ContentView: View {
                             icon: "square.grid.2x2"
                         )
                     }
+
+                    // AI Components Section
+                    NavigationLink(destination: AddProductView()) {
+                        exampleCard(
+                            title: "AI Components",
+                            description: "AI-assisted text fields and smart input",
+                            icon: "sparkles"
+                        )
+                    }
                 }
                 .padding(DesignKit.lg)
             }
