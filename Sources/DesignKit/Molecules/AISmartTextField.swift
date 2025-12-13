@@ -48,9 +48,9 @@ public struct AISmartTextField: View {
 
     // MARK: - Body
     public var body: some View {
-        VStack(alignment: .leading, spacing: DesignKit.xs) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             // Main text field container
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 // Optional icon
                 if let icon = icon {
                     iconView(icon: icon)
@@ -62,22 +62,22 @@ public struct AISmartTextField: View {
                 // AI sparkle button
                 sparkleButton
             }
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, axis == .vertical ? DesignKit.md : DesignKit.sm + 2)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, axis == .vertical ? Spacing.md : Spacing.sm + 2)
             .background(backgroundView)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .stroke(strokeColor, lineWidth: isFocused ? 2 : 1)
             )
             .scaleEffect(isPressed ? 0.99 : 1.0)
-            .animation(DesignKit.animationQuick, value: isPressed)
-            .animation(DesignKit.animationStandard, value: isFocused)
+            .animation(Animation.quick, value: isPressed)
+            .animation(Animation.standard, value: isFocused)
             .shadow(
-                color: isFocused ? DesignKit.shadowElevated.color : DesignKit.shadowSubtle.color,
-                radius: isFocused ? DesignKit.shadowElevated.radius : DesignKit.shadowSubtle.radius,
-                x: isFocused ? DesignKit.shadowElevated.x : DesignKit.shadowSubtle.x,
-                y: isFocused ? DesignKit.shadowElevated.y : DesignKit.shadowSubtle.y
+                color: isFocused ? Shadow.elevated.color : Shadow.subtle.color,
+                radius: isFocused ? Shadow.elevated.radius : Shadow.subtle.radius,
+                x: isFocused ? Shadow.elevated.x : Shadow.subtle.x,
+                y: isFocused ? Shadow.elevated.y : Shadow.subtle.y
             )
             .onTapGesture {
                 isFocused = true
@@ -91,7 +91,7 @@ public struct AISmartTextField: View {
                 Text(helper)
                     .caption()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, DesignKit.md)
+                    .padding(.horizontal, Spacing.md)
             }
         }
         .sheet(isPresented: $isShowingAISheet) {
@@ -114,19 +114,19 @@ public struct AISmartTextField: View {
                 .fill(
                     LinearGradient(
                         gradient: Gradient(colors: [
-                            (isFocused ? Color(.systemGray3) : iconColor).opacity(0.08),
-                            (isFocused ? Color(.systemGray3) : iconColor).opacity(0.12)
+                            (isFocused ? .gray.opacity(0.4) : iconColor).opacity(0.08),
+                            (isFocused ? .gray.opacity(0.4) : iconColor).opacity(0.12)
                         ]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
             // Subtle ring
             Circle()
-                .stroke((isFocused ? Color(.systemGray4) : iconColor).opacity(0.12), lineWidth: 1)
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .stroke((isFocused ? .gray.opacity(0.5) : iconColor).opacity(0.12), lineWidth: 1)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
             // Icon
             Image(systemName: icon)
@@ -166,7 +166,7 @@ public struct AISmartTextField: View {
                 // Background with ultraThinMaterial
                 Circle()
                     .fill(.ultraThinMaterial)
-                    .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                    .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
                 // Gradient icon
                 Image(systemName: "sparkles")
@@ -186,9 +186,9 @@ public struct AISmartTextField: View {
             .scaleEffect(isPressed ? 0.96 : 1.0)
             .shadow(
                 color: Color(red: 0.36, green: 0.36, blue: 1.0).opacity(0.3),
-                radius: DesignKit.shadowElevated.radius,
+                radius: Shadow.elevated.radius,
                 x: 0,
-                y: DesignKit.shadowElevated.y
+                y: Shadow.elevated.y
             )
         }
         .buttonStyle(.plain)
@@ -201,15 +201,15 @@ public struct AISmartTextField: View {
     private var backgroundView: some View {
         Group {
             if isFocused {
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .fill(.ultraThinMaterial)
                     .overlay(
-                        RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-                            .fill(Color(.systemGray6).opacity(0.3))
+                        RoundedRectangle(cornerRadius: Radius.medium)
+                            .fill(.gray.opacity(0.7).opacity(0.3))
                     )
             } else {
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-                    .fill(isPressed ? Color(.systemGray6) : Color(.systemBackground))
+                RoundedRectangle(cornerRadius: Radius.medium)
+                    .fill(isPressed ? .gray.opacity(0.7) : .white.opacity(0.95))
             }
         }
     }
@@ -217,9 +217,9 @@ public struct AISmartTextField: View {
     // MARK: - Stroke Color
     private var strokeColor: Color {
         if isFocused {
-            return Color(.systemGray3).opacity(0.8)
+            return .gray.opacity(0.4).opacity(0.8)
         } else {
-            return Color(.systemGray5)
+            return .gray.opacity(0.6)
         }
     }
 }
@@ -239,7 +239,7 @@ public extension AISmartTextField {
 
 // MARK: - Previews
 #Preview("Basic States") {
-    VStack(spacing: DesignKit.lg) {
+    VStack(spacing: Spacing.lg) {
         Text("AI Smart Text Field Examples")
             .title2()
 
@@ -280,11 +280,11 @@ public extension AISmartTextField {
         Spacer()
     }
     .padding()
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }
 
 #Preview("Dark Mode") {
-    VStack(spacing: DesignKit.lg) {
+    VStack(spacing: Spacing.lg) {
         AISmartTextField(
             text: .constant("Premium Coffee Beans"),
             placeholder: "Product name",
@@ -302,6 +302,6 @@ public extension AISmartTextField {
         Spacer()
     }
     .padding()
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
     .preferredColorScheme(.dark)
 }

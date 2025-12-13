@@ -40,13 +40,13 @@ public struct MenuListItem: View {
     
     public var body: some View {
         Button(action: action) {
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 // Enhanced icon with gradient background
                 iconView
 
                 // Content section
-                VStack(alignment: .leading, spacing: DesignKit.xxs) {
-                    HStack(alignment: .center, spacing: DesignKit.xs) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
+                    HStack(alignment: .center, spacing: Spacing.xs) {
                         Text(title)
                             .footnote()
                             .foregroundStyle(.primary)
@@ -71,22 +71,22 @@ public struct MenuListItem: View {
                     chevronView
                 }
             }
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm + 2)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm + 2)
             .background(backgroundView)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .stroke(Color.clear, lineWidth: 1)
             )
             .scaleEffect(isPressed ? 0.98 : 1.0)
             .contentShape(.rect)
-            .animation(DesignKit.animationQuick, value: isPressed)
+            .animation(Animation.quick, value: isPressed)
             .shadow(
-                color: DesignKit.shadowSubtle.color,
-                radius: DesignKit.shadowSubtle.radius,
-                x: DesignKit.shadowSubtle.x,
-                y: DesignKit.shadowSubtle.y
+                color: Shadow.subtle.color,
+                radius: Shadow.subtle.radius,
+                x: Shadow.subtle.x,
+                y: Shadow.subtle.y
             )
         }
         .buttonStyle(.plain)
@@ -109,12 +109,12 @@ public struct MenuListItem: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
             // Subtle ring
             Circle()
                 .stroke(iconColor.opacity(0.15), lineWidth: 1)
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             // Icon
             Image(systemName: icon)
@@ -135,8 +135,8 @@ public struct MenuListItem: View {
     private var backgroundView: some View {
         Group {
 
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-                    .fill(isPressed ? Color(.systemGray6) : .clear)
+                RoundedRectangle(cornerRadius: Radius.medium)
+                    .fill(isPressed ? .gray.opacity(0.7) : .clear)
         }
     }
     
@@ -145,7 +145,7 @@ public struct MenuListItem: View {
             .smallText()
             .foregroundStyle(.tertiary)
             .scaleEffect(isPressed ? 1.1 : 1.0)
-            .animation(DesignKit.animationQuick, value: isPressed)
+            .animation(Animation.quick, value: isPressed)
     }
     
     private func badgeView(count: Int) -> some View {
@@ -171,7 +171,7 @@ public struct MenuListItem: View {
 
 #Preview("Standard Menu Items") {
     ScrollView {
-        VStack(spacing: DesignKit.xs) {
+        VStack(spacing: Spacing.xs) {
             MenuListItem(
                 icon: "book.fill",
                 title: "Diary",
@@ -243,12 +243,12 @@ public struct MenuListItem: View {
 }
 
 #Preview("Different States") {
-    VStack(spacing: DesignKit.md) {
+    VStack(spacing: Spacing.md) {
         Text("Menu Item States")
             .title2()
             .padding(.horizontal)
 
-        VStack(spacing: DesignKit.xs) {
+        VStack(spacing: Spacing.xs) {
             MenuListItem(
                 icon: "heart.fill",
                 title: "Normal State",

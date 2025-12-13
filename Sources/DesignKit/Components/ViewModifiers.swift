@@ -21,10 +21,10 @@ public struct StatusBadge: ViewModifier {
             .buttonText()
             .textCase(.uppercase)
             .foregroundStyle(DesignKit.absoluteWhite)
-            .padding(.horizontal, DesignKit.sm)
-            .padding(.vertical, DesignKit.xxs)
+            .padding(.horizontal, Spacing.sm)
+            .padding(.vertical, Spacing.xxs)
             .background(color)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusTight))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.tight))
     }
 }
 
@@ -34,12 +34,12 @@ public struct Card: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .background(DesignKit.surface(for: colorScheme))
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusLarge))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.large))
             .shadow(
-                color: DesignKit.shadowSubtle.color,
-                radius: DesignKit.shadowSubtle.radius,
-                x: DesignKit.shadowSubtle.x,
-                y: DesignKit.shadowSubtle.y
+                color: Shadow.subtle.color,
+                radius: Shadow.subtle.radius,
+                x: Shadow.subtle.x,
+                y: Shadow.subtle.y
             )
     }
 }

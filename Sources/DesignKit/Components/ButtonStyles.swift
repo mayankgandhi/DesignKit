@@ -23,18 +23,18 @@ public struct PrimaryButtonStyle: ButtonStyle {
             .subheadline()
             .foregroundStyle(DesignKit.absoluteWhite)
             .frame(maxWidth: .infinity)
-            .frame(height: DesignKit.buttonHeightLarge)
+            .frame(height: Spacing.buttonHeightLarge)
             .background(backgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .shadow(
-                color: DesignKit.shadowCritical.color,
-                radius: DesignKit.shadowCritical.radius,
-                x: DesignKit.shadowCritical.x,
-                y: DesignKit.shadowCritical.y
+                color: Shadow.critical.color,
+                radius: Shadow.critical.radius,
+                x: Shadow.critical.x,
+                y: Shadow.critical.y
             )
             .opacity(configuration.isPressed ? 0.85 : 1.0)
             .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
-            .animation(DesignKit.animationQuick, value: configuration.isPressed)
+            .animation(Animation.quick, value: configuration.isPressed)
     }
     
     private var backgroundColor: Color {
@@ -54,11 +54,11 @@ public struct SecondaryButtonStyle: ButtonStyle {
             .subheadline()
             .foregroundStyle(isEnabled ? DesignKit.textPrimary(for: colorScheme) : DesignKit.disabled)
             .frame(maxWidth: .infinity)
-            .frame(height: DesignKit.buttonHeightStandard)
+            .frame(height: Spacing.buttonHeightStandard)
             .background(DesignKit.surface(for: colorScheme))
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .strokeBorder(
                         isEnabled ? DesignKit.textTertiary(for: colorScheme) : DesignKit.disabled,
                         lineWidth: 2
@@ -66,7 +66,7 @@ public struct SecondaryButtonStyle: ButtonStyle {
             )
             .opacity(configuration.isPressed ? 0.7 : 1.0)
             .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
-            .animation(DesignKit.animationQuick, value: configuration.isPressed)
+            .animation(Animation.quick, value: configuration.isPressed)
     }
 }
 
@@ -78,12 +78,12 @@ public struct TertiaryButtonStyle: ButtonStyle {
         configuration.label
             .subheadline()
             .foregroundStyle(isEnabled ? DesignKit.textPrimary(for: colorScheme) : DesignKit.disabled)
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm)
             .contentShape(Rectangle())
             .opacity(configuration.isPressed ? 0.5 : 1.0)
             .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
-            .animation(DesignKit.animationQuick, value: configuration.isPressed)
+            .animation(Animation.quick, value: configuration.isPressed)
     }
 }
 

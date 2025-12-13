@@ -59,7 +59,7 @@ public struct DSButton: View {
     
     public var body: some View {
         Button(action: action) {
-            HStack(spacing: DesignKit.sm) {
+            HStack(spacing: Spacing.sm) {
                 if let icon = icon {
                     Image(systemName: icon)
                         .footnote()
@@ -67,22 +67,22 @@ public struct DSButton: View {
 
                 Text(title)
                     .subheadline()
-                    .padding(.vertical, DesignKit.sm)
+                    .padding(.vertical, Spacing.sm)
             }
             .frame(maxWidth: .infinity)
             .foregroundStyle(style.foregroundColor)
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm)
             .background(style.backgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusSmall))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.small))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusSmall)
+                RoundedRectangle(cornerRadius: Radius.small)
                     .stroke(style.borderColor ?? .clear, lineWidth: 1)
             )
             .scaleEffect(isPressed ? 0.96 : 1.0)
-            .animation(DesignKit.animationQuick, value: isPressed)
+            .animation(Animation.quick, value: isPressed)
         }
-        .frame(minHeight: DesignKit.tapTargetMin)
+        .frame(minHeight: Spacing.tapTargetMin)
         .accessibilityLabel(title)
     }
 }
@@ -109,15 +109,15 @@ public struct HealthIconButton: View {
             Image(systemName: icon)
                 .footnote()
                 .foregroundStyle(style.foregroundColor)
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
                 .background(style.backgroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusSmall))
+                .clipShape(RoundedRectangle(cornerRadius: Radius.small))
                 .overlay(
-                    RoundedRectangle(cornerRadius: DesignKit.radiusSmall)
+                    RoundedRectangle(cornerRadius: Radius.small)
                         .stroke(style.borderColor ?? .clear, lineWidth: 1)
                 )
                 .scaleEffect(isPressed ? 0.96 : 1.0)
-                .animation(DesignKit.animationQuick, value: isPressed)
+                .animation(Animation.quick, value: isPressed)
         }
         .accessibilityLabel(icon)
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { isPressing in
@@ -129,8 +129,8 @@ public struct HealthIconButton: View {
 // MARK: - Preview
 
 #Preview("Health Buttons") {
-    VStack(spacing: DesignKit.lg) {
-        VStack(spacing: DesignKit.md) {
+    VStack(spacing: Spacing.lg) {
+        VStack(spacing: Spacing.md) {
             Text("Button Styles")
                 .font(.headline)
 
@@ -139,16 +139,16 @@ public struct HealthIconButton: View {
             DSButton("Delete", style: .destructive, icon: "trash") { }
         }
 
-        VStack(spacing: DesignKit.md) {
+        VStack(spacing: Spacing.md) {
             Text("Icon Buttons")
                 .font(.headline)
 
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 HealthIconButton(icon: "heart.fill", style: .primary) { }
                 HealthIconButton(icon: "plus", style: .secondary) { }
                 HealthIconButton(icon: "gear", style: .secondary) { }
             }
         }
     }
-    .padding(DesignKit.lg)
+    .padding(Spacing.lg)
 }

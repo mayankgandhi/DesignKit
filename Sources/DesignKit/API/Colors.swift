@@ -14,69 +14,69 @@ public extension DesignKit {
     // MARK: - Base Colors
     
     static var absoluteBlack: Color {
-        current.colors.absoluteBlack
+        current.configuration.colors.absoluteBlack
     }
     
     static var absoluteWhite: Color {
-        current.colors.absoluteWhite
+        current.configuration.colors.absoluteWhite
     }
     
     static var surfaceDark: Color {
-        current.colors.surfaceDark
+        current.configuration.colors.surfaceDark
     }
     
     static var surfaceLight: Color {
-        current.colors.surfaceLight
+        current.configuration.colors.surfaceLight
     }
     
     // MARK: - Primary Brand Colors
     
     static var primary: Color {
-        current.colors.primary
+        current.configuration.colors.primary
     }
     
     static var primaryDark: Color {
-        current.colors.primaryDark
+        current.configuration.colors.primaryDark
     }
     
     static var accent: Color {
-        current.colors.accent
+        current.configuration.colors.accent
     }
     
     // MARK: - Semantic Actions
     
     static var success: Color {
-        current.colors.success
+        current.configuration.colors.success
     }
     
     static var warning: Color {
-        current.colors.warning
+        current.configuration.colors.warning
     }
     
     static var danger: Color {
-        current.colors.danger
+        current.configuration.colors.danger
     }
     
     // MARK: - Alarm States
     
     static var scheduled: Color {
-        current.colors.scheduled
+        current.configuration.colors.scheduled
     }
     
     static var running: Color {
-        current.colors.running
+        current.configuration.colors.running
     }
     
     static var paused: Color {
-        current.colors.paused
+        current.configuration.colors.paused
     }
     
     static var alerting: Color {
-        current.colors.alerting
+        current.configuration.colors.alerting
     }
     
     static var disabled: Color {
-        current.colors.disabled
+        current.configuration.colors.disabled
     }
     
     // MARK: - Text Hierarchy

@@ -34,7 +34,7 @@ public struct SuccessNotification: View {
     
     public var body: some View {
 
-        VStack(spacing: DesignKit.lg) {
+        VStack(spacing: Spacing.lg) {
             // Animated droplet
             ZStack {
                 // Background droplets
@@ -84,7 +84,7 @@ public struct SuccessNotification: View {
                 .foregroundStyle(.secondary)
             
             // Large value display
-            VStack(spacing: DesignKit.xs) {
+            VStack(spacing: Spacing.xs) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(value)
                         .font(.system(size: 48, weight: .bold, design: .rounded))
@@ -101,7 +101,7 @@ public struct SuccessNotification: View {
             }
             
             // Action buttons
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 Button("Before meal") {}
                     .buttonStyle(.bordered)
                     .tint(DesignKit.primary)
@@ -111,7 +111,7 @@ public struct SuccessNotification: View {
                     .tint(DesignKit.primary)
             }
         }
-        .padding(DesignKit.lg)
+        .padding(Spacing.lg)
         .onAppear {
             animateDroplet = true
         }

@@ -28,8 +28,8 @@ public struct DSCard: View {
     }
     
     public var body: some View {
-        HStack(spacing: DesignKit.md) {
-            VStack(alignment: .leading, spacing: DesignKit.xs) {
+        HStack(spacing: Spacing.md) {
+            VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(title)
                     .subheadline()
                     .foregroundStyle(.white)
@@ -45,8 +45,8 @@ public struct DSCard: View {
                 .font(.system(size: 32))
                 .foregroundStyle(.white.opacity(0.8))
         }
-        .padding(DesignKit.md)
-        .background(backgroundColor, in: RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+        .padding(Spacing.md)
+        .background(backgroundColor, in: RoundedRectangle(cornerRadius: Radius.medium))
     }
 }
 
@@ -57,5 +57,5 @@ public struct DSCard: View {
         imageName: "calendar.badge",
         backgroundColor: .red
     )
-    .padding(DesignKit.md)
+    .padding(Spacing.md)
 }

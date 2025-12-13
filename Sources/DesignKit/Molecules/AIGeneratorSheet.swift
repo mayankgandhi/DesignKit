@@ -42,7 +42,7 @@ public struct AIGeneratorSheet: View {
 
     // MARK: - Body
     public var body: some View {
-        VStack(alignment: .leading, spacing: DesignKit.lg) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             // Header
             headerView
 
@@ -62,7 +62,7 @@ public struct AIGeneratorSheet: View {
 
             Spacer()
         }
-        .padding(DesignKit.lg)
+        .padding(Spacing.lg)
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
         .onAppear {
@@ -111,17 +111,17 @@ public struct AIGeneratorSheet: View {
 
     // MARK: - Prompt Input View
     private var promptInputView: some View {
-        VStack(alignment: .leading, spacing: DesignKit.xs) {
+        VStack(alignment: .leading, spacing: Spacing.xs) {
             TextField("What would you like to generate?", text: $prompt, axis: .vertical)
                 .body()
                 .focused($isPromptFocused)
                 .lineLimit(2...4)
-                .padding(DesignKit.md)
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(DesignKit.radiusMedium)
+                .padding(Spacing.md)
+                .background(.gray.opacity(0.1))
+                .cornerRadius(Radius.medium)
                 .overlay(
-                    RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-                        .stroke(Color(.systemGray4), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: Radius.medium)
+                        .stroke(.gray.opacity(0.5), lineWidth: 1)
                 )
                 .onChange(of: prompt) { _, newValue in
                     handlePromptChange(newValue)
@@ -132,7 +132,7 @@ public struct AIGeneratorSheet: View {
 
             // Error message display
             if let error = errorMessage, !error.isEmpty {
-                HStack(spacing: DesignKit.xs) {
+                HStack(spacing: Spacing.xs) {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .caption()
                         .foregroundStyle(.orange)
@@ -141,10 +141,10 @@ public struct AIGeneratorSheet: View {
                         .caption()
                         .foregroundStyle(.secondary)
                 }
-                .padding(.horizontal, DesignKit.md)
-                .padding(.vertical, DesignKit.sm)
-                .background(Color(.systemOrange).opacity(0.1))
-                .cornerRadius(DesignKit.radiusSmall)
+                .padding(.horizontal, Spacing.md)
+                .padding(.vertical, Spacing.sm)
+                .background(.orange.opacity(0.1))
+                .cornerRadius(Radius.small)
                 .transition(.opacity.combined(with: .scale))
             }
         }
@@ -155,7 +155,7 @@ public struct AIGeneratorSheet: View {
         ScrollView {
             if isGenerating && suggestions.isEmpty {
                 // Loading state
-                VStack(spacing: DesignKit.md) {
+                VStack(spacing: Spacing.md) {
                     ProgressView()
                         .accessibilityLabel("Generating suggestions")
                         .accessibilityValue("Please wait")
@@ -165,10 +165,10 @@ public struct AIGeneratorSheet: View {
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(DesignKit.lg)
+                .padding(Spacing.lg)
             } else if !suggestions.isEmpty {
                 // Suggestion cards
-                VStack(alignment: .leading, spacing: DesignKit.sm) {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
                     ForEach(suggestions, id: \.self) { suggestion in
                         suggestionCard(suggestion)
                     }
@@ -179,7 +179,7 @@ public struct AIGeneratorSheet: View {
                     .footnote()
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(DesignKit.lg)
+                    .padding(Spacing.lg)
             }
         }
     }
@@ -187,7 +187,7 @@ public struct AIGeneratorSheet: View {
     // MARK: - Suggestion Card
     private func suggestionCard(_ suggestion: String) -> some View {
         Button {
-            withAnimation(DesignKit.animationStandard) {
+            withAnimation(Animation.standard) {
                 onSelectSuggestion(suggestion)
                 isPresented = false
             }
@@ -204,9 +204,9 @@ public struct AIGeneratorSheet: View {
                     .caption()
                     .foregroundStyle(.secondary)
             }
-            .padding(DesignKit.md)
-            .background(Color(.secondarySystemBackground))
-            .cornerRadius(DesignKit.radiusMedium)
+            .padding(Spacing.md)
+            .background(.gray.opacity(0.1))
+            .cornerRadius(Radius.medium)
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Use suggestion: \(suggestion)")
@@ -258,7 +258,7 @@ public struct AIGeneratorSheet: View {
             guard self.prompt == promptText else { return }
 
             await MainActor.run {
-                withAnimation(DesignKit.animationStandard) {
+                withAnimation(Animation.standard) {
                     suggestions = results
 
                     // Show message if no results

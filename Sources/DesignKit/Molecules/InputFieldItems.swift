@@ -59,18 +59,18 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: DesignKit.xxs) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             // Main picker container
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 // Icon section
                 if let icon = icon {
                     iconView
                 }
 
                 // Content section
-                VStack(alignment: .leading, spacing: DesignKit.xxs) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     // Title with required indicator
-                    HStack(spacing: DesignKit.xxs) {
+                    HStack(spacing: Spacing.xxs) {
                         Text(title)
                             .footnote()
                             .foregroundStyle(.secondary)
@@ -78,7 +78,7 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
                         if isRequired {
                             Text("*")
                                 .footnote()
-                                .foregroundStyle(Color(.systemRed).opacity(0.7))
+                                .foregroundStyle(.red.opacity(0.7))
                         }
                         
                         Spacer()
@@ -105,21 +105,21 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
                     }
                 }
             }
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm + 4)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm + 4)
             .background(backgroundView)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .stroke(strokeColor, lineWidth: 1)
             )
             .scaleEffect(isPressed ? 0.99 : 1.0)
-            .animation(DesignKit.animationQuick, value: isPressed)
+            .animation(Animation.quick, value: isPressed)
             .shadow(
-                color: DesignKit.shadowSubtle.color,
-                radius: DesignKit.shadowSubtle.radius,
-                x: DesignKit.shadowSubtle.x,
-                y: DesignKit.shadowSubtle.y
+                color: Shadow.subtle.color,
+                radius: Shadow.subtle.radius,
+                x: Shadow.subtle.x,
+                y: Shadow.subtle.y
             )
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
                 isPressed = pressing
@@ -143,13 +143,13 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
             if let message = errorMessage, !message.isEmpty {
                 Text(message)
                     .caption()
-                    .foregroundStyle(Color(.systemRed).opacity(0.8))
-                    .padding(.horizontal, DesignKit.md)
+                    .foregroundStyle(.red.opacity(0.8))
+                    .padding(.horizontal, Spacing.md)
             } else if let helper = helperText, !helper.isEmpty {
                 Text(helper)
                     .caption()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, DesignKit.md)
+                    .padding(.horizontal, Spacing.md)
             }
         }
     }
@@ -167,11 +167,11 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
             Circle()
                 .stroke(iconColor.opacity(0.12), lineWidth: 1)
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             Image(systemName: icon!)
                 .tickerTitle()
@@ -180,17 +180,17 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
     }
     
     private var backgroundView: some View {
-        RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-            .fill(isPressed ? Color(.systemGray6) : Color(.systemBackground))
+        RoundedRectangle(cornerRadius: Radius.medium)
+            .fill(isPressed ? .gray.opacity(0.7) : .white.opacity(0.95))
     }
 
     private var strokeColor: Color {
         if validationState == .error {
-            return Color(.systemRed).opacity(0.4)
+            return .red.opacity(0.4)
         } else if validationState == .warning && isRequired && selectedOption == nil {
-            return Color(.systemOrange).opacity(0.4)
+            return .orange.opacity(0.4)
         } else {
-            return Color(.systemGray5)
+            return .gray.opacity(0.6)
         }
     }
 }
@@ -227,16 +227,16 @@ public struct ToggleItem: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: DesignKit.xxs) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             // Main toggle container
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 // Icon section
                 if let icon = icon {
                     iconView
                 }
 
                 // Content section
-                VStack(alignment: .leading, spacing: DesignKit.xxs) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(title)
                         .font(.system(.body, design: .rounded, weight: .medium))
                         .foregroundStyle(.primary)
@@ -255,21 +255,21 @@ public struct ToggleItem: View {
                 Toggle("", isOn: $isOn)
                     .labelsHidden()
             }
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm + 4)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm + 4)
             .background(backgroundView)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-                    .stroke(Color(.systemGray5), lineWidth: 1)
+                RoundedRectangle(cornerRadius: Radius.medium)
+                    .stroke(.gray.opacity(0.6), lineWidth: 1)
             )
             .scaleEffect(isPressed ? 0.99 : 1.0)
-            .animation(DesignKit.animationQuick, value: isPressed)
+            .animation(Animation.quick, value: isPressed)
             .shadow(
-                color: DesignKit.shadowSubtle.color,
-                radius: DesignKit.shadowSubtle.radius,
-                x: DesignKit.shadowSubtle.x,
-                y: DesignKit.shadowSubtle.y
+                color: Shadow.subtle.color,
+                radius: Shadow.subtle.radius,
+                x: Shadow.subtle.x,
+                y: Shadow.subtle.y
             )
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
                 isPressed = pressing
@@ -280,7 +280,7 @@ public struct ToggleItem: View {
                 Text(helper)
                     .caption()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, DesignKit.md)
+                    .padding(.horizontal, Spacing.md)
             }
         }
     }
@@ -298,11 +298,11 @@ public struct ToggleItem: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
             Circle()
                 .stroke(iconColor.opacity(0.12), lineWidth: 1)
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             Image(systemName: icon!)
                 .tickerTitle()
@@ -311,8 +311,8 @@ public struct ToggleItem: View {
     }
     
     private var backgroundView: some View {
-        RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-            .fill(isPressed ? Color(.systemGray6) : Color(.systemBackground))
+        RoundedRectangle(cornerRadius: Radius.medium)
+            .fill(isPressed ? .gray.opacity(0.7) : .white.opacity(0.95))
     }
 }
 
@@ -323,10 +323,10 @@ public enum ValidationState {
     
     public var color: Color {
         switch self {
-        case .normal: return Color(.systemGray2)
-        case .success: return Color(.systemGreen).opacity(0.7)
-        case .warning: return Color(.systemOrange).opacity(0.8)
-        case .error: return Color(.systemRed).opacity(0.8)
+        case .normal: return .gray.opacity(0.3)
+        case .success: return .green.opacity(0.7)
+        case .warning: return .orange.opacity(0.8)
+        case .error: return .red.opacity(0.8)
         }
     }
     
@@ -368,13 +368,13 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
 
 
      ScrollView {
-        VStack(spacing: DesignKit.lg) {
+        VStack(spacing: Spacing.lg) {
             Text("Menu Picker Examples")
                 .title2()
                 .fontWeight(.bold)
                 .padding(.horizontal)
 
-            VStack(spacing: DesignKit.md) {
+            VStack(spacing: Spacing.md) {
                 MenuPickerItem(
                     icon: "drop.fill",
                     title: "Blood Type",
@@ -404,18 +404,18 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
             .padding(.horizontal)
         }
     }
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }
 
 #Preview("Date Picker Examples") {
     ScrollView {
-        VStack(spacing: DesignKit.lg) {
+        VStack(spacing: Spacing.lg) {
             Text("Date Picker Examples")
                 .title2()
                 .fontWeight(.bold)
                 .padding(.horizontal)
 
-            VStack(spacing: DesignKit.md) {
+            VStack(spacing: Spacing.md) {
                 DatePickerItem(
                     icon: "calendar",
                     title: "Date of Birth",
@@ -442,18 +442,18 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
             .padding(.horizontal)
         }
     }
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }
 
 #Preview("Toggle Examples") {
     ScrollView {
-        VStack(spacing: DesignKit.lg) {
+        VStack(spacing: Spacing.lg) {
             Text("Toggle Examples")
                 .title2()
                 .fontWeight(.bold)
                 .padding(.horizontal)
 
-            VStack(spacing: DesignKit.md) {
+            VStack(spacing: Spacing.md) {
                 ToggleItem(
                     icon: "bell.fill",
                     title: "Medication Reminders",
@@ -479,18 +479,18 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
             .padding(.horizontal)
         }
     }
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }
 
 #Preview("All Input Types") {
     ScrollView {
-        VStack(spacing: DesignKit.lg) {
+        VStack(spacing: Spacing.lg) {
             Text("All Input Types")
                 .title2()
                 .fontWeight(.bold)
                 .padding(.horizontal)
 
-            VStack(spacing: DesignKit.md) {
+            VStack(spacing: Spacing.md) {
                 TextFieldItem(
                     icon: "person.fill",
                     title: "Full Name",
@@ -524,6 +524,6 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
             .padding(.horizontal)
         }
     }
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }
 

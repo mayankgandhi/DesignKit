@@ -37,16 +37,16 @@ public struct ColorPickerItem: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: DesignKit.xxs) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             // Main color picker container
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 // Icon section
                 if let icon = icon {
                     iconView
                 }
 
                 // Content section
-                VStack(alignment: .leading, spacing: DesignKit.xxs) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     // Title
                     Text(title)
                         .footnote()
@@ -60,7 +60,7 @@ public struct ColorPickerItem: View {
                             .frame(width: 24, height: 24)
                             .overlay(
                                 Circle()
-                                    .stroke(Color(.systemGray4), lineWidth: 1)
+                                    .stroke(.gray.opacity(0.5), lineWidth: 1)
                             )
                         
                         Text("Tap to change color")
@@ -75,21 +75,21 @@ public struct ColorPickerItem: View {
                     }
                 }
             }
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm + 4)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm + 4)
             .background(backgroundView)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-                    .stroke(Color(.systemGray5), lineWidth: 1)
+                RoundedRectangle(cornerRadius: Radius.medium)
+                    .stroke(.gray.opacity(0.6), lineWidth: 1)
             )
             .scaleEffect(isPressed ? 0.99 : 1.0)
-            .animation(DesignKit.animationQuick, value: isPressed)
+            .animation(Animation.quick, value: isPressed)
             .shadow(
-                color: DesignKit.shadowSubtle.color,
-                radius: DesignKit.shadowSubtle.radius,
-                x: DesignKit.shadowSubtle.x,
-                y: DesignKit.shadowSubtle.y
+                color: Shadow.subtle.color,
+                radius: Shadow.subtle.radius,
+                x: Shadow.subtle.x,
+                y: Shadow.subtle.y
             )
             .onTapGesture {
                 showingPicker = true
@@ -110,7 +110,7 @@ public struct ColorPickerItem: View {
                 Text(helper)
                     .caption()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, DesignKit.md)
+                    .padding(.horizontal, Spacing.md)
             }
         }
     }
@@ -128,11 +128,11 @@ public struct ColorPickerItem: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
             Circle()
                 .stroke(iconColor.opacity(0.12), lineWidth: 1)
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             Image(systemName: icon!)
                 .tickerTitle()
@@ -141,8 +141,8 @@ public struct ColorPickerItem: View {
     }
     
     private var backgroundView: some View {
-        RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-            .fill(isPressed ? Color(.systemGray6) : Color(.systemBackground))
+        RoundedRectangle(cornerRadius: Radius.medium)
+            .fill(isPressed ? .gray.opacity(0.7) : .white.opacity(0.95))
     }
 }
 
@@ -160,7 +160,7 @@ private struct ColorSelectionView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: DesignKit.lg) {
+                VStack(spacing: Spacing.lg) {
                     Text("Choose a theme color for this patient")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -181,15 +181,19 @@ private struct ColorSelectionView: View {
                     }
                     .padding(.horizontal)
                 }
-                .padding(.top, DesignKit.md)
+                .padding(.top, Spacing.md)
             }
             .navigationTitle(title)
+            #if os(iOS)
             .toolbarTitleDisplayMode(.inlineLarge)
-            .navigationBarItems(
-                trailing: Button("Done") {
-                    dismiss()
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        dismiss()
+                    }
                 }
-            )
+            }
         }
         .presentationDetents([.medium, .large])
     }
@@ -219,7 +223,7 @@ private struct ColorOptionView: View {
                         .frame(width: 60, height: 60)
                     
                     Circle()
-                        .stroke(Color(.systemGray2), lineWidth: 1)
+                        .stroke(.gray.opacity(0.3), lineWidth: 1)
                         .frame(width: 66, height: 66)
                     
                     Image(systemName: "checkmark")
@@ -228,13 +232,13 @@ private struct ColorOptionView: View {
                 } else {
                     // Subtle border for unselected
                     Circle()
-                        .stroke(Color(.systemGray5), lineWidth: 1)
+                        .stroke(.gray.opacity(0.6), lineWidth: 1)
                         .frame(width: 60, height: 60)
                 }
             }
         }
         .scaleEffect(isPressed ? 0.95 : 1.0)
-        .animation(DesignKit.animationQuick, value: isPressed)
+        .animation(Animation.quick, value: isPressed)
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
             isPressed = pressing
         })
@@ -286,13 +290,13 @@ public extension Color {
 
 #Preview("Color Picker Item") {
     ScrollView {
-        VStack(spacing: DesignKit.lg) {
+        VStack(spacing: Spacing.lg) {
             Text("Color Picker Component")
                 .font(.title2)
                 .fontWeight(.bold)
                 .padding(.horizontal)
 
-            VStack(spacing: DesignKit.md) {
+            VStack(spacing: Spacing.md) {
                 ColorPickerItem(
                     icon: "paintpalette.fill",
                     title: "Theme Color",
@@ -316,5 +320,5 @@ public extension Color {
             .padding(.horizontal)
         }
     }
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }

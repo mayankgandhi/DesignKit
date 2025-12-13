@@ -48,10 +48,10 @@ public struct TextFieldItem: View {
         
         var color: Color {
             switch self {
-            case .normal: return Color(.systemGray2)
-            case .success: return Color(.systemGreen).opacity(0.7)
-            case .warning: return Color(.systemOrange).opacity(0.8)
-            case .error: return Color(.systemRed).opacity(0.8)
+            case .normal: return .gray.opacity(0.3)
+            case .success: return .green.opacity(0.7)
+            case .warning: return .orange.opacity(0.8)
+            case .error: return .red.opacity(0.8)
             }
         }
         
@@ -120,18 +120,18 @@ public struct TextFieldItem: View {
     #endif
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: DesignKit.xxs) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             // Main text field container
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 // Icon section (similar to MenuListItem)
                 if let icon = icon {
                     iconView
                 }
 
                 // Content section
-                VStack(alignment: .leading, spacing: DesignKit.xxs) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     // Title with required indicator
-                    HStack(spacing: DesignKit.xxs) {
+                    HStack(spacing: Spacing.xxs) {
                         Text(title)
                             .footnote()
                             .foregroundStyle(isFocused ? .primary : .secondary)
@@ -139,7 +139,7 @@ public struct TextFieldItem: View {
                         if isRequired {
                             Text("*")
                                 .footnote()
-                                .foregroundStyle(Color(.systemRed).opacity(0.7))
+                                .foregroundStyle(.red.opacity(0.7))
                         }
 
                         Spacer()
@@ -176,22 +176,22 @@ public struct TextFieldItem: View {
                     #endif
                 }
             }
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm + 4)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm + 4)
             .background(backgroundView)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .stroke(strokeColor, lineWidth: isFocused ? 2 : 1)
             )
             .scaleEffect(isPressed ? 0.99 : 1.0)
-            .animation(DesignKit.animationQuick, value: isPressed)
-            .animation(DesignKit.animationStandard, value: isFocused)
+            .animation(Animation.quick, value: isPressed)
+            .animation(Animation.standard, value: isFocused)
             .shadow(
-                color: isFocused ? DesignKit.shadowElevated.color : DesignKit.shadowSubtle.color,
-                radius: isFocused ? DesignKit.shadowElevated.radius : DesignKit.shadowSubtle.radius,
-                x: isFocused ? DesignKit.shadowElevated.x : DesignKit.shadowSubtle.x,
-                y: isFocused ? DesignKit.shadowElevated.y : DesignKit.shadowSubtle.y
+                color: isFocused ? Shadow.elevated.color : Shadow.subtle.color,
+                radius: isFocused ? Shadow.elevated.radius : Shadow.subtle.radius,
+                x: isFocused ? Shadow.elevated.x : Shadow.subtle.x,
+                y: isFocused ? Shadow.elevated.y : Shadow.subtle.y
             )
             .onTapGesture {
                 isFocused = true
@@ -204,13 +204,13 @@ public struct TextFieldItem: View {
             if let message = errorMessage, !message.isEmpty {
                 Text(message)
                     .caption()
-                    .foregroundStyle(Color(.systemRed).opacity(0.8))
-                    .padding(.horizontal, DesignKit.md)
+                    .foregroundStyle(.red.opacity(0.8))
+                    .padding(.horizontal, Spacing.md)
             } else if let helper = helperText, !helper.isEmpty {
                 Text(helper)
                     .caption()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, DesignKit.md)
+                    .padding(.horizontal, Spacing.md)
             }
         }
     }
@@ -222,19 +222,19 @@ public struct TextFieldItem: View {
                 .fill(
                     LinearGradient(
                         gradient: Gradient(colors: [
-                            (isFocused ? Color(.systemGray3) : iconColor).opacity(0.08),
-                            (isFocused ? Color(.systemGray3) : iconColor).opacity(0.12)
+                            (isFocused ? .gray.opacity(0.4) : iconColor).opacity(0.08),
+                            (isFocused ? .gray.opacity(0.4) : iconColor).opacity(0.12)
                         ]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
             // Subtle ring
             Circle()
-                .stroke((isFocused ? Color(.systemGray4) : iconColor).opacity(0.12), lineWidth: 1)
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .stroke((isFocused ? .gray.opacity(0.5) : iconColor).opacity(0.12), lineWidth: 1)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             // Icon
             Image(systemName: icon!)
@@ -250,40 +250,40 @@ public struct TextFieldItem: View {
     private var backgroundView: some View {
         Group {
             if isFocused {
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .fill(.ultraThinMaterial)
                     .overlay(
-                        RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-                            .fill(Color(.systemGray6).opacity(0.3))
+                        RoundedRectangle(cornerRadius: Radius.medium)
+                            .fill(.gray.opacity(0.7).opacity(0.3))
                     )
             } else {
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-                    .fill(isPressed ? Color(.systemGray6) : Color(.systemBackground))
+                RoundedRectangle(cornerRadius: Radius.medium)
+                    .fill(isPressed ? .gray.opacity(0.7) : .white.opacity(0.95))
             }
         }
     }
     
     private var strokeColor: Color {
         if isFocused {
-            return Color(.systemGray3).opacity(0.8)
+            return .gray.opacity(0.4).opacity(0.8)
         } else if validationState == .error {
-            return Color(.systemRed).opacity(0.4)
+            return .red.opacity(0.4)
         } else if validationState == .warning && isRequired && text.isEmpty {
-            return Color(.systemOrange).opacity(0.4)
+            return .orange.opacity(0.4)
         } else {
-            return Color(.systemGray5)
+            return .gray.opacity(0.6)
         }
     }
 }
 
 #Preview("Text Field Examples") {
     ScrollView {
-        VStack(spacing: DesignKit.lg) {
+        VStack(spacing: Spacing.lg) {
             Text("Text Field Components")
                 .title2()
                 .padding(.horizontal)
 
-            VStack(spacing: DesignKit.md) {
+            VStack(spacing: Spacing.md) {
                 TextFieldItem(
                     icon: "person.fill",
                     title: "Full Name",
@@ -298,9 +298,7 @@ public struct TextFieldItem: View {
                     title: "Email Address",
                     text: .constant("john.doe@example.com"),
                     placeholder: "Enter your email",
-                    iconColor: .blue,
-                    keyboardType: .emailAddress,
-                    contentType: .emailAddress
+                    iconColor: .blue
                 )
                 
                 TextFieldItem(
@@ -309,9 +307,7 @@ public struct TextFieldItem: View {
                     text: .constant(""),
                     placeholder: "(555) 123-4567",
                     iconColor: .green,
-                    isRequired: true,
-                    keyboardType: .phonePad,
-                    contentType: .telephoneNumber
+                    isRequired: true
                 )
                 
                 TextFieldItem(
@@ -342,16 +338,16 @@ public struct TextFieldItem: View {
             .padding(.horizontal)
         }
     }
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }
 
 #Preview("Validation States") {
-    VStack(spacing: DesignKit.lg) {
+    VStack(spacing: Spacing.lg) {
         Text("Validation States")
             .title2()
             .padding(.horizontal)
 
-        VStack(spacing: DesignKit.sm) {
+        VStack(spacing: Spacing.sm) {
             TextFieldItem(
                 icon: "checkmark.circle.fill",
                 title: "Valid Field",
@@ -382,5 +378,5 @@ public struct TextFieldItem: View {
         
         Spacer()
     }
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }

@@ -57,18 +57,18 @@ public struct DatePickerItem: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: DesignKit.xxs) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             // Main date picker container
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 // Icon section
                 if let icon = icon {
                     iconView
                 }
 
                 // Content section
-                VStack(alignment: .leading, spacing: DesignKit.xxs) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     // Title with required indicator
-                    HStack(spacing: DesignKit.xxs) {
+                    HStack(spacing: Spacing.xxs) {
                         Text(title)
                             .footnote()
                             .foregroundStyle(.secondary)
@@ -76,7 +76,7 @@ public struct DatePickerItem: View {
                         if isRequired {
                             Text("*")
                                 .footnote()
-                                .foregroundStyle(Color(.systemRed).opacity(0.7))
+                                .foregroundStyle(.red.opacity(0.7))
                         }
                         
                         Spacer()
@@ -109,21 +109,21 @@ public struct DatePickerItem: View {
                     }
                 }
             }
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm + 4)
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm + 4)
             .background(backgroundView)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .stroke(strokeColor, lineWidth: 1)
             )
             .scaleEffect(isPressed ? 0.99 : 1.0)
-            .animation(DesignKit.animationQuick, value: isPressed)
+            .animation(Animation.quick, value: isPressed)
             .shadow(
-                color: DesignKit.shadowSubtle.color,
-                radius: DesignKit.shadowSubtle.radius,
-                x: DesignKit.shadowSubtle.x,
-                y: DesignKit.shadowSubtle.y
+                color: Shadow.subtle.color,
+                radius: Shadow.subtle.radius,
+                x: Shadow.subtle.x,
+                y: Shadow.subtle.y
             )
             .onTapGesture {
                 showingPicker = true
@@ -142,22 +142,30 @@ public struct DatePickerItem: View {
                             ),
                             displayedComponents: displayedComponents
                         )
+                        #if os(iOS)
                         .datePickerStyle(.wheel)
+                        #endif
                         .labelsHidden()
-                        
+
                         Spacer()
                     }
                     .padding()
                     .navigationTitle(title)
+                    #if os(iOS)
                     .toolbarTitleDisplayMode(.inlineLarge)
-                    .navigationBarItems(
-                        leading: Button("Cancel") {
-                            showingPicker = false
-                        },
-                        trailing: Button("Done") {
-                            showingPicker = false
+                    #endif
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel") {
+                                showingPicker = false
+                            }
                         }
-                    )
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") {
+                                showingPicker = false
+                            }
+                        }
+                    }
                 }
                 .presentationDetents([.medium])
             }
@@ -166,13 +174,13 @@ public struct DatePickerItem: View {
             if let message = errorMessage, !message.isEmpty {
                 Text(message)
                     .caption()
-                    .foregroundStyle(Color(.systemRed).opacity(0.8))
-                    .padding(.horizontal, DesignKit.md)
+                    .foregroundStyle(.red.opacity(0.8))
+                    .padding(.horizontal, Spacing.md)
             } else if let helper = helperText, !helper.isEmpty {
                 Text(helper)
                     .caption()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, DesignKit.md)
+                    .padding(.horizontal, Spacing.md)
             }
         }
     }
@@ -203,11 +211,11 @@ public struct DatePickerItem: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
 
             Circle()
                 .stroke(iconColor.opacity(0.12), lineWidth: 1)
-                .frame(width: DesignKit.tapTargetMin, height: DesignKit.tapTargetMin)
+                .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             Image(systemName: icon!)
                 .tickerTitle()
@@ -216,17 +224,17 @@ public struct DatePickerItem: View {
     }
     
     private var backgroundView: some View {
-        RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-            .fill(isPressed ? Color(.systemGray6) : Color(.systemBackground))
+        RoundedRectangle(cornerRadius: Radius.medium)
+            .fill(isPressed ? .gray.opacity(0.7) : .white.opacity(0.95))
     }
     
     private var strokeColor: Color {
         if validationState == .error {
-            return Color(.systemRed).opacity(0.4)
+            return .red.opacity(0.4)
         } else if validationState == .warning && isRequired && selectedDate == nil {
-            return Color(.systemOrange).opacity(0.4)
+            return .orange.opacity(0.4)
         } else {
-            return Color(.systemGray5)
+            return .gray.opacity(0.6)
         }
     }
 }

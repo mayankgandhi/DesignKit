@@ -44,7 +44,7 @@ public struct NavBarHeader: View {
     // MARK: - Body
     
     public var body: some View {
-        HStack(spacing: DesignKit.md) {
+        HStack(spacing: Spacing.md) {
             // Dynamic icon with gradient background (optional)
             if let icon = icon {
                 iconView(icon)
@@ -60,7 +60,7 @@ public struct NavBarHeader: View {
             Spacer()
 
         }
-        .padding(.horizontal, DesignKit.md)
+        .padding(.horizontal, Spacing.md)
     }
     
     // MARK: - View Components
@@ -113,7 +113,7 @@ public struct NavBarHeader: View {
     }
     
     private var contentView: some View {
-        VStack(alignment: .leading, spacing: DesignKit.xxs) {
+        VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(title)
                 .title2()
                 .foregroundStyle(.primary)
@@ -131,7 +131,7 @@ public struct NavBarHeader: View {
 
 #Preview("Standard Headers") {
     ScrollView {
-        VStack(spacing: DesignKit.xl) {
+        VStack(spacing: Spacing.xl) {
             
             // Minimal header (title only)
             NavBarHeader(

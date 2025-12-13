@@ -30,8 +30,8 @@ public struct SearchBar: View {
     }
 
     public var body: some View {
-        HStack(spacing: DesignKit.md) {
-            HStack(spacing: DesignKit.sm) {
+        HStack(spacing: Spacing.md) {
+            HStack(spacing: Spacing.sm) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
                     .font(.system(size: 16, weight: .medium))
@@ -57,31 +57,31 @@ public struct SearchBar: View {
                     .transition(.opacity.combined(with: .scale))
                 }
             }
-            .padding(.horizontal, DesignKit.md)
-            .padding(.vertical, DesignKit.sm + 2)
-            .clipShape(RoundedRectangle(cornerRadius: DesignKit.radiusMedium))
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, Spacing.sm + 2)
+            .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
-                RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
+                RoundedRectangle(cornerRadius: Radius.medium)
                     .stroke(strokeColor, lineWidth: 1)
             )
             .shadow(
-                color: DesignKit.shadowSubtle.color,
-                radius: DesignKit.shadowSubtle.radius,
-                x: DesignKit.shadowSubtle.x,
-                y: DesignKit.shadowSubtle.y
+                color: Shadow.subtle.color,
+                radius: Shadow.subtle.radius,
+                x: Shadow.subtle.x,
+                y: Shadow.subtle.y
             )
         }
-        .padding(.horizontal, DesignKit.md)
-        .animation(DesignKit.animationStandard, value: searchText.isEmpty)
+        .padding(.horizontal, Spacing.md)
+        .animation(Animation.standard, value: searchText.isEmpty)
     }
 
     private var backgroundView: some View {
-        RoundedRectangle(cornerRadius: DesignKit.radiusMedium)
-            .fill(isFocused ? Color(.systemBackground) : Color(.systemGray6))
+        RoundedRectangle(cornerRadius: Radius.medium)
+            .fill(isFocused ? .white.opacity(0.95) : .gray.opacity(0.7))
     }
 
     private var strokeColor: Color {
-        isFocused ? DesignKit.primary.opacity(0.3) : Color(.systemGray5)
+        isFocused ? DesignKit.primary.opacity(0.3) : .gray.opacity(0.6)
     }
 }
 
@@ -105,12 +105,12 @@ public extension SearchBar {
 // MARK: - Previews
 
 #Preview("Search Bar States") {
-    VStack(spacing: DesignKit.lg) {
+    VStack(spacing: Spacing.lg) {
         Text("Search Bar Examples")
             .font(.title2)
             .fontWeight(.bold)
 
-        VStack(spacing: DesignKit.md) {
+        VStack(spacing: Spacing.md) {
             // Empty state
             SearchBar(
                 searchText: .constant(""),
@@ -145,5 +145,5 @@ public extension SearchBar {
         Spacer()
     }
     .padding()
-    .background(Color(.systemGroupedBackground))
+    .background(.gray.opacity(0.1))
 }

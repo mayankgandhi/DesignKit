@@ -1,5 +1,5 @@
 //
-//  Shadows.swift
+//  Shadow.swift
 //  DesignKit
 //
 //  Created on 2025.
@@ -7,14 +7,15 @@
 
 import SwiftUI
 
-// MARK: - Shadow Types
+// MARK: - Shadow Style
 
-public struct Shadow {
+/// Shadow configuration
+public struct ShadowStyle {
     public let color: Color
     public let radius: CGFloat
     public let x: CGFloat
     public let y: CGFloat
-    
+
     public init(color: Color, radius: CGFloat, x: CGFloat, y: CGFloat) {
         self.color = color
         self.radius = radius
@@ -23,28 +24,29 @@ public struct Shadow {
     }
 }
 
-// MARK: - Flat Shadow API
+// MARK: - Shadow Tokens
 
-public extension DesignKit {
-    
+/// Shadow constants for consistent depth throughout the design system
+public enum Shadow {
+
     /// Sharp, high-contrast shadow for critical elements
-    static let shadowCritical = Shadow(
+    public static let critical = ShadowStyle(
         color: Color.black.opacity(0.3),
         radius: 8,
         x: 0,
         y: 4
     )
-    
+
     /// Elevated surface shadow
-    static let shadowElevated = Shadow(
+    public static let elevated = ShadowStyle(
         color: Color.black.opacity(0.15),
         radius: 12,
         x: 0,
         y: 6
     )
-    
+
     /// Subtle depth
-    static let shadowSubtle = Shadow(
+    public static let subtle = ShadowStyle(
         color: Color.black.opacity(0.08),
         radius: 4,
         x: 0,
