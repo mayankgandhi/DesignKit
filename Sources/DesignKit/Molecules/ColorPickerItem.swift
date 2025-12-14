@@ -15,6 +15,7 @@ public struct ColorPickerItem: View {
     private let helperText: String?
     private let iconColor: Color
     private let colors: [String]
+    private let designKit: DesignKit
     
     @Binding private var selectedColorHex: String
     @State private var isPressed = false
@@ -26,14 +27,16 @@ public struct ColorPickerItem: View {
         selectedColorHex: Binding<String>,
         colors: [String] = PatientColor.predefinedColors,
         helperText: String? = nil,
-        iconColor: Color = DesignKit.primary
+        iconColor: Color? = nil,
+        designKit: DesignKit
     ) {
         self.icon = icon
         self.title = title
         self._selectedColorHex = selectedColorHex
         self.colors = colors
         self.helperText = helperText
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
+        self.designKit = designKit
     }
     
     public var body: some View {
@@ -49,7 +52,7 @@ public struct ColorPickerItem: View {
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     // Title
                     Text(title)
-                        .footnote()
+                        .footnote(designKit)
                         .foregroundStyle(.secondary)
                     
                     // Selected color preview and action
@@ -64,13 +67,13 @@ public struct ColorPickerItem: View {
                             )
                         
                         Text("Tap to change color")
-                            .body()
+                            .body(designKit)
                             .foregroundStyle(.primary)
                         
                         Spacer()
                         
                         Image(systemName: "chevron.right")
-                            .caption()
+                            .caption(designKit)
                             .foregroundStyle(.tertiary)
                     }
                 }
@@ -101,14 +104,15 @@ public struct ColorPickerItem: View {
                 ColorSelectionView(
                     selectedColorHex: $selectedColorHex,
                     colors: colors,
-                    title: title
+                    title: title,
+                    designKit: designKit
                 )
             }
             
             // Helper text
             if let helper = helperText, !helper.isEmpty {
                 Text(helper)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, Spacing.md)
             }
@@ -135,7 +139,7 @@ public struct ColorPickerItem: View {
                 .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             Image(systemName: icon!)
-                .tickerTitle()
+                .tickerTitle(designKit)
                 .foregroundStyle(iconColor.opacity(0.8))
         }
     }
@@ -152,6 +156,7 @@ private struct ColorSelectionView: View {
     @Binding var selectedColorHex: String
     let colors: [String]
     let title: String
+    let designKit: DesignKit
     
     @Environment(\.dismiss) private var dismiss
     
@@ -172,6 +177,7 @@ private struct ColorSelectionView: View {
                             ColorOptionView(
                                 colorHex: colorHex,
                                 isSelected: selectedColorHex == colorHex,
+                                designKit: designKit,
                                 onTap: {
                                     selectedColorHex = colorHex
                                     dismiss()
@@ -204,6 +210,7 @@ private struct ColorSelectionView: View {
 private struct ColorOptionView: View {
     let colorHex: String
     let isSelected: Bool
+    let designKit: DesignKit
     let onTap: () -> Void
     
     @State private var isPressed = false
@@ -227,7 +234,7 @@ private struct ColorOptionView: View {
                         .frame(width: 66, height: 66)
                     
                     Image(systemName: "checkmark")
-                        .font(DesignKit.customSize(20, weight: .bold, relativeTo: .title3))
+                        .font(designKit.customSize(20, weight: .bold, relativeTo: .title3))
                         .foregroundStyle(.white)
                 } else {
                     // Subtle border for unselected
@@ -292,7 +299,7 @@ public extension Color {
     ScrollView {
         VStack(spacing: Spacing.lg) {
             Text("Color Picker Component")
-                .title2()
+                .title2(DesignKit(.default))
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -300,12 +307,14 @@ public extension Color {
                     icon: "paintpalette.fill",
                     title: "Theme Color",
                     selectedColorHex: .constant("#FF6B6B"),
-                    helperText: "This color will theme the patient's profile"
+                    helperText: "This color will theme the patient's profile",
+                    designKit: DesignKit(.default)
                 )
                 
                 ColorPickerItem(
                     title: "Primary Color",
-                    selectedColorHex: .constant("#4ECDC4")
+                    selectedColorHex: .constant("#4ECDC4"),
+                    designKit: DesignKit(.default)
                 )
                 
                 ColorPickerItem(
@@ -313,7 +322,8 @@ public extension Color {
                     title: "Avatar Color",
                     selectedColorHex: .constant("#45B7D1"),
                     helperText: "Used for avatar and accent colors",
-                    iconColor: .blue
+                    iconColor: .blue,
+                    designKit: DesignKit(.default)
                 )
             }
             .padding(.horizontal)

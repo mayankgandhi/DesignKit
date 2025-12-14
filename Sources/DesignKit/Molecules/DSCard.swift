@@ -14,35 +14,38 @@ public struct DSCard: View {
     private let subtitle: String
     private let imageName: String
     private let backgroundColor: Color
+    private let designKit: DesignKit
     
     public init(
         title: String,
         subtitle: String,
         imageName: String = "person.crop.circle.fill.badge.questionmark",
-        backgroundColor: Color = DesignKit.primary
+        backgroundColor: Color? = nil,
+        designKit: DesignKit
     ) {
         self.title = title
         self.subtitle = subtitle
         self.imageName = imageName
-        self.backgroundColor = backgroundColor
+        self.backgroundColor = backgroundColor ?? designKit.primary
+        self.designKit = designKit
     }
     
     public var body: some View {
         HStack(spacing: Spacing.md) {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text(title)
-                    .subheadline()
+                    .subheadline(designKit)
                     .foregroundStyle(.white)
 
                 Text(subtitle)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.white.opacity(0.8))
             }
             
             Spacer()
             
             Image(systemName: imageName)
-                .timeDisplay()
+                .timeDisplay(designKit)
                 .foregroundStyle(.white.opacity(0.8))
         }
         .padding(Spacing.md)
@@ -51,11 +54,13 @@ public struct DSCard: View {
 }
 
 #Preview {
-    DSCard(
+    let designKit = DesignKit(.default)
+    return DSCard(
         title: "Knowledge Card",
         subtitle: "Title",
         imageName: "calendar.badge",
-        backgroundColor: .red
+        backgroundColor: .red,
+        designKit: designKit
     )
     .padding(Spacing.md)
 }

@@ -26,6 +26,7 @@ public struct AISmartTextField: View {
     private let helperText: String?
     private let icon: String?
     private let iconColor: Color
+    private let designKit: DesignKit
 
     // MARK: - Initialization
     public init(
@@ -35,7 +36,8 @@ public struct AISmartTextField: View {
         service: AIGenerationService = MockAIGenerationService(),
         helperText: String? = nil,
         icon: String? = nil,
-        iconColor: Color = DesignKit.primary
+        iconColor: Color? = nil,
+        designKit: DesignKit
     ) {
         self._text = text
         self.placeholder = placeholder
@@ -43,7 +45,8 @@ public struct AISmartTextField: View {
         self.service = service
         self.helperText = helperText
         self.icon = icon
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
+        self.designKit = designKit
     }
 
     // MARK: - Body
@@ -89,7 +92,7 @@ public struct AISmartTextField: View {
             // Helper text
             if let helper = helperText, !helper.isEmpty {
                 Text(helper)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, Spacing.md)
             }
@@ -99,6 +102,7 @@ public struct AISmartTextField: View {
                 isPresented: $isShowingAISheet,
                 fieldName: placeholder,
                 service: service,
+                designKit: designKit,
                 onSelectSuggestion: { selectedText in
                     text = selectedText
                 }
@@ -130,7 +134,7 @@ public struct AISmartTextField: View {
 
             // Icon
             Image(systemName: icon)
-                .tickerTitle()
+                .tickerTitle(designKit)
                 .foregroundStyle(
                     isFocused ? Color(.systemGray) : iconColor.opacity(0.8)
                 )
@@ -144,12 +148,12 @@ public struct AISmartTextField: View {
         Group {
             if axis == .horizontal {
                 TextField(placeholder, text: $text)
-                    .body()
+                    .body(designKit)
                     .foregroundStyle(.primary)
                     .focused($isFocused)
             } else {
                 TextField(placeholder, text: $text, axis: .vertical)
-                    .body()
+                    .body(designKit)
                     .foregroundStyle(.primary)
                     .focused($isFocused)
                     .lineLimit(3...6)
@@ -170,7 +174,7 @@ public struct AISmartTextField: View {
 
                 // Gradient icon
                 Image(systemName: "sparkles")
-                    .tickerTitle()
+                    .tickerTitle(designKit)
                     .foregroundStyle(
                         LinearGradient(
                             colors: [
@@ -227,32 +231,35 @@ public struct AISmartTextField: View {
 // MARK: - Convenience Initializers
 public extension AISmartTextField {
     /// Simple initializer with just text binding
-    init(text: Binding<String>) {
-        self.init(text: text, placeholder: "Enter text...")
+    init(text: Binding<String>, designKit: DesignKit) {
+        self.init(text: text, placeholder: "Enter text...", designKit: designKit)
     }
 
     /// Initializer with custom placeholder
-    init(text: Binding<String>, placeholder: String) {
-        self.init(text: text, placeholder: placeholder, axis: .horizontal)
+    init(text: Binding<String>, placeholder: String, designKit: DesignKit) {
+        self.init(text: text, placeholder: placeholder, axis: .horizontal, designKit: designKit)
     }
 }
 
 // MARK: - Previews
 #Preview("Basic States") {
-    VStack(spacing: Spacing.lg) {
+    let designKit = DesignKit(.default)
+    return VStack(spacing: Spacing.lg) {
         Text("AI Smart Text Field Examples")
-            .title2()
+            .title2(designKit)
 
         // Empty state
         AISmartTextField(
             text: .constant(""),
-            placeholder: "Product name"
+            placeholder: "Product name",
+            designKit: designKit
         )
 
         // Filled state
         AISmartTextField(
             text: .constant("Organic Green Tea"),
-            placeholder: "Product name"
+            placeholder: "Product name",
+            designKit: designKit
         )
 
         // With icon
@@ -260,21 +267,24 @@ public extension AISmartTextField {
             text: .constant(""),
             placeholder: "Product description",
             icon: "text.alignleft",
-            iconColor: .blue
+            iconColor: .blue,
+            designKit: designKit
         )
 
         // Multi-line
         AISmartTextField(
             text: .constant("This is a longer description that spans multiple lines and demonstrates the vertical axis functionality."),
             placeholder: "Description",
-            axis: .vertical
+            axis: .vertical,
+            designKit: designKit
         )
 
         // With helper text
         AISmartTextField(
             text: .constant(""),
             placeholder: "Enter product name",
-            helperText: "Tap the sparkle button to generate suggestions with AI"
+            helperText: "Tap the sparkle button to generate suggestions with AI",
+            designKit: designKit
         )
 
         Spacer()
@@ -284,19 +294,22 @@ public extension AISmartTextField {
 }
 
 #Preview("Dark Mode") {
-    VStack(spacing: Spacing.lg) {
+    let designKit = DesignKit(.default)
+    return VStack(spacing: Spacing.lg) {
         AISmartTextField(
             text: .constant("Premium Coffee Beans"),
             placeholder: "Product name",
             icon: "cup.and.saucer.fill",
-            iconColor: .brown
+            iconColor: .brown,
+            designKit: designKit
         )
 
         AISmartTextField(
             text: .constant(""),
             placeholder: "Enter description",
             axis: .vertical,
-            helperText: "Use AI to generate compelling product descriptions"
+            helperText: "Use AI to generate compelling product descriptions",
+            designKit: designKit
         )
 
         Spacer()

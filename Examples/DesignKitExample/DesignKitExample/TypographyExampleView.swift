@@ -2,14 +2,15 @@ import SwiftUI
 import DesignKit
 
 struct TypographyExampleView: View {
+    let designKit: DesignKit
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         ScrollView {
-            VStack(spacing: DesignKit.xl) {
+            VStack(spacing: Spacing.xl) {
                 // Standard Styles
                 sectionView(title: "Standard Styles") {
-                    VStack(alignment: .leading, spacing: DesignKit.md) {
+                    VStack(alignment: .leading, spacing: Spacing.md) {
                         textSample(text: "Large Title", style: .largeTitle)
                         textSample(text: "Title", style: .title)
                         textSample(text: "Title 2", style: .title2)
@@ -26,7 +27,7 @@ struct TypographyExampleView: View {
 
                 // Custom App Styles
                 sectionView(title: "Custom App Styles") {
-                    VStack(alignment: .leading, spacing: DesignKit.md) {
+                    VStack(alignment: .leading, spacing: Spacing.md) {
                         textSample(text: "12:30 PM", style: .timeDisplay)
                         textSample(text: "Ticker Title", style: .tickerTitle)
                         textSample(text: "Detail Text", style: .detailText)
@@ -40,64 +41,64 @@ struct TypographyExampleView: View {
                     exampleCard
                 }
             }
-            .padding(DesignKit.lg)
+            .padding(Spacing.lg)
         }
-        .background(DesignKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
+        .background(designKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
         .navigationTitle("Typography")
         .navigationBarTitleDisplayMode(.large)
     }
 
     private func sectionView<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: DesignKit.md) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text(title)
-                .headline()
-                .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+                .headline(designKit)
+                .foregroundColor(designKit.textPrimary(for: colorScheme))
 
             content()
         }
-        .padding(DesignKit.lg)
-        .card()
+        .padding(Spacing.lg)
+        .card(designKit: designKit)
     }
 
     private func textSample(text: String, style: TextStyle) -> some View {
-        HStack(alignment: .top, spacing: DesignKit.md) {
+        HStack(alignment: .top, spacing: Spacing.md) {
             Text(text)
-                .applyStyle(style)
-                .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+                .applyStyle(style, using: designKit)
+                .foregroundColor(designKit.textPrimary(for: colorScheme))
 
             Spacer()
 
             Text(style.rawValue)
-                .caption()
-                .foregroundColor(DesignKit.textTertiary(for: colorScheme))
+                .caption(designKit)
+                .foregroundColor(designKit.textTertiary(for: colorScheme))
         }
     }
 
     private var exampleCard: some View {
-        VStack(alignment: .leading, spacing: DesignKit.md) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             HStack {
                 Image(systemName: DesignKitIcons.alarmRunning)
-                    .foregroundColor(DesignKit.running)
+                    .foregroundColor(designKit.running)
 
                 Spacer()
 
                 Text("Active")
-                    .statusBadge(color: DesignKit.running)
+                    .statusBadge(color: designKit.running, designKit: designKit)
             }
 
             Text("07:00 AM")
-                .timeDisplay()
-                .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+                .timeDisplay(designKit)
+                .foregroundColor(designKit.textPrimary(for: colorScheme))
 
             Text("Wake up alarm")
-                .tickerTitle()
-                .foregroundColor(DesignKit.textSecondary(for: colorScheme))
+                .tickerTitle(designKit)
+                .foregroundColor(designKit.textSecondary(for: colorScheme))
 
             Text("Repeats: Mon-Fri")
-                .detailText()
-                .foregroundColor(DesignKit.textTertiary(for: colorScheme))
+                .detailText(designKit)
+                .foregroundColor(designKit.textTertiary(for: colorScheme))
         }
-        .padding(DesignKit.lg)
+        .padding(Spacing.lg)
     }
 }
 
@@ -121,30 +122,30 @@ enum TextStyle: String {
 }
 
 extension Text {
-    func applyStyle(_ style: TextStyle) -> some View {
+    func applyStyle(_ style: TextStyle, using designKit: DesignKit) -> some View {
         switch style {
-        case .largeTitle: return AnyView(self.largeTitle())
-        case .title: return AnyView(self.title())
-        case .title2: return AnyView(self.title2())
-        case .title3: return AnyView(self.title3())
-        case .headline: return AnyView(self.headline())
-        case .body: return AnyView(self.body())
-        case .callout: return AnyView(self.callout())
-        case .subheadline: return AnyView(self.subheadline())
-        case .footnote: return AnyView(self.footnote())
-        case .caption: return AnyView(self.caption())
-        case .caption2: return AnyView(self.caption2())
-        case .timeDisplay: return AnyView(self.timeDisplay())
-        case .tickerTitle: return AnyView(self.tickerTitle())
-        case .detailText: return AnyView(self.detailText())
-        case .buttonText: return AnyView(self.buttonText())
-        case .smallText: return AnyView(self.smallText())
+        case .largeTitle: return AnyView(self.largeTitle(designKit))
+        case .title: return AnyView(self.title(designKit))
+        case .title2: return AnyView(self.title2(designKit))
+        case .title3: return AnyView(self.title3(designKit))
+        case .headline: return AnyView(self.headline(designKit))
+        case .body: return AnyView(self.body(designKit))
+        case .callout: return AnyView(self.callout(designKit))
+        case .subheadline: return AnyView(self.subheadline(designKit))
+        case .footnote: return AnyView(self.footnote(designKit))
+        case .caption: return AnyView(self.caption(designKit))
+        case .caption2: return AnyView(self.caption2(designKit))
+        case .timeDisplay: return AnyView(self.timeDisplay(designKit))
+        case .tickerTitle: return AnyView(self.tickerTitle(designKit))
+        case .detailText: return AnyView(self.detailText(designKit))
+        case .buttonText: return AnyView(self.buttonText(designKit))
+        case .smallText: return AnyView(self.smallText(designKit))
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        TypographyExampleView()
+        TypographyExampleView(designKit: DesignKit(DesignKitConfiguration.default))
     }
 }

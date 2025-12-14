@@ -17,6 +17,7 @@ public struct MenuListItem: View {
     private let hasChevron: Bool
     private let badge: Int?
     private let action: () -> Void
+    private let designKit: DesignKit
     
     @State private var isPressed = false
     
@@ -24,17 +25,19 @@ public struct MenuListItem: View {
         icon: String,
         title: String,
         subtitle: String? = nil,
-        iconColor: Color = DesignKit.primary,
+        iconColor: Color? = nil,
         hasChevron: Bool = true,
         badge: Int? = nil,
+        designKit: DesignKit,
         action: @escaping () -> Void = {}
     ) {
         self.icon = icon
         self.title = title
         self.subtitle = subtitle
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
         self.hasChevron = hasChevron
         self.badge = badge
+        self.designKit = designKit
         self.action = action
     }
     
@@ -48,7 +51,7 @@ public struct MenuListItem: View {
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     HStack(alignment: .center, spacing: Spacing.xs) {
                         Text(title)
-                            .footnote()
+                            .footnote(designKit)
                             .foregroundStyle(.primary)
 
                         if let badge = badge {
@@ -60,7 +63,7 @@ public struct MenuListItem: View {
 
                     if let subtitle = subtitle {
                         Text(subtitle)
-                            .caption()
+                            .caption(designKit)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                     }
@@ -118,7 +121,7 @@ public struct MenuListItem: View {
             
             // Icon
             Image(systemName: icon)
-                .tickerTitle()
+                .tickerTitle(designKit)
                 .foregroundStyle(
                     LinearGradient(
                         gradient: Gradient(colors: [
@@ -142,7 +145,7 @@ public struct MenuListItem: View {
     
     private var chevronView: some View {
         Image(systemName: "chevron.right")
-            .smallText()
+            .smallText(designKit)
             .foregroundStyle(.tertiary)
             .scaleEffect(isPressed ? 1.1 : 1.0)
             .animation(Animation.quick, value: isPressed)
@@ -150,7 +153,7 @@ public struct MenuListItem: View {
     
     private func badgeView(count: Int) -> some View {
         Text("\(count)")
-            .caption2()
+            .caption2(designKit)
             .foregroundStyle(.white)
             .padding(.horizontal, 6)
             .padding(.vertical, 2)
@@ -170,35 +173,40 @@ public struct MenuListItem: View {
 
 
 #Preview("Standard Menu Items") {
-    ScrollView {
+    let designKit = DesignKit(.default)
+    return ScrollView {
         VStack(spacing: Spacing.xs) {
             MenuListItem(
                 icon: "book.fill",
                 title: "Diary",
                 subtitle: "Track your daily health entries",
-                iconColor: DesignKit.primary,
-                badge: 3
+                iconColor: designKit.primary,
+                badge: 3,
+                designKit: designKit
             )
             
             MenuListItem(
                 icon: "leaf.fill",
                 title: "Nutrition",
                 subtitle: "Manage your meal plans",
-                iconColor: .green
+                iconColor: .green,
+                designKit: designKit
             )
             
             MenuListItem(
                 icon: "chart.line.uptrend.xyaxis",
                 title: "Monitoring",
                 subtitle: "View health trends and analytics",
-                iconColor: .blue
+                iconColor: .blue,
+                designKit: designKit
             )
             
             MenuListItem(
                 icon: "questionmark.circle.fill",
                 title: "Knowledge Base",
                 subtitle: "Get answers to health questions",
-                iconColor: DesignKit.primary
+                iconColor: designKit.primary,
+                designKit: designKit
             )
 
             MenuListItem(
@@ -206,36 +214,41 @@ public struct MenuListItem: View {
                 title: "Alarms & Reminders",
                 subtitle: "Medication and appointment alerts",
                 iconColor: .orange,
-                badge: 12
+                badge: 12,
+                designKit: designKit
             )
 
             MenuListItem(
                 icon: "heart.text.square",
                 title: "Biomarkers",
                 subtitle: "Lab results and health metrics",
-                iconColor: DesignKit.primary
+                iconColor: designKit.primary,
+                designKit: designKit
             )
 
             MenuListItem(
                 icon: "pills.fill",
                 title: "Medications",
                 subtitle: "Prescription management",
-                iconColor: DesignKit.primary,
-                badge: 1
+                iconColor: designKit.primary,
+                badge: 1,
+                designKit: designKit
             )
             
             MenuListItem(
                 icon: "gearshape.fill",
                 title: "Settings",
                 subtitle: "App preferences and account",
-                iconColor: .gray
+                iconColor: .gray,
+                designKit: designKit
             )
             
             MenuListItem(
                 icon: "rectangle.portrait.and.arrow.right",
                 title: "Log Out",
                 iconColor: .red,
-                hasChevron: false
+                hasChevron: false,
+                designKit: designKit
             )
         }
         .padding(.horizontal)
@@ -243,9 +256,10 @@ public struct MenuListItem: View {
 }
 
 #Preview("Different States") {
-    VStack(spacing: Spacing.md) {
+    let designKit = DesignKit(.default)
+    return VStack(spacing: Spacing.md) {
         Text("Menu Item States")
-            .title2()
+            .title2(designKit)
             .padding(.horizontal)
 
         VStack(spacing: Spacing.xs) {
@@ -253,14 +267,16 @@ public struct MenuListItem: View {
                 icon: "heart.fill",
                 title: "Normal State",
                 subtitle: "Regular menu item",
-                iconColor: DesignKit.primary
+                iconColor: designKit.primary,
+                designKit: designKit
             )
             
             MenuListItem(
                 icon: "star.fill",
                 title: "Selected State",
                 subtitle: "Currently active item",
-                iconColor: .orange
+                iconColor: .orange,
+                designKit: designKit
             )
             
             MenuListItem(
@@ -268,7 +284,8 @@ public struct MenuListItem: View {
                 title: "With Badge",
                 subtitle: "Has notification count",
                 iconColor: .blue,
-                badge: 99
+                badge: 99,
+                designKit: designKit
             )
             
             MenuListItem(
@@ -276,13 +293,15 @@ public struct MenuListItem: View {
                 title: "No Chevron",
                 subtitle: "Action item without navigation",
                 iconColor: .red,
-                hasChevron: false
+                hasChevron: false,
+                designKit: designKit
             )
             
             MenuListItem(
                 icon: "sparkles",
                 title: "Just Title",
-                iconColor: .purple
+                iconColor: .purple,
+                designKit: designKit
             )
         }
         .padding(.horizontal)

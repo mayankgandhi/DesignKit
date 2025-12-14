@@ -13,6 +13,7 @@ public struct SearchBar: View {
     private let placeholder: String
     private let onTextChange: (String) -> Void
     private let onClear: () -> Void
+    private let designKit: DesignKit
 
     @Binding private var searchText: String
     @FocusState private var isFocused: Bool
@@ -20,11 +21,13 @@ public struct SearchBar: View {
     public init(
         searchText: Binding<String>,
         placeholder: String = "Search...",
+        designKit: DesignKit,
         onTextChange: @escaping (String) -> Void = { _ in },
         onClear: @escaping () -> Void = { }
     ) {
         self._searchText = searchText
         self.placeholder = placeholder
+        self.designKit = designKit
         self.onTextChange = onTextChange
         self.onClear = onClear
     }
@@ -34,10 +37,10 @@ public struct SearchBar: View {
             HStack(spacing: Spacing.sm) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
-                    .detailText()
+                    .detailText(designKit)
 
                 TextField(placeholder, text: $searchText)
-                    .body()
+                    .body(designKit)
                     .textFieldStyle(PlainTextFieldStyle())
                     .focused($isFocused)
                     .onChange(of: searchText) { _, newValue in
@@ -52,7 +55,7 @@ public struct SearchBar: View {
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.secondary)
-                            .detailText()
+                            .detailText(designKit)
                     }
                     .transition(.opacity.combined(with: .scale))
                 }
@@ -81,7 +84,7 @@ public struct SearchBar: View {
     }
 
     private var strokeColor: Color {
-        isFocused ? DesignKit.primary.opacity(0.3) : .gray.opacity(0.6)
+        isFocused ? designKit.primary.opacity(0.3) : .gray.opacity(0.6)
     }
 }
 
@@ -91,11 +94,13 @@ public extension SearchBar {
     /// Initializer with simple text binding and no callbacks
     init(
         searchText: Binding<String>,
-        placeholder: String = "Search..."
+        placeholder: String = "Search...",
+        designKit: DesignKit
     ) {
         self.init(
             searchText: searchText,
             placeholder: placeholder,
+            designKit: designKit,
             onTextChange: { _ in },
             onClear: { }
         )
@@ -105,33 +110,38 @@ public extension SearchBar {
 // MARK: - Previews
 
 #Preview("Search Bar States") {
-    VStack(spacing: Spacing.lg) {
+    let designKit = DesignKit(.default)
+    return VStack(spacing: Spacing.lg) {
         Text("Search Bar Examples")
-            .title2()
+            .title2(designKit)
 
         VStack(spacing: Spacing.md) {
             // Empty state
             SearchBar(
                 searchText: .constant(""),
-                placeholder: "Search cases..."
+                placeholder: "Search cases...",
+                designKit: designKit
             )
 
             // With text
             SearchBar(
                 searchText: .constant("Knee injury"),
-                placeholder: "Search cases..."
+                placeholder: "Search cases...",
+                designKit: designKit
             )
 
             // Different placeholder
             SearchBar(
                 searchText: .constant(""),
-                placeholder: "Search biomarkers..."
+                placeholder: "Search biomarkers...",
+                designKit: designKit
             )
 
             // With callbacks
             SearchBar(
                 searchText: .constant("Blood test"),
                 placeholder: "Search...",
+                designKit: designKit,
                 onTextChange: { text in
                     print("Text changed to: \(text)")
                 },

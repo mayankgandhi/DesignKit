@@ -19,6 +19,7 @@ public struct NavBarHeader: View {
     private let iconBackgroundSize: CGFloat
     private let title: String
     private let subtitle: String?
+    private let designKit: DesignKit
     
     
     // MARK: - Initialization
@@ -26,19 +27,21 @@ public struct NavBarHeader: View {
     public init(
         icon: String? = nil,
         iconName: String? = nil,
-        iconColor: Color = DesignKit.primary,
+        iconColor: Color? = nil,
         iconSize: CGFloat = 16,
         iconBackgroundSize: CGFloat = 48,
         title: String,
         subtitle: String? = nil,
+        designKit: DesignKit
     ) {
         self.icon = icon
         self.iconName = iconName
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
         self.iconSize = iconSize
         self.iconBackgroundSize = iconBackgroundSize
         self.title = title
         self.subtitle = subtitle
+        self.designKit = designKit
     }
     
     // MARK: - Body
@@ -83,7 +86,7 @@ public struct NavBarHeader: View {
                 .shadow(color: iconColor.opacity(0.2), radius: 4, x: 0, y: 2)
             
             Image(systemName: iconName)
-                .font(DesignKit.customSize(iconSize, weight: .semibold, relativeTo: .headline))
+                .font(designKit.customSize(iconSize, weight: .semibold, relativeTo: .headline))
                 .foregroundStyle(iconColor)
         }
     }
@@ -115,12 +118,12 @@ public struct NavBarHeader: View {
     private var contentView: some View {
         VStack(alignment: .leading, spacing: Spacing.xxs) {
             Text(title)
-                .title2()
+                .title2(designKit)
                 .foregroundStyle(.primary)
             
             if let subtitle = subtitle {
                 Text(subtitle)
-                    .headline()
+                    .headline(designKit)
                     .foregroundStyle(.secondary)
             }
         }
@@ -137,7 +140,8 @@ public struct NavBarHeader: View {
             NavBarHeader(
                 iconName: "pill-bottle",
                 title: "Patient Summary",
-                subtitle: "Drugs woohoo"
+                subtitle: "Drugs woohoo",
+                designKit: DesignKit(.default)
             )
             
         }

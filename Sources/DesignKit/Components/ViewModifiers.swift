@@ -10,17 +10,20 @@ import SwiftUI
 // MARK: - View Modifiers
 
 public struct StatusBadge: ViewModifier {
-    let color: Color
     
-    public init(color: Color) {
+    let color: Color
+    let designKit: DesignKit
+    
+    public init(color: Color, designKit: DesignKit) {
         self.color = color
+        self.designKit = designKit
     }
     
     public func body(content: Content) -> some View {
         content
-            .buttonText()
+            .buttonText(designKit)
             .textCase(.uppercase)
-            .foregroundStyle(DesignKit.absoluteWhite)
+            .foregroundStyle(designKit.absoluteWhite)
             .padding(.horizontal, Spacing.sm)
             .padding(.vertical, Spacing.xxs)
             .background(color)
@@ -30,10 +33,15 @@ public struct StatusBadge: ViewModifier {
 
 public struct Card: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
+    let designKit: DesignKit
+    
+    public init(designKit: DesignKit) {
+        self.designKit = designKit
+    }
     
     public func body(content: Content) -> some View {
         content
-            .background(DesignKit.surface(for: colorScheme))
+            .background(designKit.surface(for: colorScheme))
             .clipShape(RoundedRectangle(cornerRadius: Radius.large))
             .shadow(
                 color: Shadow.subtle.color,
@@ -49,12 +57,12 @@ public struct Card: ViewModifier {
 public extension View {
     
     /// Apply status badge style
-    func statusBadge(color: Color) -> some View {
-        modifier(StatusBadge(color: color))
+    func statusBadge(color: Color, designKit: DesignKit) -> some View {
+        modifier(StatusBadge(color: color, designKit: designKit))
     }
     
     /// Apply card style
-    func card() -> some View {
-        modifier(Card())
+    func card(designKit: DesignKit) -> some View {
+        modifier(Card(designKit: designKit))
     }
 }

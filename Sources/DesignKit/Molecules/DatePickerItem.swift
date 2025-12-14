@@ -19,6 +19,7 @@ public struct DatePickerItem: View {
     private let iconColor: Color
     private let isRequired: Bool
     private let displayedComponents: DatePicker.Components
+    private let designKit: DesignKit
     
     @Binding private var selectedDate: Date?
     @State private var isPressed = false
@@ -42,18 +43,20 @@ public struct DatePickerItem: View {
         selectedDate: Binding<Date?>,
         helperText: String? = nil,
         errorMessage: String? = nil,
-        iconColor: Color = DesignKit.primary,
+        iconColor: Color? = nil,
         isRequired: Bool = false,
-        displayedComponents: DatePicker.Components = [.date]
+        displayedComponents: DatePicker.Components = [.date],
+        designKit: DesignKit
     ) {
         self.icon = icon
         self.title = title
         self._selectedDate = selectedDate
         self.helperText = helperText
         self.errorMessage = errorMessage
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
         self.isRequired = isRequired
         self.displayedComponents = displayedComponents
+        self.designKit = designKit
     }
     
     public var body: some View {
@@ -70,13 +73,13 @@ public struct DatePickerItem: View {
                     // Title with required indicator
                     HStack(spacing: Spacing.xxs) {
                         Text(title)
-                            .footnote()
+                            .footnote(designKit)
                             .foregroundStyle(.secondary)
                         
                         if isRequired {
                             Text("*")
-                                .footnote()
-                                .foregroundStyle(.red.opacity(0.7))
+                            .footnote(designKit)
+                            .foregroundStyle(.red.opacity(0.7))
                         }
                         
                         Spacer()
@@ -84,7 +87,7 @@ public struct DatePickerItem: View {
                         // Validation icon
                         if !validationState.iconName.isEmpty && validationState != .normal {
                             Image(systemName: validationState.iconName)
-                                .caption()
+                                .caption(designKit)
                                 .foregroundStyle(validationState.color)
                         }
                     }
@@ -93,18 +96,18 @@ public struct DatePickerItem: View {
                     HStack {
                         if let date = selectedDate {
                             Text(formatDate(date))
-                                .body()
+                                .body(designKit)
                                 .foregroundStyle(.primary)
                         } else {
                             Text("Select date")
-                                .body()
+                                .body(designKit)
                                 .foregroundStyle(.secondary)
                         }
                         
                         Spacer()
                         
                         Image(systemName: "calendar")
-                            .caption()
+                            .caption(designKit)
                             .foregroundStyle(.tertiary)
                     }
                 }
@@ -173,12 +176,12 @@ public struct DatePickerItem: View {
             // Helper text or error message
             if let message = errorMessage, !message.isEmpty {
                 Text(message)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.red.opacity(0.8))
                     .padding(.horizontal, Spacing.md)
             } else if let helper = helperText, !helper.isEmpty {
                 Text(helper)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, Spacing.md)
             }
@@ -218,7 +221,7 @@ public struct DatePickerItem: View {
                 .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             Image(systemName: icon!)
-                .tickerTitle()
+                .tickerTitle(designKit)
                 .foregroundStyle(iconColor.opacity(0.8))
         }
     }

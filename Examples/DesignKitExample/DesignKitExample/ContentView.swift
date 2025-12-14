@@ -2,17 +2,18 @@ import SwiftUI
 import DesignKit
 
 struct ContentView: View {
+    let designKit: DesignKit
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: DesignKit.xl) {
+                VStack(spacing: Spacing.xl) {
                     // Header Section
                     headerSection
 
                     // Colors Section
-                    NavigationLink(destination: ColorsExampleView()) {
+                    NavigationLink(destination: ColorsExampleView(designKit: designKit)) {
                         exampleCard(
                             title: "Colors",
                             description: "Brand colors, semantic actions, and text hierarchy",
@@ -21,7 +22,7 @@ struct ContentView: View {
                     }
 
                     // Typography Section
-                    NavigationLink(destination: TypographyExampleView()) {
+                    NavigationLink(destination: TypographyExampleView(designKit: designKit)) {
                         exampleCard(
                             title: "Typography",
                             description: "Text styles and font configurations",
@@ -30,7 +31,7 @@ struct ContentView: View {
                     }
 
                     // Components Section
-                    NavigationLink(destination: ComponentsExampleView()) {
+                    NavigationLink(destination: ComponentsExampleView(designKit: designKit)) {
                         exampleCard(
                             title: "Components",
                             description: "Buttons, cards, badges, and more",
@@ -39,7 +40,9 @@ struct ContentView: View {
                     }
 
                     // Spacing Section
-                    NavigationLink(destination: SpacingExampleView()) {
+                    NavigationLink(
+                        destination: SpacingExampleView(designKit: designKit)
+                    ) {
                         exampleCard(
                             title: "Spacing",
                             description: "8-point spacing system",
@@ -48,7 +51,7 @@ struct ContentView: View {
                     }
 
                     // Molecules Section
-                    NavigationLink(destination: MoleculesExampleView()) {
+                    NavigationLink(destination: MoleculesExampleView(designKit: designKit)) {
                         exampleCard(
                             title: "Molecules",
                             description: "Complex UI components like buttons, cards, and forms",
@@ -57,7 +60,7 @@ struct ContentView: View {
                     }
 
                     // AI Components Section
-                    NavigationLink(destination: AddProductView()) {
+                    NavigationLink(destination: AddProductView(designKit: designKit)) {
                         exampleCard(
                             title: "AI Components",
                             description: "AI-assisted text fields and smart input",
@@ -65,54 +68,54 @@ struct ContentView: View {
                         )
                     }
                 }
-                .padding(DesignKit.lg)
+                .padding(Spacing.lg)
             }
-            .background(DesignKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
+            .background(designKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
             .navigationTitle("DesignKit")
         }
     }
 
     private var headerSection: some View {
-        VStack(spacing: DesignKit.md) {
+        VStack(spacing: Spacing.md) {
             Text("DesignKit")
-                .largeTitle()
-                .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+                .largeTitle(designKit)
+                .foregroundColor(designKit.textPrimary(for: colorScheme))
 
             Text("A comprehensive SwiftUI design system")
-                .body()
-                .foregroundColor(DesignKit.textSecondary(for: colorScheme))
+                .body(designKit)
+                .foregroundColor(designKit.textSecondary(for: colorScheme))
                 .multilineTextAlignment(.center)
         }
-        .padding(DesignKit.xl)
+        .padding(Spacing.xl)
     }
 
     private func exampleCard(title: String, description: String, icon: String) -> some View {
-        HStack(spacing: DesignKit.md) {
+        HStack(spacing: Spacing.md) {
             Image(systemName: icon)
                 .font(.system(size: 24))
-                .foregroundColor(DesignKit.primary)
+                .foregroundColor(designKit.primary)
                 .frame(width: 40, height: 40)
 
-            VStack(alignment: .leading, spacing: DesignKit.xxs) {
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
                 Text(title)
-                    .headline()
-                    .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+                    .headline(designKit)
+                    .foregroundColor(designKit.textPrimary(for: colorScheme))
 
                 Text(description)
-                    .footnote()
-                    .foregroundColor(DesignKit.textSecondary(for: colorScheme))
+                    .footnote(designKit)
+                    .foregroundColor(designKit.textSecondary(for: colorScheme))
             }
 
             Spacer()
 
             Image(systemName: "chevron.right")
-                .foregroundColor(DesignKit.textTertiary(for: colorScheme))
+                .foregroundColor(designKit.textTertiary(for: colorScheme))
         }
-        .padding(DesignKit.lg)
-        .card()
+        .padding(Spacing.lg)
+        .card(designKit: designKit)
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(designKit: DesignKit(DesignKitConfiguration.default))
 }

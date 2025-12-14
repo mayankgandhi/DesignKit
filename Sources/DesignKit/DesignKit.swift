@@ -20,8 +20,5 @@ public struct DesignKit {
         self.configuration = configuration
     }
 
-    // MARK: - Shared Instance
-
-    public static var current = DesignKit(.default)
 
 }

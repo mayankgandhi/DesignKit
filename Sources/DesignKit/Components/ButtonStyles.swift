@@ -13,15 +13,17 @@ public struct PrimaryButtonStyle: ButtonStyle {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.isEnabled) var isEnabled
     let isDestructive: Bool
+    let designKit: DesignKit
     
-    public init(isDestructive: Bool = false) {
+    public init(isDestructive: Bool = false, designKit: DesignKit) {
         self.isDestructive = isDestructive
+        self.designKit = designKit
     }
     
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .subheadline()
-            .foregroundStyle(DesignKit.absoluteWhite)
+            .subheadline(designKit)
+            .foregroundStyle(designKit.absoluteWhite)
             .frame(maxWidth: .infinity)
             .frame(height: Spacing.buttonHeightLarge)
             .background(backgroundColor)
@@ -39,28 +41,33 @@ public struct PrimaryButtonStyle: ButtonStyle {
     
     private var backgroundColor: Color {
         if !isEnabled {
-            return DesignKit.disabled
+            return designKit.disabled
         }
-        return isDestructive ? DesignKit.danger : DesignKit.primary
+        return isDestructive ? designKit.danger : designKit.primary
     }
 }
 
 public struct SecondaryButtonStyle: ButtonStyle {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.isEnabled) var isEnabled
+    let designKit: DesignKit
+    
+    public init(designKit: DesignKit) {
+        self.designKit = designKit
+    }
     
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .subheadline()
-            .foregroundStyle(isEnabled ? DesignKit.textPrimary(for: colorScheme) : DesignKit.disabled)
+            .subheadline(designKit)
+            .foregroundStyle(isEnabled ? designKit.textPrimary(for: colorScheme) : designKit.disabled)
             .frame(maxWidth: .infinity)
             .frame(height: Spacing.buttonHeightStandard)
-            .background(DesignKit.surface(for: colorScheme))
+            .background(designKit.surface(for: colorScheme))
             .clipShape(RoundedRectangle(cornerRadius: Radius.medium))
             .overlay(
                 RoundedRectangle(cornerRadius: Radius.medium)
                     .strokeBorder(
-                        isEnabled ? DesignKit.textTertiary(for: colorScheme) : DesignKit.disabled,
+                        isEnabled ? designKit.textTertiary(for: colorScheme) : designKit.disabled,
                         lineWidth: 2
                     )
             )
@@ -73,11 +80,16 @@ public struct SecondaryButtonStyle: ButtonStyle {
 public struct TertiaryButtonStyle: ButtonStyle {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.isEnabled) var isEnabled
+    let designKit: DesignKit
+    
+    public init(designKit: DesignKit) {
+        self.designKit = designKit
+    }
     
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .subheadline()
-            .foregroundStyle(isEnabled ? DesignKit.textPrimary(for: colorScheme) : DesignKit.disabled)
+            .subheadline(designKit)
+            .foregroundStyle(isEnabled ? designKit.textPrimary(for: colorScheme) : designKit.disabled)
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, Spacing.sm)
             .contentShape(Rectangle())
@@ -92,17 +104,17 @@ public struct TertiaryButtonStyle: ButtonStyle {
 public extension Button {
     
     /// Apply primary button style with optional destructive variant
-    func primaryButton(isDestructive: Bool = false) -> some View {
-        self.buttonStyle(PrimaryButtonStyle(isDestructive: isDestructive))
+    func primaryButton(isDestructive: Bool = false, designKit: DesignKit) -> some View {
+        self.buttonStyle(PrimaryButtonStyle(isDestructive: isDestructive, designKit: designKit))
     }
     
     /// Apply secondary button style
-    func secondaryButton() -> some View {
-        self.buttonStyle(SecondaryButtonStyle())
+    func secondaryButton(designKit: DesignKit) -> some View {
+        self.buttonStyle(SecondaryButtonStyle(designKit: designKit))
     }
     
     /// Apply tertiary button style (text-only button)
-    func tertiaryButton() -> some View {
-        self.buttonStyle(TertiaryButtonStyle())
+    func tertiaryButton(designKit: DesignKit) -> some View {
+        self.buttonStyle(TertiaryButtonStyle(designKit: designKit))
     }
 }

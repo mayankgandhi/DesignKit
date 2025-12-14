@@ -13,88 +13,88 @@ public extension DesignKit {
     
     // MARK: - Base Colors
     
-    static var absoluteBlack: Color {
-        current.configuration.colors.absoluteBlack
+    var absoluteBlack: Color {
+        configuration.colors.absoluteBlack
     }
     
-    static var absoluteWhite: Color {
-        current.configuration.colors.absoluteWhite
+    var absoluteWhite: Color {
+        configuration.colors.absoluteWhite
     }
     
-    static var surfaceDark: Color {
-        current.configuration.colors.surfaceDark
+    var surfaceDark: Color {
+        configuration.colors.surfaceDark
     }
     
-    static var surfaceLight: Color {
-        current.configuration.colors.surfaceLight
+    var surfaceLight: Color {
+        configuration.colors.surfaceLight
     }
     
     // MARK: - Primary Brand Colors
     
-    static var primary: Color {
-        current.configuration.colors.primary
+    var primary: Color {
+        configuration.colors.primary
     }
     
-    static var primaryDark: Color {
-        current.configuration.colors.primaryDark
+    var primaryDark: Color {
+        configuration.colors.primaryDark
     }
     
-    static var accent: Color {
-        current.configuration.colors.accent
+    var accent: Color {
+        configuration.colors.accent
     }
     
     // MARK: - Semantic Actions
     
-    static var success: Color {
-        current.configuration.colors.success
+    var success: Color {
+        configuration.colors.success
     }
     
-    static var warning: Color {
-        current.configuration.colors.warning
+    var warning: Color {
+        configuration.colors.warning
     }
     
-    static var danger: Color {
-        current.configuration.colors.danger
+    var danger: Color {
+        configuration.colors.danger
     }
     
     // MARK: - Alarm States
     
-    static var scheduled: Color {
-        current.configuration.colors.scheduled
+    var scheduled: Color {
+        configuration.colors.scheduled
     }
     
-    static var running: Color {
-        current.configuration.colors.running
+    var running: Color {
+        configuration.colors.running
     }
     
-    static var paused: Color {
-        current.configuration.colors.paused
+    var paused: Color {
+        configuration.colors.paused
     }
     
-    static var alerting: Color {
-        current.configuration.colors.alerting
+    var alerting: Color {
+        configuration.colors.alerting
     }
     
-    static var disabled: Color {
-        current.configuration.colors.disabled
+    var disabled: Color {
+        configuration.colors.disabled
     }
     
     // MARK: - Text Hierarchy
     
     /// Primary text - maximum contrast
-    static func textPrimary(for colorScheme: ColorScheme) -> Color {
+    func textPrimary(for colorScheme: ColorScheme) -> Color {
         colorScheme == .dark ? absoluteWhite : absoluteBlack
     }
     
     /// Secondary text - 70% opacity for hierarchy
-    static func textSecondary(for colorScheme: ColorScheme) -> Color {
+    func textSecondary(for colorScheme: ColorScheme) -> Color {
         colorScheme == .dark
             ? Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.7)
             : Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.7)
     }
     
     /// Tertiary text - 50% opacity for subtle info
-    static func textTertiary(for colorScheme: ColorScheme) -> Color {
+    func textTertiary(for colorScheme: ColorScheme) -> Color {
         colorScheme == .dark
             ? Color(red: 1.0, green: 1.0, blue: 1.0, opacity: 0.5)
             : Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.5)
@@ -102,17 +102,17 @@ public extension DesignKit {
     
     // MARK: - Background System
     
-    static func background(for colorScheme: ColorScheme) -> Color {
+    func background(for colorScheme: ColorScheme) -> Color {
         colorScheme == .dark ? absoluteBlack : absoluteWhite
     }
     
-    static func surface(for colorScheme: ColorScheme) -> Color {
+    func surface(for colorScheme: ColorScheme) -> Color {
         colorScheme == .dark ? surfaceDark : surfaceLight
     }
     
     // MARK: - Liquid Glass Background Gradient
     
-    static func liquidGlassGradient(for colorScheme: ColorScheme) -> some View {
+    func liquidGlassGradient(for colorScheme: ColorScheme) -> some View {
         if colorScheme == .dark {
             return ZStack {
                 // Base gradient - Soft neutral dark with subtle warm undertones

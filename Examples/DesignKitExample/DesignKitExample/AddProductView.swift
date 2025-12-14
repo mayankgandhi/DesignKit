@@ -12,6 +12,8 @@ import DesignKit
 struct AddProductView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
+    
+    let designKit: DesignKit
 
     // Form state
     @State private var productName: String = ""
@@ -21,16 +23,16 @@ struct AddProductView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: DesignKit.xl) {
+            VStack(spacing: Spacing.xl) {
                 headerSection
 
                 formSection
 
                 actionButtons
             }
-            .padding(DesignKit.lg)
+            .padding(Spacing.lg)
         }
-        .background(DesignKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
+        .background(designKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
         .navigationTitle("Add Product")
         .navigationBarTitleDisplayMode(.large)
         .alert("Product Saved", isPresented: $showSuccessAlert) {
@@ -43,7 +45,7 @@ struct AddProductView: View {
     }
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: DesignKit.sm) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             HStack {
                 Image(systemName: "sparkles")
                     .font(.system(size: 24))
@@ -59,26 +61,26 @@ struct AddProductView: View {
                         )
                     )
 
-                VStack(alignment: .leading, spacing: DesignKit.xxs) {
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text("AI-Assisted Product Entry")
-                        .headline()
+                        .headline(designKit)
 
                     Text("Use AI to generate product names and descriptions")
-                        .footnote()
+                        .footnote(designKit)
                         .foregroundStyle(.secondary)
                 }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(DesignKit.lg)
-        .card()
+        .padding(Spacing.lg)
+        .card(designKit: designKit)
     }
 
     private var formSection: some View {
-        VStack(alignment: .leading, spacing: DesignKit.lg) {
+        VStack(alignment: .leading, spacing: Spacing.lg) {
             // Section title
             Text("Product Information")
-                .subheadline()
+                .subheadline(designKit)
                 .foregroundStyle(.secondary)
                 .textCase(.uppercase)
 
@@ -89,7 +91,8 @@ struct AddProductView: View {
                 axis: .horizontal,
                 helperText: "Tap the sparkle icon to generate suggestions",
                 icon: "cube.box.fill",
-                iconColor: DesignKit.primary
+                iconColor: designKit.primary,
+                designKit: designKit
             )
 
             AISmartTextField(
@@ -98,7 +101,8 @@ struct AddProductView: View {
                 axis: .vertical,
                 helperText: "Describe your product or let AI help you",
                 icon: "text.alignleft",
-                iconColor: .blue
+                iconColor: .blue,
+                designKit: designKit
             )
 
             // Regular text field for price
@@ -109,24 +113,25 @@ struct AddProductView: View {
                 placeholder: "0.00",
                 helperText: "Enter product price in USD",
                 iconColor: .green,
+                designKit: designKit,
                 keyboardType: .decimalPad
             )
         }
-        .padding(DesignKit.lg)
-        .card()
+        .padding(Spacing.lg)
+        .card(designKit: designKit)
     }
 
     private var actionButtons: some View {
-        VStack(spacing: DesignKit.md) {
-            DSButton("Save Product", style: .primary, icon: "checkmark.circle.fill") {
+        VStack(spacing: Spacing.md) {
+            DSButton("Save Product", style: .primary, icon: "checkmark.circle.fill", designKit: designKit) {
                 saveProduct()
             }
 
-            DSButton("Clear Form", style: .secondary, icon: "arrow.counterclockwise") {
+            DSButton("Clear Form", style: .secondary, icon: "arrow.counterclockwise", designKit: designKit) {
                 clearForm()
             }
         }
-        .padding(DesignKit.lg)
+        .padding(Spacing.lg)
     }
 
     // MARK: - Actions
@@ -143,33 +148,4 @@ struct AddProductView: View {
         productDescription = ""
         price = ""
     }
-}
-
-#Preview {
-    NavigationStack {
-        AddProductView()
-    }
-}
-
-#Preview("Dark Mode") {
-    NavigationStack {
-        AddProductView()
-    }
-    .preferredColorScheme(.dark)
-}
-
-#Preview("With Data") {
-    struct PreviewWrapper: View {
-        @State private var name = "Premium Organic Coffee Beans"
-        @State private var description = "Handcrafted dark roast coffee beans sourced from sustainable farms in Ethiopia. Rich, bold flavor with notes of chocolate and caramel."
-        @State private var price = "24.99"
-
-        var body: some View {
-            NavigationStack {
-                AddProductView()
-            }
-        }
-    }
-
-    return PreviewWrapper()
 }

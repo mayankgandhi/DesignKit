@@ -26,17 +26,20 @@ public struct AIGeneratorSheet: View {
     private let fieldName: String
     private let service: AIGenerationService
     private let onSelectSuggestion: (String) -> Void
+    private let designKit: DesignKit
 
     // MARK: - Initialization
     public init(
         isPresented: Binding<Bool>,
         fieldName: String = "Text",
         service: AIGenerationService = MockAIGenerationService(),
+        designKit: DesignKit,
         onSelectSuggestion: @escaping (String) -> Void
     ) {
         self._isPresented = isPresented
         self.fieldName = fieldName
         self.service = service
+        self.designKit = designKit
         self.onSelectSuggestion = onSelectSuggestion
     }
 
@@ -52,7 +55,7 @@ public struct AIGeneratorSheet: View {
             // Suggestions label
             if !suggestions.isEmpty || isGenerating {
                 Text("AI Suggestions")
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.secondary)
                     .textCase(.uppercase)
             }
@@ -94,7 +97,7 @@ public struct AIGeneratorSheet: View {
                 )
 
             Text("Generate \(fieldName)")
-                .headline()
+                .headline(designKit)
 
             Spacer()
 
@@ -113,7 +116,7 @@ public struct AIGeneratorSheet: View {
     private var promptInputView: some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
             TextField("What would you like to generate?", text: $prompt, axis: .vertical)
-                .body()
+                .body(designKit)
                 .focused($isPromptFocused)
                 .lineLimit(2...4)
                 .padding(Spacing.md)
@@ -134,11 +137,11 @@ public struct AIGeneratorSheet: View {
             if let error = errorMessage, !error.isEmpty {
                 HStack(spacing: Spacing.xs) {
                     Image(systemName: "exclamationmark.triangle.fill")
-                        .caption()
+                        .caption(designKit)
                         .foregroundStyle(.orange)
 
                     Text(error)
-                        .caption()
+                        .caption(designKit)
                         .foregroundStyle(.secondary)
                 }
                 .padding(.horizontal, Spacing.md)
@@ -161,7 +164,7 @@ public struct AIGeneratorSheet: View {
                         .accessibilityValue("Please wait")
 
                     Text("Generating suggestions...")
-                        .footnote()
+                        .footnote(designKit)
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity)
@@ -176,7 +179,7 @@ public struct AIGeneratorSheet: View {
             } else if !prompt.isEmpty && !isGenerating {
                 // Empty state after generation
                 Text("No suggestions found. Try a different prompt.")
-                    .footnote()
+                    .footnote(designKit)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(Spacing.lg)
@@ -194,14 +197,14 @@ public struct AIGeneratorSheet: View {
         } label: {
             HStack {
                 Text(suggestion)
-                    .body()
+                    .body(designKit)
                     .foregroundStyle(.primary)
                     .multilineTextAlignment(.leading)
 
                 Spacer()
 
                 Image(systemName: "arrow.up.left")
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.secondary)
             }
             .padding(Spacing.md)
@@ -289,21 +292,26 @@ public struct AIGeneratorSheet: View {
 
 // MARK: - Previews
 #Preview("Empty Sheet") {
-    AIGeneratorSheet(
+    let designKit = DesignKit(.default)
+    return AIGeneratorSheet(
         isPresented: .constant(true),
         fieldName: "Product Name",
+        designKit: designKit,
         onSelectSuggestion: { _ in }
     )
 }
 
 #Preview("With Prompt") {
+    let designKit = DesignKit(.default)
     struct PreviewWrapper: View {
         @State private var isPresented = true
+        let designKit: DesignKit
 
         var body: some View {
             AIGeneratorSheet(
                 isPresented: $isPresented,
                 fieldName: "Description",
+                designKit: designKit,
                 onSelectSuggestion: { suggestion in
                     print("Selected: \(suggestion)")
                 }
@@ -311,5 +319,5 @@ public struct AIGeneratorSheet: View {
         }
     }
 
-    return PreviewWrapper()
+    return PreviewWrapper(designKit: designKit)
 }

@@ -12,133 +12,133 @@ import SwiftUI
 public extension DesignKit {
 
     /// Large Title style
-    static func largeTitle() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func largeTitle() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 34, relativeTo: .largeTitle)
         }
-        return .system(.largeTitle, design: DesignKit.current.configuration.typography.fontDesign, weight: .bold)
+        return .system(.largeTitle, design: configuration.typography.fontDesign, weight: .bold)
     }
 
     /// Title 1 style
-    static func title() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func title() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 28, relativeTo: .title)
         }
-        return .system(.title, design: DesignKit.current.configuration.typography.fontDesign, weight: .bold)
+        return .system(.title, design: configuration.typography.fontDesign, weight: .bold)
     }
 
     /// Title 2 style
-    static func title2() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func title2() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 22, relativeTo: .title2)
         }
-        return .system(.title2, design: DesignKit.current.configuration.typography.fontDesign, weight: .bold)
+        return .system(.title2, design: configuration.typography.fontDesign, weight: .bold)
     }
 
     /// Title 3 style
-    static func title3() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func title3() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 20, relativeTo: .title3)
         }
-        return .system(.title3, design: DesignKit.current.configuration.typography.fontDesign, weight: .semibold)
+        return .system(.title3, design: configuration.typography.fontDesign, weight: .semibold)
     }
 
     /// Headline style
-    static func headline() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func headline() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 17, relativeTo: .headline)
         }
-        return .system(.headline, design: DesignKit.current.configuration.typography.fontDesign, weight: .semibold)
+        return .system(.headline, design: configuration.typography.fontDesign, weight: .semibold)
     }
 
     /// Body style
-    static func body() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func body() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 17, relativeTo: .body)
         }
-        return .system(.body, design: DesignKit.current.configuration.typography.fontDesign, weight: .regular)
+        return .system(.body, design: configuration.typography.fontDesign, weight: .regular)
     }
 
     /// Callout style
-    static func callout() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func callout() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 16, relativeTo: .callout)
         }
-        return .system(.callout, design: DesignKit.current.configuration.typography.fontDesign, weight: .regular)
+        return .system(.callout, design: configuration.typography.fontDesign, weight: .regular)
     }
 
     /// Subheadline style
-    static func subheadline() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func subheadline() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 15, relativeTo: .subheadline)
         }
-        return .system(.subheadline, design: DesignKit.current.configuration.typography.fontDesign, weight: .semibold)
+        return .system(.subheadline, design: configuration.typography.fontDesign, weight: .semibold)
     }
 
     /// Footnote style
-    static func footnote() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func footnote() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 13, relativeTo: .footnote)
         }
-        return .system(.footnote, design: DesignKit.current.configuration.typography.fontDesign, weight: .medium)
+        return .system(.footnote, design: configuration.typography.fontDesign, weight: .medium)
     }
 
     /// Caption 1 style
-    static func caption() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func caption() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 12, relativeTo: .caption)
         }
-        return .system(.caption, design: DesignKit.current.configuration.typography.fontDesign, weight: .medium)
+        return .system(.caption, design: configuration.typography.fontDesign, weight: .medium)
     }
 
     /// Caption 2 style
-    static func caption2() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func caption2() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 11, relativeTo: .caption2)
         }
-        return .system(.caption2, design: DesignKit.current.configuration.typography.fontDesign, weight: .regular)
+        return .system(.caption2, design: configuration.typography.fontDesign, weight: .regular)
     }
     
     // MARK: - Custom Typography Styles
 
     /// Time display font (28pt) - for card time displays
-    static func timeDisplay() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func timeDisplay() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 28, relativeTo: .title)
         }
-        return .system(size: 28, weight: .bold, design: DesignKit.current.configuration.typography.fontDesign)
+        return .system(size: 28, weight: .bold, design: configuration.typography.fontDesign)
     }
 
     /// Ticker title font (18pt) - for ticker names
-    static func tickerTitle() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func tickerTitle() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 18, relativeTo: .headline)
         }
-        return .system(size: 18, weight: .semibold, design: DesignKit.current.configuration.typography.fontDesign)
+        return .system(size: 18, weight: .semibold, design: configuration.typography.fontDesign)
     }
 
     /// Detail text font (15pt) - for schedule details
-    static func detailText() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func detailText() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 15, relativeTo: .subheadline)
         }
-        return .system(size: 15, weight: .medium, design: DesignKit.current.configuration.typography.fontDesign)
+        return .system(size: 15, weight: .medium, design: configuration.typography.fontDesign)
     }
 
     /// Button text font (14pt) - for buttons and labels
-    static func buttonText() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func buttonText() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 14, relativeTo: .subheadline)
         }
-        return .system(size: 14, weight: .semibold, design: DesignKit.current.configuration.typography.fontDesign)
+        return .system(size: 14, weight: .semibold, design: configuration.typography.fontDesign)
     }
 
     /// Small text font (12pt) - for secondary info
-    static func smallText() -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func smallText() -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: 12, relativeTo: .caption)
         }
-        return .system(size: 12, weight: .medium, design: DesignKit.current.configuration.typography.fontDesign)
+        return .system(size: 12, weight: .medium, design: configuration.typography.fontDesign)
     }
 
     // MARK: - Custom Size Helper
@@ -149,97 +149,97 @@ public extension DesignKit {
     ///   - weight: The weight of the font (only used when fontFamily is not configured)
     ///   - relativeTo: The text style to scale relative to for Dynamic Type support
     /// - Returns: A Font configured with either the custom font family or system font with design
-    static func customSize(_ size: CGFloat, weight: Font.Weight = .regular, relativeTo: Font.TextStyle = .body) -> Font {
-        if let fontFamily = DesignKit.current.configuration.typography.fontFamily {
+    func customSize(_ size: CGFloat, weight: Font.Weight = .regular, relativeTo: Font.TextStyle = .body) -> Font {
+        if let fontFamily = configuration.typography.fontFamily {
             return .custom(fontFamily, size: size, relativeTo: relativeTo)
         }
-        return .system(size: size, weight: weight, design: DesignKit.current.configuration.typography.fontDesign)
+        return .system(size: size, weight: weight, design: configuration.typography.fontDesign)
     }
 }
 
 // MARK: - View Extensions for Typography
 
 public extension View {
-    
-    /// Apply SF Pro Rounded large title style
-    func largeTitle() -> some View {
-        self.font(DesignKit.largeTitle())
+
+    /// Apply large title style with configured font
+    func largeTitle(_ designKit: DesignKit) -> some View {
+        self.font(designKit.largeTitle())
     }
-    
-    /// Apply SF Pro Rounded title style
-    func title() -> some View {
-        self.font(DesignKit.title())
+
+    /// Apply title style with configured font
+    func title(_ designKit: DesignKit) -> some View {
+        self.font(designKit.title())
     }
-    
-    /// Apply SF Pro Rounded title 2 style
-    func title2() -> some View {
-        self.font(DesignKit.title2())
+
+    /// Apply title 2 style with configured font
+    func title2(_ designKit: DesignKit) -> some View {
+        self.font(designKit.title2())
     }
-    
-    /// Apply SF Pro Rounded title 3 style
-    func title3() -> some View {
-        self.font(DesignKit.title3())
+
+    /// Apply title 3 style with configured font
+    func title3(_ designKit: DesignKit) -> some View {
+        self.font(designKit.title3())
     }
-    
-    /// Apply SF Pro Rounded headline style
-    func headline() -> some View {
-        self.font(DesignKit.headline())
+
+    /// Apply headline style with configured font
+    func headline(_ designKit: DesignKit) -> some View {
+        self.font(designKit.headline())
     }
-    
-    /// Apply SF Pro Rounded body style
-    func body() -> some View {
-        self.font(DesignKit.body())
+
+    /// Apply body style with configured font
+    func body(_ designKit: DesignKit) -> some View {
+        self.font(designKit.body())
     }
-    
-    /// Apply SF Pro Rounded callout style
-    func callout() -> some View {
-        self.font(DesignKit.callout())
+
+    /// Apply callout style with configured font
+    func callout(_ designKit: DesignKit) -> some View {
+        self.font(designKit.callout())
     }
-    
-    /// Apply SF Pro Rounded subheadline style
-    func subheadline() -> some View {
-        self.font(DesignKit.subheadline())
+
+    /// Apply subheadline style with configured font
+    func subheadline(_ designKit: DesignKit) -> some View {
+        self.font(designKit.subheadline())
     }
-    
-    /// Apply SF Pro Rounded footnote style
-    func footnote() -> some View {
-        self.font(DesignKit.footnote())
+
+    /// Apply footnote style with configured font
+    func footnote(_ designKit: DesignKit) -> some View {
+        self.font(designKit.footnote())
     }
-    
-    /// Apply SF Pro Rounded caption style
-    func caption() -> some View {
-        self.font(DesignKit.caption())
+
+    /// Apply caption style with configured font
+    func caption(_ designKit: DesignKit) -> some View {
+        self.font(designKit.caption())
     }
-    
-    /// Apply SF Pro Rounded caption 2 style
-    func caption2() -> some View {
-        self.font(DesignKit.caption2())
+
+    /// Apply caption 2 style with configured font
+    func caption2(_ designKit: DesignKit) -> some View {
+        self.font(designKit.caption2())
     }
-    
+
     // MARK: - Custom Typography Styles
-    
+
     /// Apply consistent time display font (28pt) - for card time displays
-    func timeDisplay() -> some View {
-        self.font(DesignKit.timeDisplay())
+    func timeDisplay(_ designKit: DesignKit) -> some View {
+        self.font(designKit.timeDisplay())
     }
-    
+
     /// Apply consistent ticker title font (18pt) - for ticker names
-    func tickerTitle() -> some View {
-        self.font(DesignKit.tickerTitle())
+    func tickerTitle(_ designKit: DesignKit) -> some View {
+        self.font(designKit.tickerTitle())
     }
-    
+
     /// Apply consistent detail text font (15pt) - for schedule details
-    func detailText() -> some View {
-        self.font(DesignKit.detailText())
+    func detailText(_ designKit: DesignKit) -> some View {
+        self.font(designKit.detailText())
     }
-    
+
     /// Apply consistent button text font (14pt) - for buttons and labels
-    func buttonText() -> some View {
-        self.font(DesignKit.buttonText())
+    func buttonText(_ designKit: DesignKit) -> some View {
+        self.font(designKit.buttonText())
     }
-    
+
     /// Apply consistent small text font (12pt) - for secondary info
-    func smallText() -> some View {
-        self.font(DesignKit.smallText())
+    func smallText(_ designKit: DesignKit) -> some View {
+        self.font(designKit.smallText())
     }
 }

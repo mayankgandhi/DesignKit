@@ -9,30 +9,35 @@
 import SwiftUI
 
 /// Simple healthcare button styles
-public enum DSButtonStyle {
-    case primary
-    case secondary
-    case destructive
+public struct DSButtonStyle {
+    let designKit: DesignKit
+    let style: Style
+    
+    public enum Style {
+        case primary
+        case secondary
+        case destructive
+    }
     
     var backgroundColor: Color {
-        switch self {
-        case .primary: return DesignKit.primary
+        switch style {
+        case .primary: return designKit.primary
         case .secondary: return .clear
-        case .destructive: return DesignKit.danger
+        case .destructive: return designKit.danger
         }
     }
     
     var foregroundColor: Color {
-        switch self {
+        switch style {
         case .primary, .destructive: return .white
-        case .secondary: return DesignKit.primary
+        case .secondary: return designKit.primary
         }
     }
 
     var borderColor: Color? {
-        switch self {
+        switch style {
         case .primary, .destructive: return nil
-        case .secondary: return DesignKit.primary
+        case .secondary: return designKit.primary
         }
     }
 }
@@ -47,12 +52,13 @@ public struct DSButton: View {
     
     public init(
         _ title: String,
-        style: DSButtonStyle = .primary,
+        style: DSButtonStyle.Style = .primary,
         icon: String? = nil,
+        designKit: DesignKit,
         action: @escaping () -> Void
     ) {
         self.title = title
-        self.style = style
+        self.style = DSButtonStyle(designKit: designKit, style: style)
         self.icon = icon
         self.action = action
     }
@@ -62,11 +68,11 @@ public struct DSButton: View {
             HStack(spacing: Spacing.sm) {
                 if let icon = icon {
                     Image(systemName: icon)
-                        .footnote()
+                        .footnote(style.designKit)
                 }
 
                 Text(title)
-                    .subheadline()
+                    .subheadline(style.designKit)
                     .padding(.vertical, Spacing.sm)
             }
             .frame(maxWidth: .infinity)
@@ -96,18 +102,19 @@ public struct HealthIconButton: View {
     
     public init(
         icon: String,
-        style: DSButtonStyle = .secondary,
+        style: DSButtonStyle.Style = .secondary,
+        designKit: DesignKit,
         action: @escaping () -> Void
     ) {
         self.icon = icon
-        self.style = style
+        self.style = DSButtonStyle(designKit: designKit, style: style)
         self.action = action
     }
     
     public var body: some View {
         Button(action: action) {
             Image(systemName: icon)
-                .footnote()
+                .footnote(style.designKit)
                 .foregroundStyle(style.foregroundColor)
                 .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
                 .background(style.backgroundColor)
@@ -129,24 +136,25 @@ public struct HealthIconButton: View {
 // MARK: - Preview
 
 #Preview("Health Buttons") {
-    VStack(spacing: Spacing.lg) {
+    let designKit = DesignKit(.default)
+    return VStack(spacing: Spacing.lg) {
         VStack(spacing: Spacing.md) {
             Text("Button Styles")
-                .headline()
+                .headline(designKit)
 
-            DSButton("Primary Action", style: .primary) { }
-            DSButton("Secondary Action", style: .secondary) { }
-            DSButton("Delete", style: .destructive, icon: "trash") { }
+            DSButton("Primary Action", style: .primary, designKit: designKit) { }
+            DSButton("Secondary Action", style: .secondary, designKit: designKit) { }
+            DSButton("Delete", style: .destructive, icon: "trash", designKit: designKit) { }
         }
 
         VStack(spacing: Spacing.md) {
             Text("Icon Buttons")
-                .headline()
+                .headline(designKit)
 
             HStack(spacing: Spacing.md) {
-                HealthIconButton(icon: "heart.fill", style: .primary) { }
-                HealthIconButton(icon: "plus", style: .secondary) { }
-                HealthIconButton(icon: "gear", style: .secondary) { }
+                HealthIconButton(icon: "heart.fill", style: .primary, designKit: designKit) { }
+                HealthIconButton(icon: "plus", style: .secondary, designKit: designKit) { }
+                HealthIconButton(icon: "gear", style: .secondary, designKit: designKit) { }
             }
         }
     }

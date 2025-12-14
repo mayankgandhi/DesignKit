@@ -2,6 +2,7 @@ import SwiftUI
 import DesignKit
 
 struct MoleculesExampleView: View {
+    let designKit: DesignKit
     @Environment(\.colorScheme) var colorScheme
     @State private var searchText = ""
     @State private var fullName = ""
@@ -10,117 +11,125 @@ struct MoleculesExampleView: View {
     @State private var selectedDate: Date? = nil
     @State private var selectedColor = "#FF6B6B"
     @State private var notificationsEnabled = true
-
+    
     var body: some View {
         ScrollView {
-            VStack(spacing: DesignKit.xl) {
+            VStack(spacing: Spacing.xl) {
                 // Search Bar
                 sectionView(title: "Search Bar") {
                     SearchBar(
                         searchText: $searchText,
-                        placeholder: "Search molecules..."
+                        placeholder: "Search molecules...",
+                        designKit: designKit
                     )
                 }
-
+                
                 // Cards
                 sectionView(title: "Cards") {
-                    VStack(spacing: DesignKit.md) {
+                    VStack(spacing: Spacing.md) {
                         DSCard(
                             title: "Getting Started",
                             subtitle: "Learn the basics",
                             imageName: "book.fill",
-                            backgroundColor: DesignKit.primary
+                            backgroundColor: designKit.primary,
+                            designKit: designKit
                         )
-
+                        
                         DSCard(
                             title: "Knowledge Base",
                             subtitle: "Browse documentation",
                             imageName: "doc.text.fill",
-                            backgroundColor: DesignKit.success
+                            backgroundColor: designKit.success,
+                            designKit: designKit
                         )
                     }
                 }
-
+                
                 // Buttons
                 sectionView(title: "Buttons") {
-                    VStack(spacing: DesignKit.md) {
-                        DSButton("Primary Action", style: .primary) {
+                    VStack(spacing: Spacing.md) {
+                        DSButton("Primary Action", style: .primary, designKit: designKit) {
                             print("Primary tapped")
                         }
-
-                        DSButton("Secondary Action", style: .secondary) {
+                        
+                        DSButton("Secondary Action", style: .secondary, designKit: designKit) {
                             print("Secondary tapped")
                         }
-
-                        DSButton("Delete", style: .destructive, icon: "trash") {
+                        
+                        DSButton("Delete", style: .destructive, icon: "trash", designKit: designKit) {
                             print("Delete tapped")
                         }
-
-                        HStack(spacing: DesignKit.md) {
-                            HealthIconButton(icon: "heart.fill", style: .primary) {
+                        
+                        HStack(spacing: Spacing.md) {
+                            HealthIconButton(icon: "heart.fill", style: .primary, designKit: designKit) {
                                 print("Heart tapped")
                             }
-                            HealthIconButton(icon: "plus", style: .secondary) {
+                            HealthIconButton(icon: "plus", style: .secondary, designKit: designKit) {
                                 print("Plus tapped")
                             }
-                            HealthIconButton(icon: "gear", style: .secondary) {
+                            HealthIconButton(icon: "gear", style: .secondary, designKit: designKit) {
                                 print("Settings tapped")
                             }
                         }
                     }
                 }
-
+                
                 // Menu List Items
                 sectionView(title: "Menu List Items") {
-                    VStack(spacing: DesignKit.xs) {
+                    VStack(spacing: Spacing.xs) {
                         MenuListItem(
                             icon: "book.fill",
                             title: "Diary",
                             subtitle: "Track your daily entries",
-                            iconColor: DesignKit.primary,
-                            badge: 3
+                            iconColor: designKit.primary,
+                            badge: 3,
+                            designKit: designKit
                         )
-
+                        
                         MenuListItem(
                             icon: "leaf.fill",
                             title: "Nutrition",
                             subtitle: "Manage your meal plans",
-                            iconColor: .green
+                            iconColor: .green,
+                            designKit: designKit
                         )
-
+                        
                         MenuListItem(
                             icon: "chart.line.uptrend.xyaxis",
                             title: "Analytics",
                             subtitle: "View trends and insights",
-                            iconColor: .blue
+                            iconColor: .blue,
+                            designKit: designKit
                         )
                     }
                 }
-
+                
                 // Text Fields
                 sectionView(title: "Text Fields") {
-                    VStack(spacing: DesignKit.md) {
+                    VStack(spacing: Spacing.md) {
                         TextFieldItem(
                             icon: "person.fill",
                             title: "Full Name",
                             text: $fullName,
                             placeholder: "Enter your full name",
                             helperText: "This will be displayed on your profile",
-                            isRequired: true
+                            isRequired: true,
+                            designKit: designKit
                         )
-
+                        
                         TextFieldItem(
                             icon: "envelope.fill",
                             title: "Email Address",
                             text: $email,
                             placeholder: "Enter your email",
                             iconColor: .blue,
+                            designKit: designKit,
                             keyboardType: .emailAddress,
                             contentType: .emailAddress
                         )
                     }
                 }
-
+                
                 // Menu Picker
                 sectionView(title: "Menu Picker") {
                     MenuPickerItem(
@@ -131,10 +140,11 @@ struct MoleculesExampleView: View {
                         placeholder: "Select your blood type",
                         helperText: "Select your blood type from the list",
                         iconColor: .red,
-                        isRequired: true
+                        isRequired: true,
+                        designKit: designKit
                     )
                 }
-
+                
                 // Date Picker
                 sectionView(title: "Date Picker") {
                     DatePickerItem(
@@ -143,77 +153,70 @@ struct MoleculesExampleView: View {
                         selectedDate: $selectedDate,
                         helperText: "Used for age calculations",
                         iconColor: .blue,
-                        isRequired: true
+                        isRequired: true,
+                        designKit: designKit
                     )
                 }
-
+                
                 // Color Picker
                 sectionView(title: "Color Picker") {
                     ColorPickerItem(
                         icon: "paintpalette.fill",
                         title: "Theme Color",
                         selectedColorHex: $selectedColor,
-                        helperText: "Choose your profile theme color"
+                        helperText: "Choose your profile theme color",
+                        designKit: designKit
                     )
                 }
-
+                
                 // Toggle
                 sectionView(title: "Toggle Items") {
-                    VStack(spacing: DesignKit.md) {
+                    VStack(spacing: Spacing.md) {
                         ToggleItem(
                             icon: "bell.fill",
                             title: "Notifications",
                             subtitle: "Get notified about important updates",
                             isOn: $notificationsEnabled,
                             helperText: "Push notifications will be sent to your device",
-                            iconColor: .orange
+                            iconColor: .orange,
+                            designKit: designKit
                         )
                     }
                 }
-
-                // Success Notification
-                sectionView(title: "Success Notification") {
-                    SuccessNotification(
-                        message: "Success!",
-                        timestamp: "Just now",
-                        value: "120",
-                        unit: "mg/dL",
-                        status: "Normal range"
-                    )
-                }
-
+                
                 // Nav Bar Header
                 sectionView(title: "Navigation Header") {
                     NavBarHeader(
                         icon: "pills.fill",
-                        iconColor: DesignKit.primary,
+                        iconColor: designKit.primary,
                         title: "Medications",
-                        subtitle: "Manage your prescriptions"
+                        subtitle: "Manage your prescriptions",
+                        designKit: designKit
                     )
                 }
             }
-            .padding(DesignKit.lg)
+            .padding(Spacing.lg)
         }
-        .background(DesignKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
+        .background(designKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
         .navigationTitle("Molecules")
         .navigationBarTitleDisplayMode(.large)
     }
-
+    
     private func sectionView<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: DesignKit.md) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text(title)
-                .headline()
-                .foregroundColor(DesignKit.textPrimary(for: colorScheme))
-
+                .font(designKit.headline())
+                .foregroundColor(designKit.textPrimary(for: colorScheme))
+            
             content()
         }
-        .padding(DesignKit.lg)
-        .card()
+        .padding(Spacing.lg)
+        .card(designKit: designKit)
     }
 }
 
 #Preview {
     NavigationStack {
-        MoleculesExampleView()
+        MoleculesExampleView(designKit: DesignKit(DesignKitConfiguration.default))
     }
 }

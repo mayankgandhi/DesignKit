@@ -20,6 +20,7 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
     private let iconColor: Color
     private let isRequired: Bool
     private let placeholder: String
+    private let designKit: DesignKit
     
     @Binding private var selectedOption: T?
     @State private var isPressed = false
@@ -44,8 +45,9 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
         placeholder: String = "Select an option",
         helperText: String? = nil,
         errorMessage: String? = nil,
-        iconColor: Color = DesignKit.primary,
-        isRequired: Bool = false
+        iconColor: Color? = nil,
+        isRequired: Bool = false,
+        designKit: DesignKit
     ) {
         self.icon = icon
         self.title = title
@@ -54,8 +56,9 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
         self.placeholder = placeholder
         self.helperText = helperText
         self.errorMessage = errorMessage
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
         self.isRequired = isRequired
+        self.designKit = designKit
     }
     
     public var body: some View {
@@ -72,12 +75,12 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
                     // Title with required indicator
                     HStack(spacing: Spacing.xxs) {
                         Text(title)
-                            .footnote()
+                            .footnote(designKit)
                             .foregroundStyle(.secondary)
                         
                         if isRequired {
                             Text("*")
-                                .footnote()
+                                .footnote(designKit)
                                 .foregroundStyle(.red.opacity(0.7))
                         }
                         
@@ -86,7 +89,7 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
                         // Validation icon
                         if !validationState.iconName.isEmpty && validationState != .normal {
                             Image(systemName: validationState.iconName)
-                                .caption()
+                                .caption(designKit)
                                 .foregroundStyle(validationState.color)
                         }
                     }
@@ -94,13 +97,13 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
                     // Selected value or placeholder
                     HStack {
                         Text(selectedOption?.description ?? placeholder)
-                            .body()
+                            .body(designKit)
                             .foregroundStyle(selectedOption != nil ? .primary : .secondary)
                         
                         Spacer()
                         
                         Image(systemName: "chevron.up.chevron.down")
-                            .caption()
+                            .caption(designKit)
                             .foregroundStyle(.tertiary)
                     }
                 }
@@ -142,12 +145,12 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
             // Helper text or error message
             if let message = errorMessage, !message.isEmpty {
                 Text(message)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.red.opacity(0.8))
                     .padding(.horizontal, Spacing.md)
             } else if let helper = helperText, !helper.isEmpty {
                 Text(helper)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, Spacing.md)
             }
@@ -174,7 +177,7 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
                 .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             Image(systemName: icon!)
-                .tickerTitle()
+                .tickerTitle(designKit)
                 .foregroundStyle(iconColor.opacity(0.8))
         }
     }
@@ -183,7 +186,7 @@ public struct MenuPickerItem<T: Hashable & CustomStringConvertible>: View {
         RoundedRectangle(cornerRadius: Radius.medium)
             .fill(isPressed ? .gray.opacity(0.7) : .white.opacity(0.95))
     }
-
+    
     private var strokeColor: Color {
         if validationState == .error {
             return .red.opacity(0.4)
@@ -206,6 +209,7 @@ public struct ToggleItem: View {
     private let subtitle: String?
     private let helperText: String?
     private let iconColor: Color
+    private let designKit: DesignKit
     
     @Binding private var isOn: Bool
     @State private var isPressed = false
@@ -216,14 +220,16 @@ public struct ToggleItem: View {
         subtitle: String? = nil,
         isOn: Binding<Bool>,
         helperText: String? = nil,
-        iconColor: Color = DesignKit.primary
+        iconColor: Color? = nil,
+        designKit: DesignKit
     ) {
         self.icon = icon
         self.title = title
         self.subtitle = subtitle
         self._isOn = isOn
         self.helperText = helperText
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
+        self.designKit = designKit
     }
     
     public var body: some View {
@@ -238,12 +244,12 @@ public struct ToggleItem: View {
                 // Content section
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(title)
-                        .font(DesignKit.customSize(17, weight: .medium, relativeTo: .body))
+                        .font(designKit.customSize(17, weight: .medium, relativeTo: .body))
                         .foregroundStyle(.primary)
                     
                     if let subtitle = subtitle {
                         Text(subtitle)
-                            .caption()
+                            .caption(designKit)
                             .foregroundStyle(.secondary)
                             .lineLimit(2)
                     }
@@ -278,7 +284,7 @@ public struct ToggleItem: View {
             // Helper text
             if let helper = helperText, !helper.isEmpty {
                 Text(helper)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, Spacing.md)
             }
@@ -305,7 +311,7 @@ public struct ToggleItem: View {
                 .frame(width: Spacing.tapTargetMin, height: Spacing.tapTargetMin)
             
             Image(systemName: icon!)
-                .tickerTitle()
+                .tickerTitle(designKit)
                 .foregroundStyle(iconColor.opacity(0.8))
         }
     }
@@ -370,7 +376,7 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
      ScrollView {
         VStack(spacing: Spacing.lg) {
             Text("Menu Picker Examples")
-                .title2()
+                .title2(DesignKit(.default))
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -380,7 +386,8 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
                     selectedOption: .constant(BloodType.aPositive),
                     options: BloodType.allCases,
                     helperText: "Select your blood type",
-                    iconColor: .red
+                    iconColor: .red,
+                    designKit: DesignKit(.default)
                 )
                 
                 MenuPickerItem(
@@ -390,14 +397,16 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
                     options: Gender.allCases,
                     placeholder: "Select gender",
                     iconColor: .purple,
-                    isRequired: true
+                    isRequired: true,
+                    designKit: DesignKit(.default)
                 )
                 
                 MenuPickerItem(
                     title: "Priority Level",
                     selectedOption: .constant(nil),
                     options: ["Low", "Medium", "High", "Critical"],
-                    errorMessage: "Please select a priority level"
+                    errorMessage: "Please select a priority level",
+                    designKit: DesignKit(.default)
                 )
             }
             .padding(.horizontal)
@@ -410,7 +419,7 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
     ScrollView {
         VStack(spacing: Spacing.lg) {
             Text("Date Picker Examples")
-                .title2()
+                .title2(DesignKit(.default))
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -420,7 +429,8 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
                     selectedDate: .constant(nil),
                     helperText: "Used for age calculations",
                     iconColor: .blue,
-                    isRequired: true
+                    isRequired: true,
+                    designKit: DesignKit(.default)
                 )
                 
                 DatePickerItem(
@@ -428,13 +438,15 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
                     title: "Appointment Time",
                     selectedDate: .constant(Date()),
                     iconColor: .green,
-                    displayedComponents: [.hourAndMinute]
+                    displayedComponents: [.hourAndMinute],
+                    designKit: DesignKit(.default)
                 )
                 
                 DatePickerItem(
                     title: "Last Updated",
                     selectedDate: .constant(Date()),
-                    displayedComponents: [.date, .hourAndMinute]
+                    displayedComponents: [.date, .hourAndMinute],
+                    designKit: DesignKit(.default)
                 )
             }
             .padding(.horizontal)
@@ -447,7 +459,7 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
     ScrollView {
         VStack(spacing: Spacing.lg) {
             Text("Toggle Examples")
-                .title2()
+                .title2(DesignKit(.default))
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -457,20 +469,23 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
                     subtitle: "Get notified when it's time to take medication",
                     isOn: .constant(true),
                     helperText: "Push notifications will be sent to your device",
-                    iconColor: .orange
+                    iconColor: .orange,
+                    designKit: DesignKit(.default)
                 )
                 
                 ToggleItem(
                     icon: "heart.fill",
                     title: "Health Data Sharing",
                     isOn: .constant(false),
-                    iconColor: .red
+                    iconColor: .red,
+                    designKit: DesignKit(.default)
                 )
                 
                 ToggleItem(
                     title: "Emergency Contacts Access",
                     subtitle: "Allow emergency contacts to view your health information",
-                    isOn: .constant(true)
+                    isOn: .constant(true),
+                    designKit: DesignKit(.default)
                 )
             }
             .padding(.horizontal)
@@ -483,7 +498,7 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
     ScrollView {
         VStack(spacing: Spacing.lg) {
             Text("All Input Types")
-                .title2()
+                .title2(DesignKit(.default))
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -491,7 +506,8 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
                     icon: "person.fill",
                     title: "Full Name",
                     text: .constant("John Doe"),
-                    placeholder: "Enter name"
+                    placeholder: "Enter name",
+                    designKit: DesignKit(.default)
                 )
                 
                 MenuPickerItem(
@@ -499,7 +515,8 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
                     title: "Blood Type",
                     selectedOption: .constant("A+"),
                     options: ["A+", "A-", "B+", "B-", "O+", "O-"],
-                    iconColor: .red
+                    iconColor: .red,
+                    designKit: DesignKit(.default)
                 )
                 
                 DatePickerItem(
@@ -507,14 +524,16 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
                     title: "Date of Birth",
                     selectedDate: .constant(nil),
                     iconColor: Color.blue,
-                    isRequired: true
+                    isRequired: true,
+                    designKit: DesignKit(.default)
                 )
                 
                 ToggleItem(
                     icon: "bell.fill",
                     title: "Notifications",
                     isOn: .constant(true),
-                    iconColor: Color.orange
+                    iconColor: Color.orange,
+                    designKit: DesignKit(.default)
                 )
             }
             .padding(.horizontal)

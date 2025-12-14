@@ -2,91 +2,92 @@ import SwiftUI
 import DesignKit
 
 struct ComponentsExampleView: View {
+    let designKit: DesignKit
     @Environment(\.colorScheme) var colorScheme
     @State private var isActive = false
 
     var body: some View {
         ScrollView {
-            VStack(spacing: DesignKit.xl) {
+            VStack(spacing: Spacing.xl) {
                 // Button Styles
                 sectionView(title: "Button Styles") {
-                    VStack(spacing: DesignKit.md) {
+                    VStack(spacing: Spacing.md) {
                         Button("Primary Button") {
                             DesignKitHaptics.standardAction()
                         }
-                        .primaryButton()
+                        .primaryButton(designKit: designKit)
 
                         Button("Destructive Button") {
                             DesignKitHaptics.criticalAction()
                         }
-                        .primaryButton(isDestructive: true)
+                        .primaryButton(isDestructive: true, designKit: designKit)
 
                         Button("Secondary Button") {
                             DesignKitHaptics.selection()
                         }
-                        .secondaryButton()
+                        .secondaryButton(designKit: designKit)
 
                         Button("Tertiary Button") {
                             DesignKitHaptics.selection()
                         }
-                        .tertiaryButton()
+                        .tertiaryButton(designKit: designKit)
 
                         Button("Disabled Button") {
                             // No action
                         }
-                        .primaryButton()
+                        .primaryButton(designKit: designKit)
                         .disabled(true)
                     }
                 }
 
                 // Card Modifier
                 sectionView(title: "Card Modifier") {
-                    VStack(alignment: .leading, spacing: DesignKit.sm) {
+                    VStack(alignment: .leading, spacing: Spacing.sm) {
                         Text("Card Example")
-                            .headline()
-                            .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+                            .headline(designKit)
+                            .foregroundColor(designKit.textPrimary(for: colorScheme))
 
                         Text("This is a card with surface background, corner radius, and subtle shadow.")
-                            .body()
-                            .foregroundColor(DesignKit.textSecondary(for: colorScheme))
+                            .body(designKit)
+                            .foregroundColor(designKit.textSecondary(for: colorScheme))
                     }
-                    .padding(DesignKit.lg)
-                    .card()
+                    .padding(Spacing.lg)
+                    .card(designKit: designKit)
                 }
 
                 // Status Badges
                 sectionView(title: "Status Badges") {
-                    VStack(alignment: .leading, spacing: DesignKit.md) {
-                        HStack(spacing: DesignKit.sm) {
+                    VStack(alignment: .leading, spacing: Spacing.md) {
+                        HStack(spacing: Spacing.sm) {
                             Text("Success")
-                                .statusBadge(color: DesignKit.success)
+                                .statusBadge(color: designKit.success, designKit: designKit)
                             Text("Warning")
-                                .statusBadge(color: DesignKit.warning)
+                                .statusBadge(color: designKit.warning, designKit: designKit)
                             Text("Danger")
-                                .statusBadge(color: DesignKit.danger)
+                                .statusBadge(color: designKit.danger, designKit: designKit)
                         }
 
-                        HStack(spacing: DesignKit.sm) {
+                        HStack(spacing: Spacing.sm) {
                             Text("Scheduled")
-                                .statusBadge(color: DesignKit.scheduled)
+                                .statusBadge(color: designKit.scheduled, designKit: designKit)
                             Text("Running")
-                                .statusBadge(color: DesignKit.running)
+                                .statusBadge(color: designKit.running, designKit: designKit)
                             Text("Paused")
-                                .statusBadge(color: DesignKit.paused)
+                                .statusBadge(color: designKit.paused, designKit: designKit)
                         }
 
-                        HStack(spacing: DesignKit.sm) {
+                        HStack(spacing: Spacing.sm) {
                             Text("Alerting")
-                                .statusBadge(color: DesignKit.alerting)
+                                .statusBadge(color: designKit.alerting, designKit: designKit)
                             Text("Disabled")
-                                .statusBadge(color: DesignKit.disabled)
+                                .statusBadge(color: designKit.disabled, designKit: designKit)
                         }
                     }
                 }
 
                 // Icons
                 sectionView(title: "Icon System") {
-                    VStack(spacing: DesignKit.md) {
+                    VStack(spacing: Spacing.md) {
                         iconRow(title: "Alarm States", icons: [
                             (DesignKitIcons.alarmScheduled, "Scheduled"),
                             (DesignKitIcons.alarmRunning, "Running"),
@@ -117,7 +118,7 @@ struct ComponentsExampleView: View {
 
                 // Haptic Feedback Demo
                 sectionView(title: "Haptic Feedback") {
-                    VStack(spacing: DesignKit.sm) {
+                    VStack(spacing: Spacing.sm) {
                         hapticsButton(title: "Light Impact", haptic: .light)
                         hapticsButton(title: "Medium Impact", haptic: .medium)
                         hapticsButton(title: "Heavy Impact", haptic: .heavy)
@@ -127,41 +128,41 @@ struct ComponentsExampleView: View {
                     }
                 }
             }
-            .padding(DesignKit.lg)
+            .padding(Spacing.lg)
         }
-        .background(DesignKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
+        .background(designKit.liquidGlassGradient(for: colorScheme).ignoresSafeArea())
         .navigationTitle("Components")
         .navigationBarTitleDisplayMode(.large)
     }
 
     private func sectionView<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: DesignKit.md) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             Text(title)
-                .headline()
-                .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+                .headline(designKit)
+                .foregroundColor(designKit.textPrimary(for: colorScheme))
 
             content()
         }
-        .padding(DesignKit.lg)
-        .card()
+        .padding(Spacing.lg)
+        .card(designKit: designKit)
     }
 
     private func iconRow(title: String, icons: [(String, String)]) -> some View {
-        VStack(alignment: .leading, spacing: DesignKit.sm) {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
             Text(title)
-                .caption()
-                .foregroundColor(DesignKit.textSecondary(for: colorScheme))
+                .caption(designKit)
+                .foregroundColor(designKit.textSecondary(for: colorScheme))
 
-            HStack(spacing: DesignKit.md) {
+            HStack(spacing: Spacing.md) {
                 ForEach(icons, id: \.0) { icon in
-                    VStack(spacing: DesignKit.xxs) {
+                    VStack(spacing: Spacing.xxs) {
                         Image(systemName: icon.0)
                             .font(.system(size: 24))
-                            .foregroundColor(DesignKit.primary)
+                            .foregroundColor(designKit.primary)
 
                         Text(icon.1)
-                            .caption2()
-                            .foregroundColor(DesignKit.textTertiary(for: colorScheme))
+                            .caption2(designKit)
+                            .foregroundColor(designKit.textTertiary(for: colorScheme))
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -170,45 +171,48 @@ struct ComponentsExampleView: View {
     }
 
     private var completeCardExample: some View {
-        VStack(alignment: .leading, spacing: DesignKit.md) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             HStack {
                 Image(systemName: DesignKitIcons.alarmRunning)
-                    .foregroundColor(isActive ? DesignKit.running : DesignKit.disabled)
+                    .foregroundColor(isActive ? designKit.running : designKit.disabled)
 
                 Spacer()
 
                 Text(isActive ? "Active" : "Inactive")
-                    .statusBadge(color: isActive ? DesignKit.running : DesignKit.disabled)
+                    .statusBadge(
+                        color: isActive ? designKit.running : designKit.disabled,
+                        designKit: designKit
+                    )
             }
 
             Text("07:00 AM")
-                .timeDisplay()
-                .foregroundColor(DesignKit.textPrimary(for: colorScheme))
+                .timeDisplay(designKit)
+                .foregroundColor(designKit.textPrimary(for: colorScheme))
 
             Text("Wake up alarm")
-                .tickerTitle()
-                .foregroundColor(DesignKit.textSecondary(for: colorScheme))
+                .tickerTitle(designKit)
+                .foregroundColor(designKit.textSecondary(for: colorScheme))
 
             Text("Repeats: Mon-Fri")
-                .detailText()
-                .foregroundColor(DesignKit.textTertiary(for: colorScheme))
+                .detailText(designKit)
+                .foregroundColor(designKit.textTertiary(for: colorScheme))
 
-            HStack(spacing: DesignKit.sm) {
+            HStack(spacing: Spacing.sm) {
                 Button("Edit") {
                     DesignKitHaptics.selection()
                 }
-                .secondaryButton()
+                .secondaryButton(designKit: designKit)
 
                 Button(isActive ? "Disable" : "Enable") {
                     DesignKitHaptics.standardAction()
-                    withAnimation(DesignKit.animationSpring) {
+                    withAnimation(SwiftUI.Animation.spring) {
                         isActive.toggle()
                     }
                 }
-                .primaryButton()
+                .primaryButton(designKit: designKit)
             }
         }
-        .padding(DesignKit.lg)
+        .padding(Spacing.lg)
     }
 
     private func hapticsButton(title: String, haptic: HapticType) -> some View {
@@ -222,7 +226,7 @@ struct ComponentsExampleView: View {
             case .error: DesignKitHaptics.error()
             }
         }
-        .secondaryButton()
+        .secondaryButton(designKit: designKit)
     }
 }
 
@@ -232,6 +236,6 @@ enum HapticType {
 
 #Preview {
     NavigationStack {
-        ComponentsExampleView()
+        ComponentsExampleView(designKit: DesignKit(DesignKitConfiguration.default))
     }
 }

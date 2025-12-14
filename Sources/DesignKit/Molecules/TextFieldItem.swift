@@ -20,6 +20,7 @@ public struct TextFieldItem: View {
     private let errorMessage: String?
     private let iconColor: Color
     private let isRequired: Bool
+    private let designKit: DesignKit
     #if os(iOS)
     private let keyboardType: UIKeyboardType
     private let contentType: UITextContentType?
@@ -73,8 +74,9 @@ public struct TextFieldItem: View {
         placeholder: String = "",
         helperText: String? = nil,
         errorMessage: String? = nil,
-        iconColor: Color = DesignKit.primary,
+        iconColor: Color? = nil,
         isRequired: Bool = false,
+        designKit: DesignKit,
         keyboardType: UIKeyboardType = .default,
         contentType: UITextContentType? = nil,
         submitLabel: SubmitLabel = .done,
@@ -86,8 +88,9 @@ public struct TextFieldItem: View {
         self.placeholder = placeholder
         self.helperText = helperText
         self.errorMessage = errorMessage
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
         self.isRequired = isRequired
+        self.designKit = designKit
         self.keyboardType = keyboardType
         self.contentType = contentType
         self.submitLabel = submitLabel
@@ -101,8 +104,9 @@ public struct TextFieldItem: View {
         placeholder: String = "",
         helperText: String? = nil,
         errorMessage: String? = nil,
-        iconColor: Color = DesignKit.primary,
+        iconColor: Color? = nil,
         isRequired: Bool = false,
+        designKit: DesignKit,
         submitLabel: SubmitLabel = .done,
         onSubmit: (() -> Void)? = nil
     ) {
@@ -112,8 +116,9 @@ public struct TextFieldItem: View {
         self.placeholder = placeholder
         self.helperText = helperText
         self.errorMessage = errorMessage
-        self.iconColor = iconColor
+        self.iconColor = iconColor ?? designKit.primary
         self.isRequired = isRequired
+        self.designKit = designKit
         self.submitLabel = submitLabel
         self.onSubmit = onSubmit
     }
@@ -133,12 +138,12 @@ public struct TextFieldItem: View {
                     // Title with required indicator
                     HStack(spacing: Spacing.xxs) {
                         Text(title)
-                            .footnote()
+                            .footnote(designKit)
                             .foregroundStyle(isFocused ? .primary : .secondary)
 
                         if isRequired {
                             Text("*")
-                                .footnote()
+                                .footnote(designKit)
                                 .foregroundStyle(.red.opacity(0.7))
                         }
 
@@ -147,7 +152,7 @@ public struct TextFieldItem: View {
                         // Validation icon
                         if !validationState.iconName.isEmpty && validationState != .normal {
                             Image(systemName: validationState.iconName)
-                                .caption()
+                                .caption(designKit)
                                 .foregroundStyle(validationState.color)
                         }
                     }
@@ -155,7 +160,7 @@ public struct TextFieldItem: View {
                     // Text field
                     #if os(iOS)
                     TextField(placeholder, text: $text)
-                        .body()
+                        .body(designKit)
                         .foregroundStyle(.primary)
                         .focused($isFocused)
                         .keyboardType(keyboardType)
@@ -166,7 +171,7 @@ public struct TextFieldItem: View {
                         }
                     #else
                     TextField(placeholder, text: $text)
-                        .body()
+                        .body(designKit)
                         .foregroundStyle(.primary)
                         .focused($isFocused)
                         .submitLabel(submitLabel)
@@ -203,12 +208,12 @@ public struct TextFieldItem: View {
             // Helper text or error message
             if let message = errorMessage, !message.isEmpty {
                 Text(message)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.red.opacity(0.8))
                     .padding(.horizontal, Spacing.md)
             } else if let helper = helperText, !helper.isEmpty {
                 Text(helper)
-                    .caption()
+                    .caption(designKit)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, Spacing.md)
             }
@@ -238,7 +243,7 @@ public struct TextFieldItem: View {
             
             // Icon
             Image(systemName: icon!)
-                .tickerTitle()
+                .tickerTitle(designKit)
                 .foregroundStyle(
                     isFocused ? Color(.systemGray) : iconColor.opacity(0.8)
                 )
@@ -277,10 +282,11 @@ public struct TextFieldItem: View {
 }
 
 #Preview("Text Field Examples") {
-    ScrollView {
+    let designKit = DesignKit(.default)
+    return ScrollView {
         VStack(spacing: Spacing.lg) {
             Text("Text Field Components")
-                .title2()
+                .title2(designKit)
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -290,7 +296,8 @@ public struct TextFieldItem: View {
                     text: .constant(""),
                     placeholder: "Enter your full name",
                     helperText: "This will be displayed on your profile",
-                    isRequired: true
+                    isRequired: true,
+                    designKit: designKit
                 )
                 
                 TextFieldItem(
@@ -298,7 +305,8 @@ public struct TextFieldItem: View {
                     title: "Email Address",
                     text: .constant("john.doe@example.com"),
                     placeholder: "Enter your email",
-                    iconColor: .blue
+                    iconColor: .blue,
+                    designKit: designKit
                 )
                 
                 TextFieldItem(
@@ -307,7 +315,8 @@ public struct TextFieldItem: View {
                     text: .constant(""),
                     placeholder: "(555) 123-4567",
                     iconColor: .green,
-                    isRequired: true
+                    isRequired: true,
+                    designKit: designKit
                 )
                 
                 TextFieldItem(
@@ -316,7 +325,8 @@ public struct TextFieldItem: View {
                     text: .constant("March 15, 1985"),
                     placeholder: "Select date",
                     helperText: "Used for age calculations",
-                    iconColor: .purple
+                    iconColor: .purple,
+                    designKit: designKit
                 )
                 
                 TextFieldItem(
@@ -325,14 +335,16 @@ public struct TextFieldItem: View {
                     text: .constant(""),
                     placeholder: "e.g. A+, O-, B+",
                     errorMessage: "Please enter a valid blood type",
-                    iconColor: .red
+                    iconColor: .red,
+                    designKit: designKit
                 )
                 
                 TextFieldItem(
                     title: "Notes",
                     text: .constant("Patient has a history of hypertension"),
                     placeholder: "Additional notes...",
-                    helperText: "Optional additional information"
+                    helperText: "Optional additional information",
+                    designKit: designKit
                 )
             }
             .padding(.horizontal)
@@ -342,9 +354,10 @@ public struct TextFieldItem: View {
 }
 
 #Preview("Validation States") {
-    VStack(spacing: Spacing.lg) {
+    let designKit = DesignKit(.default)
+    return VStack(spacing: Spacing.lg) {
         Text("Validation States")
-            .title2()
+            .title2(designKit)
             .padding(.horizontal)
 
         VStack(spacing: Spacing.sm) {
@@ -353,7 +366,8 @@ public struct TextFieldItem: View {
                 title: "Valid Field",
                 text: .constant("Valid input"),
                 placeholder: "Enter text",
-                iconColor: .green
+                iconColor: .green,
+                designKit: designKit
             )
             
             TextFieldItem(
@@ -362,7 +376,8 @@ public struct TextFieldItem: View {
                 text: .constant(""),
                 placeholder: "This field is required",
                 iconColor: .orange,
-                isRequired: true
+                isRequired: true,
+                designKit: designKit
             )
             
             TextFieldItem(
@@ -371,7 +386,8 @@ public struct TextFieldItem: View {
                 text: .constant("invalid@"),
                 placeholder: "Enter email",
                 errorMessage: "Please enter a valid email address",
-                iconColor: .red
+                iconColor: .red,
+                designKit: designKit
             )
         }
         .padding(.horizontal)

@@ -238,11 +238,11 @@ ZStack {
 
 ### Typography API
 
-DesignKit provides 16 text styles accessible through static functions or View extensions:
+DesignKit provides 16 text styles accessible through functions or View extensions:
 
 **Standard Styles:**
 ```swift
-// Static function usage
+// function usage
 Text("Title").font(DesignKit.largeTitle())
 Text("Body").font(DesignKit.body())
 
