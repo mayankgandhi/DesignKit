@@ -34,7 +34,7 @@ public struct SearchBar: View {
             HStack(spacing: Spacing.sm) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
-                    .font(.system(size: 16, weight: .medium))
+                    .detailText()
 
                 TextField(placeholder, text: $searchText)
                     .body()
@@ -52,7 +52,7 @@ public struct SearchBar: View {
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.secondary)
-                            .font(.system(size: 16, weight: .medium))
+                            .detailText()
                     }
                     .transition(.opacity.combined(with: .scale))
                 }
@@ -107,8 +107,7 @@ public extension SearchBar {
 #Preview("Search Bar States") {
     VStack(spacing: Spacing.lg) {
         Text("Search Bar Examples")
-            .font(.title2)
-            .fontWeight(.bold)
+            .title2()
 
         VStack(spacing: Spacing.md) {
             // Empty state

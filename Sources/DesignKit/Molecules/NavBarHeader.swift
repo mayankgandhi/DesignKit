@@ -83,7 +83,7 @@ public struct NavBarHeader: View {
                 .shadow(color: iconColor.opacity(0.2), radius: 4, x: 0, y: 2)
             
             Image(systemName: iconName)
-                .font(.system(size: iconSize, weight: .semibold))
+                .font(DesignKit.customSize(iconSize, weight: .semibold, relativeTo: .headline))
                 .foregroundStyle(iconColor)
         }
     }

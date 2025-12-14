@@ -132,7 +132,7 @@ public struct HealthIconButton: View {
     VStack(spacing: Spacing.lg) {
         VStack(spacing: Spacing.md) {
             Text("Button Styles")
-                .font(.headline)
+                .headline()
 
             DSButton("Primary Action", style: .primary) { }
             DSButton("Secondary Action", style: .secondary) { }
@@ -141,7 +141,7 @@ public struct HealthIconButton: View {
 
         VStack(spacing: Spacing.md) {
             Text("Icon Buttons")
-                .font(.headline)
+                .headline()
 
             HStack(spacing: Spacing.md) {
                 HealthIconButton(icon: "heart.fill", style: .primary) { }

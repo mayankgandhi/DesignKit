@@ -238,7 +238,7 @@ public struct ToggleItem: View {
                 // Content section
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text(title)
-                        .font(.system(.body, design: .rounded, weight: .medium))
+                        .font(DesignKit.customSize(17, weight: .medium, relativeTo: .body))
                         .foregroundStyle(.primary)
                     
                     if let subtitle = subtitle {
@@ -371,7 +371,6 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
         VStack(spacing: Spacing.lg) {
             Text("Menu Picker Examples")
                 .title2()
-                .fontWeight(.bold)
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -412,7 +411,6 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
         VStack(spacing: Spacing.lg) {
             Text("Date Picker Examples")
                 .title2()
-                .fontWeight(.bold)
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -450,7 +448,6 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
         VStack(spacing: Spacing.lg) {
             Text("Toggle Examples")
                 .title2()
-                .fontWeight(.bold)
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
@@ -487,7 +484,6 @@ enum Gender: String, CaseIterable, CustomStringConvertible {
         VStack(spacing: Spacing.lg) {
             Text("All Input Types")
                 .title2()
-                .fontWeight(.bold)
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {

@@ -42,7 +42,7 @@ public struct DSCard: View {
             Spacer()
             
             Image(systemName: imageName)
-                .font(.system(size: 32))
+                .timeDisplay()
                 .foregroundStyle(.white.opacity(0.8))
         }
         .padding(Spacing.md)

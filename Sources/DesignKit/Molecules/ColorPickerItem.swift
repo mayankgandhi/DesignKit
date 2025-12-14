@@ -227,7 +227,7 @@ private struct ColorOptionView: View {
                         .frame(width: 66, height: 66)
                     
                     Image(systemName: "checkmark")
-                        .font(.system(size: 20, weight: .bold))
+                        .font(DesignKit.customSize(20, weight: .bold, relativeTo: .title3))
                         .foregroundStyle(.white)
                 } else {
                     // Subtle border for unselected
@@ -292,8 +292,7 @@ public extension Color {
     ScrollView {
         VStack(spacing: Spacing.lg) {
             Text("Color Picker Component")
-                .font(.title2)
-                .fontWeight(.bold)
+                .title2()
                 .padding(.horizontal)
 
             VStack(spacing: Spacing.md) {
