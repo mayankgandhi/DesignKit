@@ -19,7 +19,7 @@ struct DesignKitExampleApp: App {
                 alerting: Color(red: 1.0, green: 0.23, blue: 0.19)
             ),
             typography: TypographyConfiguration(
-                fontDesign: .rounded
+                fontDesign: .serif
             )
         )
     )
