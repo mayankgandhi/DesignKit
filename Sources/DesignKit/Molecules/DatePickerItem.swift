@@ -24,6 +24,7 @@ public struct DatePickerItem: View {
     @Binding private var selectedDate: Date?
     @State private var isPressed = false
     @State private var showingPicker = false
+    @State private var hapticCounter = 0
     
     private var validationState: ValidationState {
         if let errorMessage = errorMessage, !errorMessage.isEmpty {
@@ -129,8 +130,10 @@ public struct DatePickerItem: View {
                 y: Shadow.subtle.y
             )
             .onTapGesture {
+                hapticCounter += 1
                 showingPicker = true
             }
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: hapticCounter)
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
                 isPressed = pressing
             })

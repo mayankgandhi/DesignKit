@@ -49,6 +49,7 @@ public struct DSButton: View {
     private let icon: String?
     private let action: () -> Void
     @State private var isPressed = false
+    @State private var hapticCounter = 0
     
     public init(
         _ title: String,
@@ -64,7 +65,10 @@ public struct DSButton: View {
     }
     
     public var body: some View {
-        Button(action: action) {
+        Button(action: {
+            hapticCounter += 1
+            action()
+        }) {
             HStack(spacing: Spacing.sm) {
                 if let icon = icon {
                     Image(systemName: icon)
@@ -88,6 +92,7 @@ public struct DSButton: View {
             .scaleEffect(isPressed ? 0.96 : 1.0)
             .animation(Animation.quick, value: isPressed)
         }
+        .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.7), trigger: hapticCounter)
         .frame(minHeight: Spacing.tapTargetMin)
         .accessibilityLabel(title)
     }
@@ -99,6 +104,7 @@ public struct HealthIconButton: View {
     private let style: DSButtonStyle
     private let action: () -> Void
     @State private var isPressed = false
+    @State private var hapticCounter = 0
     
     public init(
         icon: String,
@@ -112,7 +118,10 @@ public struct HealthIconButton: View {
     }
     
     public var body: some View {
-        Button(action: action) {
+        Button(action: {
+            hapticCounter += 1
+            action()
+        }) {
             Image(systemName: icon)
                 .footnote(style.designKit)
                 .foregroundStyle(style.foregroundColor)
@@ -126,6 +135,7 @@ public struct HealthIconButton: View {
                 .scaleEffect(isPressed ? 0.96 : 1.0)
                 .animation(Animation.quick, value: isPressed)
         }
+        .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: hapticCounter)
         .accessibilityLabel(icon)
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { isPressing in
             isPressed = isPressing

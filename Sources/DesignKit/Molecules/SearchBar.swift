@@ -57,6 +57,7 @@ public struct SearchBar: View {
                             .foregroundStyle(.secondary)
                             .detailText(designKit)
                     }
+                    .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.4), trigger: searchText.isEmpty)
                     .transition(.opacity.combined(with: .scale))
                 }
             }

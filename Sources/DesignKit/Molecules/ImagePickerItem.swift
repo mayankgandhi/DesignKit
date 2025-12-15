@@ -32,6 +32,7 @@ public struct ImagePickerItem: View {
     @State private var showingCamera = false
     @State private var showingSourceSelection = false
     @State private var isPressed = false
+    @State private var hapticCounter = 0
 
     // MARK: - State Machine
     private enum ImagePickerState: Equatable {
@@ -176,8 +177,10 @@ public struct ImagePickerItem: View {
                 y: Shadow.subtle.y
             )
             .onTapGesture {
+                hapticCounter += 1
                 handleTap()
             }
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: hapticCounter)
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
                 isPressed = pressing
             })
@@ -319,6 +322,7 @@ public struct ImagePickerItem: View {
                     .foregroundStyle(.secondary)
                     .font(designKit.customSize(18, weight: .medium, relativeTo: .body))
             }
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.4), trigger: pickerState)
         }
     }
 
@@ -359,6 +363,7 @@ public struct ImagePickerItem: View {
                     .foregroundStyle(designKit.primary)
                     .font(designKit.customSize(18, weight: .medium, relativeTo: .body))
             }
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: pickerState)
 
             // Inline cancel button
             Button {
@@ -368,6 +373,7 @@ public struct ImagePickerItem: View {
                     .foregroundStyle(.secondary)
                     .font(designKit.customSize(18, weight: .medium, relativeTo: .body))
             }
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.4), trigger: pickerState)
         }
     }
 

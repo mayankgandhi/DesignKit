@@ -20,6 +20,7 @@ public struct ColorPickerItem: View {
     @Binding private var selectedColorHex: String
     @State private var isPressed = false
     @State private var showingPicker = false
+    @State private var hapticCounter = 0
     
     public init(
         icon: String? = nil,
@@ -95,8 +96,10 @@ public struct ColorPickerItem: View {
                 y: Shadow.subtle.y
             )
             .onTapGesture {
+                hapticCounter += 1
                 showingPicker = true
             }
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: hapticCounter)
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
                 isPressed = pressing
             })
@@ -212,11 +215,15 @@ private struct ColorOptionView: View {
     let isSelected: Bool
     let designKit: DesignKit
     let onTap: () -> Void
-    
+
     @State private var isPressed = false
+    @State private var hapticCounter = 0
     
     var body: some View {
-        Button(action: onTap) {
+        Button(action: {
+            hapticCounter += 1
+            onTap()
+        }) {
             ZStack {
                 // Color circle
                 Circle()
@@ -246,6 +253,7 @@ private struct ColorOptionView: View {
         }
         .scaleEffect(isPressed ? 0.95 : 1.0)
         .animation(Animation.quick, value: isPressed)
+        .sensoryFeedback(.selection, trigger: hapticCounter)
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
             isPressed = pressing
         })

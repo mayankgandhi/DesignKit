@@ -238,6 +238,7 @@ public struct TextEditorItem: View {
             .onTapGesture {
                 isFocused = true
             }
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.3), trigger: isFocused)
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
                 isPressed = pressing
             })

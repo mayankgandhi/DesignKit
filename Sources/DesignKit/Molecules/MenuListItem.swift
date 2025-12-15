@@ -18,8 +18,9 @@ public struct MenuListItem: View {
     private let badge: Int?
     private let action: () -> Void
     private let designKit: DesignKit
-    
+
     @State private var isPressed = false
+    @State private var hapticCounter = 0
     
     public init(
         icon: String,
@@ -42,7 +43,10 @@ public struct MenuListItem: View {
     }
     
     public var body: some View {
-        Button(action: action) {
+        Button(action: {
+            hapticCounter += 1
+            action()
+        }) {
             HStack(spacing: Spacing.md) {
                 // Enhanced icon with gradient background
                 iconView
@@ -93,6 +97,7 @@ public struct MenuListItem: View {
             )
         }
         .buttonStyle(.plain)
+        .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: hapticCounter)
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, perform: {}, onPressingChanged: { pressing in
             isPressed = pressing
         })

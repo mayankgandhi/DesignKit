@@ -37,6 +37,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
             .opacity(configuration.isPressed ? 0.85 : 1.0)
             .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
             .animation(Animation.quick, value: configuration.isPressed)
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.7), trigger: configuration.isPressed)
     }
     
     private var backgroundColor: Color {
@@ -74,6 +75,7 @@ public struct SecondaryButtonStyle: ButtonStyle {
             .opacity(configuration.isPressed ? 0.7 : 1.0)
             .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
             .animation(Animation.quick, value: configuration.isPressed)
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: configuration.isPressed)
     }
 }
 
@@ -96,6 +98,7 @@ public struct TertiaryButtonStyle: ButtonStyle {
             .opacity(configuration.isPressed ? 0.5 : 1.0)
             .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
             .animation(Animation.quick, value: configuration.isPressed)
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.4), trigger: configuration.isPressed)
     }
 }
 
