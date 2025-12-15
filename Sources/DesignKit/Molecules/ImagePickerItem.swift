@@ -230,29 +230,26 @@ public struct ImagePickerItem: View {
 
     private var emptyStateView: some View {
         HStack {
-            Image(systemName: "photo.badge.plus")
-                .body(designKit)
-                .foregroundStyle(.secondary)
-
             Text("Tap to select image")
                 .body(designKit)
                 .foregroundStyle(.secondary)
 
             Spacer()
-
-            Image(systemName: "chevron.right")
-                .caption(designKit)
-                .foregroundStyle(.tertiary)
         }
     }
 
     private func selectedStateView(_ image: UIImage) -> some View {
-        HStack(spacing: Spacing.md) {
+        HStack(spacing: Spacing.sm) {
+            // Compact image thumbnail
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
-                .frame(width: 60, height: 60)
+                .frame(width: 44, height: 44)
                 .clipShape(RoundedRectangle(cornerRadius: Radius.small))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.small)
+                        .stroke(.gray.opacity(0.2), lineWidth: 1)
+                )
 
             Text("Ready to upload")
                 .body(designKit)
@@ -263,116 +260,104 @@ public struct ImagePickerItem: View {
     }
 
     private func uploadingStateView(_ image: UIImage) -> some View {
-        HStack(spacing: Spacing.md) {
-            // Image thumbnail with dimmed overlay
+        HStack(spacing: Spacing.sm) {
+            // Compact image thumbnail with progress
             ZStack {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 60, height: 60)
+                    .frame(width: 44, height: 44)
                     .clipShape(RoundedRectangle(cornerRadius: Radius.small))
-                    .opacity(0.6)
+                    .opacity(0.5)
 
                 ProgressView()
                     .tint(designKit.primary)
+                    .scaleEffect(0.8)
             }
 
-            VStack(alignment: .leading, spacing: Spacing.xxs) {
-                Text("Uploading...")
-                    .body(designKit)
-                    .foregroundStyle(.primary)
-
-                Text("Please wait")
-                    .caption(designKit)
-                    .foregroundStyle(.secondary)
-            }
+            Text("Uploading...")
+                .body(designKit)
+                .foregroundStyle(.primary)
 
             Spacer()
         }
     }
 
     private func uploadedStateView(_ image: UIImage) -> some View {
-        HStack(spacing: Spacing.md) {
-            // Image thumbnail
+        HStack(spacing: Spacing.sm) {
+            // Compact image thumbnail
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
-                .frame(width: 60, height: 60)
+                .frame(width: 44, height: 44)
                 .clipShape(RoundedRectangle(cornerRadius: Radius.small))
                 .overlay(
                     RoundedRectangle(cornerRadius: Radius.small)
-                        .stroke(.gray.opacity(0.3), lineWidth: 1)
+                        .stroke(.gray.opacity(0.2), lineWidth: 1)
                 )
 
-            Text("Uploaded successfully")
+            Text("Image uploaded")
                 .body(designKit)
                 .foregroundStyle(.primary)
 
             Spacer()
 
-            // Remove button
+            // Inline remove button
             Button {
                 removeImage()
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .foregroundStyle(.secondary)
+                    .font(designKit.customSize(18, weight: .medium, relativeTo: .body))
             }
         }
     }
 
     private func errorStateView(_ image: UIImage?, message: String) -> some View {
-        VStack(alignment: .leading, spacing: Spacing.sm) {
-            HStack(spacing: Spacing.md) {
-                // Image thumbnail (if available)
-                if let image = image {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 60, height: 60)
-                        .clipShape(RoundedRectangle(cornerRadius: Radius.small))
-                        .opacity(0.6)
-                }
-
-                VStack(alignment: .leading, spacing: Spacing.xxs) {
-                    Text("Upload failed")
-                        .body(designKit)
-                        .foregroundStyle(.primary)
-
-                    Text(message)
-                        .caption(designKit)
-                        .foregroundStyle(.red.opacity(0.8))
-                }
-
-                Spacer()
+        HStack(spacing: Spacing.sm) {
+            // Compact image thumbnail (if available)
+            if let image = image {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 44, height: 44)
+                    .clipShape(RoundedRectangle(cornerRadius: Radius.small))
+                    .opacity(0.4)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: Radius.small)
+                            .stroke(.red.opacity(0.3), lineWidth: 1)
+                    )
             }
 
-            // Action buttons
-            HStack(spacing: Spacing.sm) {
-                Button {
-                    retryUpload()
-                } label: {
-                    HStack(spacing: Spacing.xs) {
-                        Image(systemName: "arrow.clockwise")
-                            .caption(designKit)
-                        Text("Retry")
-                            .footnote(designKit)
-                    }
-                    .foregroundStyle(designKit.primary)
-                    .padding(.horizontal, Spacing.md)
-                    .padding(.vertical, Spacing.xs)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(Radius.small)
-                }
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Upload failed")
+                    .body(designKit)
+                    .foregroundStyle(.primary)
 
-                Button {
-                    cancelAndReset()
-                } label: {
-                    Text("Cancel")
-                        .footnote(designKit)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, Spacing.md)
-                        .padding(.vertical, Spacing.xs)
-                }
+                Text(message)
+                    .caption(designKit)
+                    .foregroundStyle(.red.opacity(0.8))
+                    .lineLimit(1)
+            }
+
+            Spacer()
+
+            // Inline retry button
+            Button {
+                retryUpload()
+            } label: {
+                Image(systemName: "arrow.clockwise")
+                    .foregroundStyle(designKit.primary)
+                    .font(designKit.customSize(18, weight: .medium, relativeTo: .body))
+            }
+
+            // Inline cancel button
+            Button {
+                cancelAndReset()
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundStyle(.secondary)
+                    .font(designKit.customSize(18, weight: .medium, relativeTo: .body))
             }
         }
     }
