@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -292,6 +292,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = Q7HVAVTGUP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -321,6 +322,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = Q7HVAVTGUP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -375,7 +377,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		A30000000000000000000001 /* DesignKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A30000000000000000000002 /* XCLocalSwiftPackageReference "../../.." */;
+			package = A30000000000000000000002 /* XCLocalSwiftPackageReference "../.." */;
 			productName = DesignKit;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 #if os(iOS)
 import UIKit
 
@@ -27,9 +28,9 @@ public struct ImagePickerItem: View {
 
     // MARK: - Internal State
     @State private var pickerState: ImagePickerState = .empty
-    @State private var showingImagePicker = false
+    @State private var selectedPhotoItem: PhotosPickerItem?
+    @State private var showingCamera = false
     @State private var showingSourceSelection = false
-    @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State private var isPressed = false
 
     // MARK: - State Machine
@@ -183,13 +184,21 @@ public struct ImagePickerItem: View {
             .sheet(isPresented: $showingSourceSelection) {
                 sourceSelectionSheet
             }
-            .sheet(isPresented: $showingImagePicker) {
-                ImagePickerViewController(
-                    sourceType: sourceType,
+            .sheet(isPresented: $showingCamera) {
+                CameraPickerViewController(
                     onImageSelected: { image in
                         handleImageSelection(image)
                     }
                 )
+            }
+            .onChange(of: selectedPhotoItem) { _, newItem in
+                Task {
+                    if let newItem = newItem,
+                       let data = try? await newItem.loadTransferable(type: Data.self),
+                       let image = UIImage(data: data) {
+                        handleImageSelection(image)
+                    }
+                }
             }
 
             // Helper text or error message
@@ -479,24 +488,24 @@ public struct ImagePickerItem: View {
                         title: "Take Photo",
                         subtitle: "Use your camera",
                         action: {
-                            sourceType = .camera
                             showingSourceSelection = false
-                            showingImagePicker = true
+                            showingCamera = true
                         }
                     )
                 }
 
-                // Photo Library option
-                sourceOptionButton(
-                    icon: "photo.on.rectangle.angled",
-                    title: "Choose from Library",
-                    subtitle: "Select from your photos",
-                    action: {
-                        sourceType = .photoLibrary
-                        showingSourceSelection = false
-                        showingImagePicker = true
-                    }
-                )
+                // Photo Library option using PhotosPicker
+                PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
+                    sourceOptionContent(
+                        icon: "photo.on.rectangle.angled",
+                        title: "Choose from Library",
+                        subtitle: "Select from your photos"
+                    )
+                }
+                .buttonStyle(.plain)
+                .onChange(of: selectedPhotoItem) { _, _ in
+                    showingSourceSelection = false
+                }
 
                 Spacer()
             }
@@ -521,59 +530,66 @@ public struct ImagePickerItem: View {
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
-            HStack(spacing: Spacing.md) {
-                ZStack {
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    designKit.primary.opacity(0.08),
-                                    designKit.primary.opacity(0.12)
-                                ]),
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .frame(width: 60, height: 60)
-
-                    Image(systemName: icon)
-                        .font(designKit.customSize(24, weight: .medium, relativeTo: .title2))
-                        .foregroundStyle(designKit.primary)
-                }
-
-                VStack(alignment: .leading, spacing: Spacing.xxs) {
-                    Text(title)
-                        .body(designKit)
-                        .foregroundStyle(.primary)
-
-                    Text(subtitle)
-                        .caption(designKit)
-                        .foregroundStyle(.secondary)
-                }
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .caption(designKit)
-                    .foregroundStyle(.tertiary)
-            }
-            .padding(Spacing.md)
-            .background(.ultraThinMaterial)
-            .cornerRadius(Radius.medium)
+            sourceOptionContent(icon: icon, title: title, subtitle: subtitle)
         }
+    }
+
+    private func sourceOptionContent(
+        icon: String,
+        title: String,
+        subtitle: String
+    ) -> some View {
+        HStack(spacing: Spacing.md) {
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                designKit.primary.opacity(0.08),
+                                designKit.primary.opacity(0.12)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 60, height: 60)
+
+                Image(systemName: icon)
+                    .font(designKit.customSize(24, weight: .medium, relativeTo: .title2))
+                    .foregroundStyle(designKit.primary)
+            }
+
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                Text(title)
+                    .body(designKit)
+                    .foregroundStyle(.primary)
+
+                Text(subtitle)
+                    .caption(designKit)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .caption(designKit)
+                .foregroundStyle(.tertiary)
+        }
+        .padding(Spacing.md)
+        .background(.ultraThinMaterial)
+        .cornerRadius(Radius.medium)
     }
 }
 
-// MARK: - Image Picker UIViewControllerRepresentable
+// MARK: - Camera Picker UIViewControllerRepresentable
 
-private struct ImagePickerViewController: UIViewControllerRepresentable {
-    let sourceType: UIImagePickerController.SourceType
+private struct CameraPickerViewController: UIViewControllerRepresentable {
     let onImageSelected: (UIImage) -> Void
     @Environment(\.dismiss) var dismiss
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
-        picker.sourceType = sourceType
+        picker.sourceType = .camera
         picker.delegate = context.coordinator
         picker.allowsEditing = false
         return picker
@@ -586,9 +602,9 @@ private struct ImagePickerViewController: UIViewControllerRepresentable {
     }
 
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: ImagePickerViewController
+        let parent: CameraPickerViewController
 
-        init(parent: ImagePickerViewController) {
+        init(parent: CameraPickerViewController) {
             self.parent = parent
         }
 
