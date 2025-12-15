@@ -19,6 +19,7 @@ struct AddProductView: View {
     @State private var productName: String = ""
     @State private var productDescription: String = ""
     @State private var price: String = ""
+    @State private var additionalNotes: String = ""
     @State private var showSuccessAlert: Bool = false
 
     var body: some View {
@@ -116,6 +117,18 @@ struct AddProductView: View {
                 designKit: designKit,
                 keyboardType: .decimalPad
             )
+
+            // Multi-line text editor for additional notes
+            TextEditorItem(
+                icon: "note.text",
+                title: "Additional Notes",
+                text: $additionalNotes,
+                placeholder: "Add any special instructions, shipping notes, or additional details about this product...",
+                helperText: "Optional notes about the product",
+                characterLimit: 300,
+                iconColor: .orange,
+                designKit: designKit
+            )
         }
         .padding(Spacing.lg)
         .card(designKit: designKit)
@@ -147,5 +160,6 @@ struct AddProductView: View {
         productName = ""
         productDescription = ""
         price = ""
+        additionalNotes = ""
     }
 }

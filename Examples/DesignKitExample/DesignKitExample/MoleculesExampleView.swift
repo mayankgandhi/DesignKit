@@ -12,6 +12,8 @@ struct MoleculesExampleView: View {
     @State private var selectedColor = "#FF6B6B"
     @State private var notificationsEnabled = true
     @State private var profileImageURL: String? = nil
+    @State private var productDescription = ""
+    @State private var notes = ""
     
     var body: some View {
         ScrollView {
@@ -117,7 +119,7 @@ struct MoleculesExampleView: View {
                             isRequired: true,
                             designKit: designKit
                         )
-                        
+
                         TextFieldItem(
                             icon: "envelope.fill",
                             title: "Email Address",
@@ -130,7 +132,34 @@ struct MoleculesExampleView: View {
                         )
                     }
                 }
-                
+
+                // Text Editor
+                sectionView(title: "Text Editor") {
+                    VStack(spacing: Spacing.md) {
+                        TextEditorItem(
+                            icon: "text.alignleft",
+                            title: "Product Description",
+                            text: $productDescription,
+                            placeholder: "Enter a detailed product description...",
+                            helperText: "Describe your product in detail",
+                            characterLimit: 500,
+                            iconColor: .blue,
+                            isRequired: true,
+                            designKit: designKit
+                        )
+
+                        TextEditorItem(
+                            icon: "note.text",
+                            title: "Additional Notes",
+                            text: $notes,
+                            placeholder: "Add any additional notes...",
+                            helperText: "Optional notes or comments",
+                            iconColor: .green,
+                            designKit: designKit
+                        )
+                    }
+                }
+
                 // Menu Picker
                 sectionView(title: "Menu Picker") {
                     MenuPickerItem(
