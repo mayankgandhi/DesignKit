@@ -11,6 +11,7 @@ struct MoleculesExampleView: View {
     @State private var selectedDate: Date? = nil
     @State private var selectedColor = "#FF6B6B"
     @State private var notificationsEnabled = true
+    @State private var profileImageURL: String? = nil
     
     var body: some View {
         ScrollView {
@@ -168,7 +169,22 @@ struct MoleculesExampleView: View {
                         designKit: designKit
                     )
                 }
-                
+
+                // Image Picker
+                #if os(iOS)
+                sectionView(title: "Image Picker") {
+                    ImagePickerItem(
+                        icon: "photo.fill",
+                        title: "Profile Photo",
+                        imageURL: $profileImageURL,
+                        helperText: "Upload a profile picture from your camera or photo library",
+                        iconColor: .purple,
+                        isRequired: true,
+                        designKit: designKit
+                    )
+                }
+                #endif
+
                 // Toggle
                 sectionView(title: "Toggle Items") {
                     VStack(spacing: Spacing.md) {
