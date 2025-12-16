@@ -19,7 +19,14 @@ struct DesignKitExampleApp: App {
                 alerting: Color(red: 1.0, green: 0.23, blue: 0.19)
             ),
             typography: TypographyConfiguration(
-                fontDesign: .serif
+                fontDesign: .rounded,
+                fontFamily: "PlusJakartaSans",
+                fontWeights: FontWeightVariants(
+                    regular: "PlusJakartaSans-Regular",
+                    medium: "PlusJakartaSans-Medium",
+                    semibold: "PlusJakartaSans-SemiBold",
+                    bold: "PlusJakartaSans-Bold"
+                )
             )
         )
     )

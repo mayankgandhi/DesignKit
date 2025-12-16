@@ -11,149 +11,113 @@ import SwiftUI
 
 public extension DesignKit {
 
+    // MARK: - Private Helper
+
+    /// Creates a font with the specified weight, using custom font variants if configured
+    private func font(size: CGFloat, weight: Font.Weight, relativeTo: Font.TextStyle) -> Font {
+        if let fontWeights = configuration.typography.fontWeights {
+            let fontName = fontWeights.fontName(for: weight)
+            return .custom(fontName, size: size, relativeTo: relativeTo)
+        } else if let fontFamily = configuration.typography.fontFamily {
+            return .custom(fontFamily, size: size, relativeTo: relativeTo)
+        }
+        return .system(size: size, weight: weight, design: configuration.typography.fontDesign)
+    }
+
+    // MARK: - Typography Styles
+
     /// Large Title style
     func largeTitle() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 34, relativeTo: .largeTitle)
-        }
-        return .system(.largeTitle, design: configuration.typography.fontDesign, weight: .bold)
+        font(size: 34, weight: .bold, relativeTo: .largeTitle)
     }
 
     /// Title 1 style
     func title() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 28, relativeTo: .title)
-        }
-        return .system(.title, design: configuration.typography.fontDesign, weight: .bold)
+        font(size: 28, weight: .bold, relativeTo: .title)
     }
 
     /// Title 2 style
     func title2() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 22, relativeTo: .title2)
-        }
-        return .system(.title2, design: configuration.typography.fontDesign, weight: .bold)
+        font(size: 22, weight: .bold, relativeTo: .title2)
     }
 
     /// Title 3 style
     func title3() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 20, relativeTo: .title3)
-        }
-        return .system(.title3, design: configuration.typography.fontDesign, weight: .semibold)
+        font(size: 20, weight: .semibold, relativeTo: .title3)
     }
 
     /// Headline style
     func headline() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 17, relativeTo: .headline)
-        }
-        return .system(.headline, design: configuration.typography.fontDesign, weight: .semibold)
+        font(size: 17, weight: .semibold, relativeTo: .headline)
     }
 
     /// Body style
     func body() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 17, relativeTo: .body)
-        }
-        return .system(.body, design: configuration.typography.fontDesign, weight: .regular)
+        font(size: 17, weight: .regular, relativeTo: .body)
     }
 
     /// Callout style
     func callout() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 16, relativeTo: .callout)
-        }
-        return .system(.callout, design: configuration.typography.fontDesign, weight: .regular)
+        font(size: 16, weight: .regular, relativeTo: .callout)
     }
 
     /// Subheadline style
     func subheadline() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 15, relativeTo: .subheadline)
-        }
-        return .system(.subheadline, design: configuration.typography.fontDesign, weight: .semibold)
+        font(size: 15, weight: .semibold, relativeTo: .subheadline)
     }
 
     /// Footnote style
     func footnote() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 13, relativeTo: .footnote)
-        }
-        return .system(.footnote, design: configuration.typography.fontDesign, weight: .medium)
+        font(size: 13, weight: .medium, relativeTo: .footnote)
     }
 
     /// Caption 1 style
     func caption() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 12, relativeTo: .caption)
-        }
-        return .system(.caption, design: configuration.typography.fontDesign, weight: .medium)
+        font(size: 12, weight: .medium, relativeTo: .caption)
     }
 
     /// Caption 2 style
     func caption2() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 11, relativeTo: .caption2)
-        }
-        return .system(.caption2, design: configuration.typography.fontDesign, weight: .regular)
+        font(size: 11, weight: .regular, relativeTo: .caption2)
     }
     
     // MARK: - Custom Typography Styles
 
     /// Time display font (28pt) - for card time displays
     func timeDisplay() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 28, relativeTo: .title)
-        }
-        return .system(size: 28, weight: .bold, design: configuration.typography.fontDesign)
+        font(size: 28, weight: .bold, relativeTo: .title)
     }
 
     /// Ticker title font (18pt) - for ticker names
     func tickerTitle() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 18, relativeTo: .headline)
-        }
-        return .system(size: 18, weight: .semibold, design: configuration.typography.fontDesign)
+        font(size: 18, weight: .semibold, relativeTo: .headline)
     }
 
     /// Detail text font (15pt) - for schedule details
     func detailText() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 15, relativeTo: .subheadline)
-        }
-        return .system(size: 15, weight: .medium, design: configuration.typography.fontDesign)
+        font(size: 15, weight: .medium, relativeTo: .subheadline)
     }
 
     /// Button text font (14pt) - for buttons and labels
     func buttonText() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 14, relativeTo: .subheadline)
-        }
-        return .system(size: 14, weight: .semibold, design: configuration.typography.fontDesign)
+        font(size: 14, weight: .semibold, relativeTo: .subheadline)
     }
 
     /// Small text font (12pt) - for secondary info
     func smallText() -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: 12, relativeTo: .caption)
-        }
-        return .system(size: 12, weight: .medium, design: configuration.typography.fontDesign)
+        font(size: 12, weight: .medium, relativeTo: .caption)
     }
 
     // MARK: - Custom Size Helper
 
-    /// Creates a font with custom size that respects the configured font family
+    /// Creates a font with custom size that respects the configured font family and weight variants
     /// - Parameters:
     ///   - size: The point size of the font
-    ///   - weight: The weight of the font (only used when fontFamily is not configured)
+    ///   - weight: The weight of the font
     ///   - relativeTo: The text style to scale relative to for Dynamic Type support
-    /// - Returns: A Font configured with either the custom font family or system font with design
+    /// - Returns: A Font configured with the appropriate weight variant if available, or fallback to system font
     func customSize(_ size: CGFloat, weight: Font.Weight = .regular, relativeTo: Font.TextStyle = .body) -> Font {
-        if let fontFamily = configuration.typography.fontFamily {
-            return .custom(fontFamily, size: size, relativeTo: relativeTo)
-        }
-        return .system(size: size, weight: weight, design: configuration.typography.fontDesign)
+        font(size: size, weight: weight, relativeTo: relativeTo)
     }
 }
 
