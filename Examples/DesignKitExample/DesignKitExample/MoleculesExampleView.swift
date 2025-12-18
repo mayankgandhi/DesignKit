@@ -12,6 +12,7 @@ struct MoleculesExampleView: View {
     @State private var selectedColor = "#FF6B6B"
     @State private var notificationsEnabled = true
     @State private var profileImageURL: String? = nil
+    @State private var productImageURLs: [String] = []
     @State private var productDescription = ""
     @State private var notes = ""
     
@@ -209,6 +210,18 @@ struct MoleculesExampleView: View {
                         helperText: "Upload a profile picture from your camera or photo library",
                         iconColor: .purple,
                         isRequired: true,
+                        designKit: designKit
+                    )
+                }
+
+                // Multi Image Picker
+                sectionView(title: "Multi Image Picker") {
+                    MultiImagePickerItem(
+                        title: "Product Images",
+                        imageURLs: $productImageURLs,
+                        maxImages: 5,
+                        columns: 3,
+                        helperText: "Tap empty slot to add image, tap X to remove",
                         designKit: designKit
                     )
                 }
